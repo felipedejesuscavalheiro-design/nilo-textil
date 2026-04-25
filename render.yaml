@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: nilo-textil-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 3000
+    disk:
+      name: nilo-data
+      mountPath: /app/data
+      sizeGB: 1
