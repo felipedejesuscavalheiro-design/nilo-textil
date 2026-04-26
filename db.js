@@ -183,6 +183,8 @@ function seed() {
     { key: 'consumo_mensal_liso', value: '20800', label: 'Consumo mensal LISO (kg)',     tipo: 'number' },
     { key: 'buffer_dias',         value: '15',    label: 'Buffer de estoque (dias)',      tipo: 'number' },
     { key: 'alerta_atraso_dias',  value: '3',     label: 'Alertar atraso após (dias)',   tipo: 'number' },
+    { key: 'prazo_tecelagem_dias',value: '30',    label: 'Prazo médio tecelagem (dias)', tipo: 'number' },
+    { key: 'meta_kg_mes',         value: '34000', label: 'Meta de produção mensal (kg)', tipo: 'number' },
   ];
   const insertConfig = db.prepare(`
     INSERT OR IGNORE INTO config (key, value, label, tipo) VALUES (?,?,?,?)
