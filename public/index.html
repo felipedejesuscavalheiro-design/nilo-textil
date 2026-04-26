@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#5BADA6">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="Nilo Têxtil">
+<link rel="manifest" href="/manifest.json">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
 <title>Nilo Têxtil — Gestão de Produção</title>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,600&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
 <style>
@@ -869,6 +875,163 @@ body.light .overlay {
 .lo-success-sub  { font-size:13px; color:var(--text-light); }
 .lo-footer { margin-top:28px; text-align:center; font-size:11.5px; color:var(--text-dim); }
 .lo-footer strong { color:var(--primary); font-weight:700; }
+
+/* ─── OVERDUE ALERT CARD ─── */
+.overdue-card {
+  margin-top: 16px;
+  border-radius: 14px;
+  border: 1px solid rgba(200,56,74,0.3);
+  background: var(--danger-light);
+  overflow: hidden;
+}
+body.light .overdue-card {
+  border-color: rgba(200,56,74,0.25);
+  background: rgba(200,56,74,0.06);
+}
+.overdue-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid rgba(200,56,74,0.2);
+}
+.overdue-icon {
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.overdue-header strong {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--danger);
+  display: block;
+}
+.overdue-sub {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 2px;
+}
+.overdue-list {
+  display: flex;
+  flex-direction: column;
+}
+.overdue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 18px;
+  border-bottom: 1px solid rgba(200,56,74,0.12);
+  gap: 12px;
+}
+.overdue-item:last-child { border-bottom: none; }
+.overdue-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  flex-wrap: wrap;
+}
+.overdue-code {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--danger);
+}
+.overdue-meta {
+  font-size: 12px;
+  color: var(--text-light);
+}
+.overdue-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+}
+.overdue-days {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--danger);
+  white-space: nowrap;
+  background: rgba(200,56,74,0.12);
+  padding: 3px 8px;
+  border-radius: 20px;
+}
+
+/* ─── ENTREGAS PROXIMAS — row atraso destacado ─── */
+.delivery-item.atrasado {
+  background: rgba(200,56,74,0.04);
+  border-left: 3px solid var(--danger);
+  padding-left: 13px;
+}
+body.light .delivery-item.atrasado {
+  background: rgba(200,56,74,0.05);
+}
+
+
+
+/* ─── SVG CHARTS ─── */
+.chart-wrap { width:100%; overflow:hidden; }
+.chart-bar-group { display:flex; flex-direction:column; gap:10px; padding:4px 0; }
+.chart-bar-row { display:flex; align-items:center; gap:10px; }
+.chart-bar-label { font-size:12px; color:var(--text-light); min-width:90px; max-width:110px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; text-align:right; flex-shrink:0; }
+.chart-bar-track { flex:1; height:28px; background:var(--surface-2); border-radius:6px; overflow:hidden; position:relative; }
+body.light .chart-bar-track { background:var(--surface-3); }
+.chart-bar-fill { height:100%; border-radius:6px; display:flex; align-items:center; padding:0 10px; font-size:11px; font-weight:600; color:#fff; white-space:nowrap; transition:width 0.6s cubic-bezier(.4,0,.2,1); min-width:40px; }
+.chart-bar-value { font-size:12px; color:var(--text-light); min-width:80px; text-align:right; flex-shrink:0; font-weight:500; }
+
+.chart-line-wrap { padding:8px 0 0; }
+.chart-line-bars { display:flex; align-items:flex-end; gap:6px; height:120px; padding:0 4px; }
+.chart-line-col { flex:1; display:flex; flex-direction:column; align-items:center; gap:4px; height:100%; justify-content:flex-end; }
+.chart-line-bar { width:100%; border-radius:5px 5px 0 0; transition:height 0.5s cubic-bezier(.4,0,.2,1); min-height:3px; }
+.chart-line-bar-pt  { background:linear-gradient(180deg,#5BADA6,#4A9590); }
+.chart-line-bar-liso { background:linear-gradient(180deg,#C88020,#A86A18); }
+.chart-line-label { font-size:10px; color:var(--text-dim); white-space:nowrap; margin-top:4px; }
+.chart-line-val { font-size:9px; color:var(--text-light); white-space:nowrap; }
+.chart-legend { display:flex; gap:14px; margin-top:10px; padding-top:10px; border-top:1px solid var(--border); }
+.chart-legend-item { display:flex; align-items:center; gap:6px; font-size:11px; color:var(--text-light); }
+.chart-legend-dot { width:10px; height:10px; border-radius:3px; flex-shrink:0; }
+
+/* ─── LOTES SEARCH BAR ─── */
+.lotes-search-row {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 12px;
+  align-items: center;
+}
+.lotes-search-input {
+  flex: 1;
+  min-width: 180px;
+  padding: 8px 14px;
+  border-radius: 9px;
+  border: 1.5px solid var(--border-2);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.lotes-search-input:focus { border-color: var(--primary); }
+.lotes-search-input::placeholder { color: var(--text-dim); }
+.lotes-filter-select {
+  padding: 8px 12px;
+  border-radius: 9px;
+  border: 1.5px solid var(--border-2);
+  background: var(--surface);
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.lotes-filter-select:focus { border-color: var(--primary); }
+.lotes-count {
+  font-size: 12px;
+  color: var(--text-dim);
+  margin-left: auto;
+  white-space: nowrap;
+}
 @media(max-width:480px) { .lo-card { padding:32px 24px; border-radius:20px; } }
 
 /* ─── BRAND TYPOGRAPHY ─── */
@@ -1119,6 +1282,19 @@ body.light .topbar-user-role { color: var(--text-light); }
     <div id="dash-date" style="font-size:13px;color:var(--text-light)"></div>
   </div>
   <div class="grid-4" id="dash-stats"></div>
+  <div class="card" style="margin-bottom:12px;padding:14px 18px" id="dash-meta-card">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
+      <span style="font-size:12px;font-weight:600;color:var(--text-light);text-transform:uppercase;letter-spacing:.6px">Meta Mensal de Produção</span>
+      <span id="dash-meta-pct" style="font-size:12px;font-weight:700;color:var(--primary)">0%</span>
+    </div>
+    <div style="background:var(--surface-2);border-radius:6px;height:10px;overflow:hidden;margin-bottom:6px">
+      <div id="dash-meta-bar" style="height:100%;border-radius:6px;background:linear-gradient(90deg,var(--primary),var(--primary-dark));transition:width .6s ease;width:0%"></div>
+    </div>
+    <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--text-dim)">
+      <span id="dash-meta-atual">0 kg em produção este mês</span>
+      <span id="dash-meta-total">Meta: 34.000 kg</span>
+    </div>
+  </div>
   <div class="card" style="margin-bottom:16px">
     <div class="card-header"><div class="card-title">Pipeline de Produção</div></div>
     <div class="pipeline-row" id="dash-pipeline"></div>
@@ -1169,7 +1345,22 @@ body.light .topbar-user-role { color: var(--text-light); }
 <div id="page-lotes" class="page">
   <div class="page-header">
     <div class="page-title">Rastreamento de Lotes</div>
-    <button class="btn btn-primary" onclick="openNovoLote()">+ Novo Lote</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary btn-sm" onclick="exportarLotes()">⬇️ Excel</button>
+      <button class="btn btn-primary" onclick="openNovoLote()">+ Novo Lote</button>
+    </div>
+  </div>
+  <div class="lotes-search-row">
+    <input class="lotes-search-input" type="text" id="lote-search" placeholder="🔍 Buscar por código..." oninput="renderLotes()" autocomplete="off">
+    <select class="lotes-filter-select" id="lote-tipo-filter" onchange="renderLotes()">
+      <option value="todos">Todos os tipos</option>
+      <option value="PT">PT (Pano Tingido)</option>
+      <option value="LISO">LISO</option>
+    </select>
+    <select class="lotes-filter-select" id="lote-tint-filter" onchange="renderLotes()">
+      <option value="todos">Todas as tinturarias</option>
+    </select>
+    <span class="lotes-count" id="lotes-count"></span>
   </div>
   <div class="filter-row" id="lote-filters">
     <div class="filter-pill active" data-filter="todos" onclick="filterLotes('todos')">Todos</div>
@@ -1178,6 +1369,7 @@ body.light .topbar-user-role { color: var(--text-light); }
     <div class="filter-pill" data-filter="tinturaria" onclick="filterLotes('tinturaria')">🎨 Tinturaria</div>
     <div class="filter-pill" data-filter="pronto" onclick="filterLotes('pronto')">✅ Pronto</div>
     <div class="filter-pill" data-filter="entregue" onclick="filterLotes('entregue')">📦 Entregue</div>
+    <div class="filter-pill" data-filter="atrasado" onclick="filterLotes('atrasado')" style="color:var(--danger)">⚠ Atrasados</div>
   </div>
   <div class="card"><div class="table-wrap"><table>
     <thead><tr><th>Código</th><th>Tipo</th><th>Peso</th><th>Tecelagem</th><th>Tinturaria</th><th>Status</th><th>Entrega Prev.</th><th>Custo</th><th>Ações</th></tr></thead>
@@ -1189,7 +1381,10 @@ body.light .topbar-user-role { color: var(--text-light); }
 <div id="page-planejamento" class="page">
   <div class="page-header">
     <div class="page-title">Planejamento de Produção</div>
-    <button class="btn btn-secondary btn-sm" onclick="renderConfig();openModal('modal-config')">⚙️ Configurações</button>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-secondary btn-sm" onclick="exportarPlanejamento()">⬇️ Exportar Excel</button>
+      <button class="btn btn-secondary btn-sm" onclick="renderConfig();openModal('modal-config')">⚙️ Configurações</button>
+    </div>
   </div>
   <div class="grid-2" style="margin-bottom:16px">
     <div class="card">
@@ -1213,11 +1408,18 @@ body.light .topbar-user-role { color: var(--text-light); }
     <div class="card-header"><div class="card-title">Calendário de Entregas</div></div>
     <div id="plan-calendario"></div>
   </div>
+  <div class="card" style="margin-top:16px">
+    <div class="card-header">
+      <div class="card-title">🧵 Previsão de Compra de Fio</div>
+      <button class="btn btn-sm btn-secondary" onclick="renderPrevisaoFio()">↺ Atualizar</button>
+    </div>
+    <div id="plan-previsao-fio"><div style="text-align:center;padding:24px;color:var(--text-dim)">Carregando…</div></div>
+  </div>
 </div>
 
 <!-- FINANCEIRO -->
 <div id="page-financeiro" class="page">
-  <div class="page-header"><div class="page-title">Controle Financeiro</div></div>
+  <div class="page-header"><div class="page-title">Controle Financeiro</div><button class="btn btn-secondary btn-sm" onclick="exportarFinanceiro()">⬇️ Exportar Excel</button></div>
   <div class="grid-4" id="fin-resumo" style="margin-bottom:16px"></div>
   <div class="grid-2">
     <div class="card">
@@ -1227,6 +1429,16 @@ body.light .topbar-user-role { color: var(--text-light); }
     <div class="card">
       <div class="card-header"><div class="card-title">Custo por Mês</div></div>
       <div id="fin-mes"></div>
+    </div>
+  </div>
+  <div class="grid-2" style="margin-top:16px">
+    <div class="card">
+      <div class="card-header"><div class="card-title">R$/kg por Tinturaria (evolução mensal)</div></div>
+      <div id="fin-historico-preco"><div style="text-align:center;padding:20px;color:var(--text-dim)">Carregando…</div></div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title">Performance das Tinturarias</div></div>
+      <div id="fin-performance"><div style="text-align:center;padding:20px;color:var(--text-dim)">Carregando…</div></div>
     </div>
   </div>
 </div>
@@ -1531,6 +1743,14 @@ body.light .topbar-user-role { color: var(--text-light); }
       <span>Defina o consumo mensal médio de cada tipo. Isso determina o nível de estoque necessário em produção.</span>
     </div>
     <div id="config-fields"></div>
+    <div style="margin-top:16px;padding-top:14px;border-top:1px solid var(--border)">
+      <div style="font-size:11px;font-weight:700;color:var(--text-dim);text-transform:uppercase;letter-spacing:.8px;margin-bottom:10px">Ferramentas</div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap">
+        <a class="btn btn-secondary btn-sm" href="/api/backup" onclick="toast('Baixando backup…','info')">💾 Backup do Banco</a>
+        <button class="btn btn-secondary btn-sm" onclick="testarEmail()">📧 Testar E-mail de Atrasos</button>
+      </div>
+      <div style="font-size:11px;color:var(--text-dim);margin-top:8px">Para ativar o e-mail, configure EMAIL_USER, EMAIL_PASS e EMAIL_TO nas variáveis do Railway.</div>
+    </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" onclick="closeModal('modal-config')">Cancelar</button>
       <button class="btn btn-primary" onclick="saveConfig()">Salvar</button>
@@ -1644,7 +1864,7 @@ async function loadAllData(){
   try{
     const[tecs,tints,lotes,cfg]=await Promise.all([api('GET','/api/tecelagens'),api('GET','/api/tinturarias'),api('GET','/api/lotes'),api('GET','/api/config')]);
     APP_STATE.tecelagens=tecs||[];APP_STATE.tinturarias=tints||[];APP_STATE.lotes=lotes||[];APP_STATE.config=cfg||{};
-    renderDashboard();updateSidebarBadges();loadNotifications();
+    renderDashboard();renderMetaMensal();updateSidebarBadges();loadNotifications();
   }catch(e){toast('Erro ao carregar: '+e.message,'error');}
   finally{setLoading(false);}
 }
@@ -1667,8 +1887,8 @@ function showPage(page){
   if(page==='dashboard')renderDashboard();
   if(page==='fornecedores')renderFornecedores();
   if(page==='lotes')renderLotes();
-  if(page==='planejamento')renderPlanejamento();
-  if(page==='financeiro')renderFinanceiro();
+  if(page==='planejamento'){renderPlanejamento();renderPrevisaoFio();}
+  if(page==='financeiro'){renderFinanceiro();renderHistoricoPrecos();renderPerformanceTint();}
   if(page==='historico')renderHistorico();
   if(page==='usuarios')renderUsuarios();
 }
@@ -1697,11 +1917,27 @@ async function renderDashboard(){
     const pipelineEl=document.getElementById('dash-pipeline');
     if(pipelineEl)pipelineEl.innerHTML=stages.map(s=>{const p=pipelineMap[s.key]||{qtd:0,kg:0};return`<div class="pipeline-col ${s.cls}"><div class="pipeline-num">${p.qtd}</div><div class="pipeline-lbl">${s.label}</div><div class="pipeline-kg">${Number(p.kg||0).toLocaleString('pt-BR')} kg</div></div>`;}).join('');
     const alertsEl=document.getElementById('dash-alerts');
-    if(alertsEl)alertsEl.innerHTML=data.atrasados>0?`<div class="alert alert-danger" style="margin-top:14px"><span class="alert-icon">⚠</span><span><strong>${data.atrasados} lote(s) atrasado(s).</strong> Verifique a aba Lotes.</span></div>`:`<div class="alert alert-success" style="margin-top:14px"><span class="alert-icon">✓</span><span>Todos os lotes dentro do prazo.</span></div>`;
+    const hoje2=new Date().toISOString().slice(0,10);
+    const atrasadosLotes=(data.entregas||[]).filter(l=>l.data_entrega_prevista&&l.data_entrega_prevista<hoje2);
+    if(alertsEl){
+      if(atrasadosLotes.length>0){
+        alertsEl.innerHTML=`<div class="overdue-card">
+          <div class="overdue-header">
+            <span class="overdue-icon">⚠️</span>
+            <div><strong>${atrasadosLotes.length} lote(s) atrasado(s)</strong><div class="overdue-sub">Entregas que passaram do prazo previsto</div></div>
+          </div>
+          <div class="overdue-list">
+            ${atrasadosLotes.map(l=>{const dias=Math.abs(Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000));return`<div class="overdue-item"><div class="overdue-info"><span class="overdue-code">${l.codigo}</span><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span><span class="overdue-meta">${l.tinturaria_nome||'—'} · ${Number(l.peso_kg).toLocaleString('pt-BR')} kg</span></div><div class="overdue-right"><span class="overdue-days">${dias}d atrasado</span><button class="btn btn-sm btn-secondary" onclick="showPage('lotes')">Ver</button></div></div>`;}).join('')}
+          </div>
+        </div>`;
+      }else{
+        alertsEl.innerHTML=`<div class="alert alert-success" style="margin-top:14px"><span class="alert-icon">✓</span><span>Todos os lotes dentro do prazo.</span></div>`;
+      }
+    }
     const entregasEl=document.getElementById('dash-entregas');
     if(entregasEl){
       if(!data.entregas?.length){entregasEl.innerHTML='<div class="empty"><div class="empty-icon">📭</div><div class="empty-title">Nenhuma entrega nos próximos 60 dias</div></div>';}
-      else{entregasEl.innerHTML=data.entregas.map(l=>{const dias=Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000);const cor=dias<0?'var(--danger)':dias<=7?'var(--warning)':'var(--success)';return`<div class="delivery-item"><div class="delivery-info"><div class="delivery-name">${l.codigo} <span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span></div><div class="delivery-sub">${l.tinturaria_nome||'—'} · ${Number(l.peso_kg).toLocaleString('pt-BR')} kg</div></div><div class="delivery-right"><div class="delivery-date" style="color:${cor}">${formatDate(l.data_entrega_prevista)}</div><div class="delivery-kg" style="color:${cor}">${dias<0?Math.abs(dias)+'d atraso':dias===0?'Hoje':dias+'d'}</div></div></div>`;}).join('');}
+      else{entregasEl.innerHTML=data.entregas.map(l=>{const dias=Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000);const cor=dias<0?'var(--danger)':dias<=7?'var(--warning)':'var(--success)';return`<div class="delivery-item${dias<0?' atrasado':''}"><div class="delivery-info"><div class="delivery-name">${l.codigo} <span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span></div><div class="delivery-sub">${l.tinturaria_nome||'—'} · ${Number(l.peso_kg).toLocaleString('pt-BR')} kg</div></div><div class="delivery-right"><div class="delivery-date" style="color:${cor};font-weight:${dias<0?'700':'500'}">${formatDate(l.data_entrega_prevista)}</div><div class="delivery-kg" style="color:${cor};font-weight:700">${dias<0?'⚠ '+Math.abs(dias)+'d atraso':dias===0?'Hoje':dias+'d'}</div></div></div>`;}).join('');}
     }
     const distEl=document.getElementById('dash-tinturarias-dist');
     if(distEl){
@@ -1791,10 +2027,26 @@ function filterLotes(f){
   document.querySelectorAll('#lote-filters .filter-pill').forEach(p=>p.classList.toggle('active',p.dataset.filter===f));
   renderLotes();
 }
+function populateTintFilter(){
+  const sel=document.getElementById('lote-tint-filter');if(!sel)return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="todos">Todas as tinturarias</option>';
+  (APP_STATE.tinturarias||[]).forEach(t=>{const o=document.createElement('option');o.value=t.id;o.textContent=t.nome;sel.appendChild(o);});
+  if(cur)sel.value=cur;
+}
 function renderLotes(){
   const hoje=new Date().toISOString().slice(0,10);
   let lotes=[...APP_STATE.lotes];
-  if(loteFilter!=='todos')lotes=lotes.filter(l=>l.status===loteFilter);
+  const search=(document.getElementById('lote-search')?.value||'').toLowerCase().trim();
+  const tipoF=document.getElementById('lote-tipo-filter')?.value||'todos';
+  const tintF=document.getElementById('lote-tint-filter')?.value||'todos';
+  if(search)lotes=lotes.filter(l=>l.codigo?.toLowerCase().includes(search)||(l.tecelagem_nome||'').toLowerCase().includes(search)||(l.tinturaria_nome||'').toLowerCase().includes(search)||(l.notas||'').toLowerCase().includes(search));
+  if(tipoF!=='todos')lotes=lotes.filter(l=>l.tipo===tipoF);
+  if(tintF!=='todos')lotes=lotes.filter(l=>l.tinturaria_id===tintF);
+  if(loteFilter==='atrasado'){lotes=lotes.filter(l=>!['entregue','cancelado'].includes(l.status)&&l.data_entrega_prevista&&l.data_entrega_prevista<hoje);}
+  else if(loteFilter!=='todos'){lotes=lotes.filter(l=>l.status===loteFilter);}
+  const countEl=document.getElementById('lotes-count');
+  if(countEl)countEl.textContent=`${lotes.length} de ${APP_STATE.lotes.length} lotes`;
   const tbody=document.getElementById('lotes-table');if(!tbody)return;
   if(!lotes.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text-dim);padding:32px">Nenhum lote encontrado</td></tr>';return;}
   tbody.innerHTML=lotes.map(l=>{
@@ -1889,6 +2141,37 @@ async function renderPlanejamento(){
   if(calEl){const grouped={};(data.entregas_mes||[]).forEach(r=>{if(!grouped[r.mes])grouped[r.mes]={PT:0,LISO:0,lotes:0};grouped[r.mes][r.tipo]=r.kg;grouped[r.mes].lotes+=r.lotes;});calEl.innerHTML=Object.entries(grouped).map(([mes,d])=>{const[year,month]=mes.split('-');const label=new Date(year,Number(month)-1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});return`<div class="delivery-item"><div class="delivery-info"><div class="delivery-name">${label}</div><div class="delivery-sub">${d.lotes} lotes previstos</div></div><div style="display:flex;gap:10px;align-items:center">${d.PT>0?`<span class="badge badge-blue">PT ${Number(d.PT).toLocaleString('pt-BR')}kg</span>`:''}${d.LISO>0?`<span class="badge badge-teal">LISO ${Number(d.LISO).toLocaleString('pt-BR')}kg</span>`:''}</div></div>`;}).join('')||'<div class="empty"><div class="empty-icon">📅</div><div class="empty-title">Nenhuma entrega programada</div></div>';}
 }
 
+
+async function renderPrevisaoFio(){
+  const el=document.getElementById('plan-previsao-fio');if(!el)return;
+  try{
+    const data=await api('GET','/api/previsao-fio');if(!data)return;
+    function fioCard(tipo,d,consumo){
+      const cor=d.atrasado?'var(--danger)':d.urgente?'var(--warning)':'var(--success)';
+      const icon=d.atrasado?'🔴':d.urgente?'🟡':'🟢';
+      const status=d.atrasado?'ENCOMENDAR AGORA':d.urgente?`Encomendar em ${d.dias_para_pedir}d`:`Encomendar em ${d.dias_para_pedir}d`;
+      return`<div class="stat-card" style="border-left:3px solid ${cor}">
+        <div class="stat-label">${icon} Fio ${tipo}</div>
+        <div style="font-size:20px;font-weight:700;color:${cor};margin:6px 0">${status}</div>
+        <div style="font-size:12px;color:var(--text-light);line-height:1.8">
+          Pipeline atual: <strong>${Number(d.pipeline_kg).toLocaleString('pt-BR')} kg</strong><br>
+          Cobertura: <strong style="color:${cor}">${d.cobertura_dias}d</strong><br>
+          Data ideal p/ encomendar: <strong>${d.data_encomenda}</strong><br>
+          Qty recomendada: <strong>${Number(d.kg_recomendar).toLocaleString('pt-BR')} kg</strong>
+        </div>
+      </div>`;
+    }
+    el.innerHTML=`
+      <div style="font-size:12px;color:var(--text-dim);margin-bottom:12px">
+        Prazo tecelagem: <strong>${data.prazo_tecelagem}d</strong> · Buffer: <strong>${data.buffer_dias}d</strong> ·
+        Consumo PT: <strong>${Number(data.consumo.PT).toLocaleString('pt-BR')} kg/mês</strong> ·
+        Consumo LISO: <strong>${Number(data.consumo.LISO).toLocaleString('pt-BR')} kg/mês</strong>
+        <button class="btn btn-sm btn-secondary" style="margin-left:10px;font-size:11px" onclick="renderConfig();openModal('modal-config')">Ajustar parâmetros</button>
+      </div>
+      <div class="grid-2">${fioCard('PT',data.PT,data.consumo.PT)}${fioCard('LISO',data.LISO,data.consumo.LISO)}</div>`;
+  }catch(e){if(el)el.innerHTML='<div class="alert alert-danger">Erro ao carregar previsão.</div>';}
+}
+
 // DISTRIBUIDOR
 function renderDistribuicao(){}
 async function calcularDistribuicao(){
@@ -1912,11 +2195,70 @@ async function calcularDistribuicao(){
 async function renderFinanceiro(){
   const data=await api('GET','/api/financeiro');if(!data)return;
   const resumoEl=document.getElementById('fin-resumo');
-  if(resumoEl&&data.resumo){const r=data.resumo;resumoEl.innerHTML=`<div class="stat-card accent-teal"><div class="glow-bar"></div><div class="stat-label">Total Lotes (6m)</div><div class="stat-value" style="color:var(--teal)">${r.total_lotes}</div><div class="stat-sub">${Number(r.total_kg).toLocaleString('pt-BR')} kg</div></div><div class="stat-card accent-orange"><div class="glow-bar"></div><div class="stat-label">Custo Total (6m)</div><div class="stat-value" style="color:var(--gold);font-size:18px">R$ ${Number(r.custo_total).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div><div class="stat-sub">R$ ${r.custo_medio_kg}/kg médio</div></div><div class="stat-card"><div class="glow-bar"></div><div class="stat-label">Tecelagem</div><div class="stat-value" style="font-size:18px">R$ ${Number(r.custo_tecelagem).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div></div><div class="stat-card"><div class="glow-bar"></div><div class="stat-label">Tinturaria</div><div class="stat-value" style="font-size:18px">R$ ${Number(r.custo_tinturaria).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div></div>`;}
+  if(resumoEl&&data.resumo){
+    const r=data.resumo;
+    const pctTec=r.custo_total>0?Math.round(r.custo_tecelagem/r.custo_total*100):0;
+    const pctTint=r.custo_total>0?Math.round(r.custo_tinturaria/r.custo_total*100):0;
+    resumoEl.innerHTML=`
+      <div class="stat-card accent-teal"><div class="glow-bar"></div><div class="stat-label">Total Lotes (6m)</div><div class="stat-value" style="color:var(--teal)">${r.total_lotes}</div><div class="stat-sub">${Number(r.total_kg).toLocaleString('pt-BR')} kg processados</div></div>
+      <div class="stat-card accent-orange"><div class="glow-bar"></div><div class="stat-label">Custo Total (6m)</div><div class="stat-value" style="color:var(--gold);font-size:18px">R$ ${Number(r.custo_total).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div><div class="stat-sub">R$ ${r.custo_medio_kg}/kg médio</div></div>
+      <div class="stat-card"><div class="glow-bar"></div><div class="stat-label">Tecelagem</div><div class="stat-value" style="font-size:18px">R$ ${Number(r.custo_tecelagem).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div><div class="stat-sub">${pctTec}% do total</div></div>
+      <div class="stat-card"><div class="glow-bar"></div><div class="stat-label">Tinturaria</div><div class="stat-value" style="font-size:18px">R$ ${Number(r.custo_tinturaria).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div><div class="stat-sub">${pctTint}% do total</div></div>`;
+  }
+  // GRÁFICO: Custo por Tinturaria
   const tintEl=document.getElementById('fin-tint');
-  if(tintEl){const maxC=Math.max(...(data.custoTint||[]).map(t=>t.custo),1);tintEl.innerHTML=(data.custoTint||[]).map(t=>`<div class="plan-row"><div class="plan-name"><span class="plan-label">${t.nome}</span><span class="plan-meta">${t.lotes} lotes · ${Number(t.kg).toLocaleString('pt-BR')} kg · R$ ${t.custo_medio_kg}/kg</span></div><div class="plan-bar-bg"><div class="plan-bar-fill" style="width:${Math.round(t.custo/maxC*100)}%;background:linear-gradient(90deg,var(--gold),#C88020)">R$ ${Number(t.custo).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div></div></div>`).join('')||'<div class="empty"><div class="empty-title">Sem dados no período</div></div>';}
+  if(tintEl){
+    const tints=data.custoTint||[];
+    if(!tints.length){tintEl.innerHTML='<div class="empty"><div class="empty-title">Sem dados no período</div></div>';}
+    else{
+      const maxC=Math.max(...tints.map(t=>t.custo),1);
+      const colors=['linear-gradient(90deg,#5BADA6,#4A9590)','linear-gradient(90deg,#C88020,#A86A18)','linear-gradient(90deg,#2878CC,#1A5FA8)','linear-gradient(90deg,#8B5CF6,#6D28D9)'];
+      tintEl.innerHTML=`<div class="chart-bar-group">${tints.map((t,i)=>`
+        <div class="chart-bar-row">
+          <div class="chart-bar-label" title="${t.nome}">${t.nome}</div>
+          <div class="chart-bar-track">
+            <div class="chart-bar-fill" style="width:${Math.round(t.custo/maxC*100)}%;background:${colors[i%colors.length]}">
+              ${Math.round(t.custo/maxC*100)}%
+            </div>
+          </div>
+          <div class="chart-bar-value">R$ ${Number(t.custo).toLocaleString('pt-BR',{minimumFractionDigits:0})}</div>
+        </div>
+        <div style="font-size:11px;color:var(--text-dim);padding:0 0 4px 104px">${t.lotes} lotes · ${Number(t.kg).toLocaleString('pt-BR')} kg · R$ ${t.custo_medio_kg}/kg</div>
+      `).join('')}</div>`;
+    }
+  }
+  // GRÁFICO: Custo por Mês (barras empilhadas)
   const mesEl=document.getElementById('fin-mes');
-  if(mesEl){const grouped={};(data.custoMes||[]).forEach(r=>{if(!grouped[r.mes])grouped[r.mes]={PT:0,LISO:0};grouped[r.mes][r.tipo]=r.custo;});mesEl.innerHTML=Object.entries(grouped).map(([mes,d])=>{const[year,month]=mes.split('-');const label=new Date(year,Number(month)-1).toLocaleDateString('pt-BR',{month:'short',year:'2-digit'});const total=(d.PT||0)+(d.LISO||0);return`<div class="delivery-item"><div class="delivery-info"><div class="delivery-name">${label}</div></div><div style="display:flex;gap:10px;align-items:center">${d.PT>0?`<span class="badge badge-blue">PT R$${Number(d.PT).toLocaleString('pt-BR',{minimumFractionDigits:0})}</span>`:''} ${d.LISO>0?`<span class="badge badge-teal">LISO R$${Number(d.LISO).toLocaleString('pt-BR',{minimumFractionDigits:0})}</span>`:''}<strong>R$ ${Number(total).toLocaleString('pt-BR',{minimumFractionDigits:0})}</strong></div></div>`;}).join('')||'<div class="empty"><div class="empty-title">Sem dados</div></div>';}
+  if(mesEl){
+    const grouped={};
+    (data.custoMes||[]).forEach(r=>{if(!grouped[r.mes])grouped[r.mes]={PT:0,LISO:0};grouped[r.mes][r.tipo]=r.custo;});
+    const entries=Object.entries(grouped).sort((a,b)=>a[0].localeCompare(b[0]));
+    if(!entries.length){mesEl.innerHTML='<div class="empty"><div class="empty-title">Sem dados</div></div>';}
+    else{
+      const maxT=Math.max(...entries.map(([,d])=>(d.PT||0)+(d.LISO||0)),1);
+      mesEl.innerHTML=`<div class="chart-line-wrap">
+        <div class="chart-line-bars">
+          ${entries.map(([mes,d])=>{
+            const[year,month]=mes.split('-');
+            const label=new Date(year,Number(month)-1).toLocaleDateString('pt-BR',{month:'short'});
+            const total=(d.PT||0)+(d.LISO||0);
+            const hPT=Math.round((d.PT||0)/maxT*100);
+            const hLISO=Math.round((d.LISO||0)/maxT*100);
+            return`<div class="chart-line-col">
+              <div class="chart-line-val">R$ ${Number(total/1000).toFixed(0)}k</div>
+              ${d.LISO>0?`<div class="chart-line-bar chart-line-bar-liso" style="height:${hLISO}%"></div>`:''}
+              ${d.PT>0?`<div class="chart-line-bar chart-line-bar-pt" style="height:${hPT}%"></div>`:''}
+              <div class="chart-line-label">${label}</div>
+            </div>`;
+          }).join('')}
+        </div>
+        <div class="chart-legend">
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#5BADA6"></div>PT</div>
+          <div class="chart-legend-item"><div class="chart-legend-dot" style="background:#C88020"></div>LISO</div>
+        </div>
+      </div>`;
+    }
+  }
 }
 
 // HISTÓRICO
@@ -1965,6 +2307,103 @@ async function changePassword(){
   try{await api('POST','/api/auth/change-password',{current_password:cur,new_password:nw});toast('Senha alterada!');closeModal('modal-change-pw');document.getElementById('form-change-pw')?.reset();}catch(e){toast(e.message,'error');}
 }
 
+
+// META MENSAL
+async function renderMetaMensal(){
+  try{
+    const data=await api('GET','/api/meta-mensal');if(!data)return;
+    const bar=document.getElementById('dash-meta-bar');
+    const pct=document.getElementById('dash-meta-pct');
+    const atual=document.getElementById('dash-meta-atual');
+    const total=document.getElementById('dash-meta-total');
+    if(bar)bar.style.width=data.pct_meta+'%';
+    if(bar)bar.style.background=data.pct_meta>=100?'linear-gradient(90deg,var(--success),#1E8050)':data.pct_meta>=60?'linear-gradient(90deg,var(--primary),var(--primary-dark))':'linear-gradient(90deg,var(--warning),#A86A18)';
+    if(pct)pct.textContent=data.pct_meta+'%';
+    if(pct)pct.style.color=data.pct_meta>=100?'var(--success)':data.pct_meta>=60?'var(--primary)':'var(--warning)';
+    if(atual)atual.textContent=Number(data.kg_em_producao).toLocaleString('pt-BR')+' kg em produção este mês';
+    if(total)total.textContent='Meta: '+Number(data.meta_kg).toLocaleString('pt-BR')+' kg';
+  }catch(e){}
+}
+
+// HISTÓRICO DE PREÇO/KG
+async function renderHistoricoPrecos(){
+  const el=document.getElementById('fin-historico-preco');if(!el)return;
+  try{
+    const data=await api('GET','/api/financeiro/historico-precos');if(!data)return;
+    const tints=Object.keys(data.tinturarias);
+    if(!tints.length||!data.meses.length){el.innerHTML='<div class="empty"><div class="empty-title">Sem dados ainda</div></div>';return;}
+    const colors=['#5BADA6','#C88020','#2878CC','#8B5CF6','#E05C5C'];
+    el.innerHTML=`<div style="padding:4px 0">
+      ${tints.map((nome,i)=>{
+        const cor=colors[i%colors.length];
+        const vals=data.meses.map(m=>data.tinturarias[nome][m]?.custo_kg||null);
+        const validos=vals.filter(v=>v!==null);
+        if(!validos.length)return'';
+        const max=Math.max(...validos,1);
+        return`<div style="margin-bottom:14px">
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+            <span style="font-size:12px;font-weight:600;color:${cor}">${nome}</span>
+            <span style="font-size:11px;color:var(--text-dim)">média R$ ${(validos.reduce((a,b)=>a+b,0)/validos.length).toFixed(2)}/kg</span>
+          </div>
+          <div style="display:flex;gap:4px;align-items:flex-end;height:50px">
+            ${data.meses.map((m,j)=>{
+              const v=vals[j];
+              if(v===null)return'<div style="flex:1"></div>';
+              const h=Math.round(v/max*100);
+              const[yr,mo]=m.split('-');
+              const lbl=new Date(yr,Number(mo)-1).toLocaleDateString('pt-BR',{month:'short'});
+              return`<div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:2px">
+                <div style="font-size:9px;color:var(--text-dim)">R$${v}</div>
+                <div style="width:100%;height:${h}%;background:${cor};opacity:0.8;border-radius:3px 3px 0 0;min-height:3px"></div>
+                <div style="font-size:9px;color:var(--text-dim)">${lbl}</div>
+              </div>`;
+            }).join('')}
+          </div>
+        </div>`;
+      }).join('')}
+    </div>`;
+  }catch(e){if(el)el.innerHTML='<div class="alert alert-danger">Erro ao carregar.</div>';}
+}
+
+// PERFORMANCE DAS TINTURARIAS
+async function renderPerformanceTint(){
+  const el=document.getElementById('fin-performance');if(!el)return;
+  try{
+    const rows=await api('GET','/api/tinturarias/performance');if(!rows)return;
+    if(!rows.length){el.innerHTML='<div class="empty"><div class="empty-title">Sem dados</div></div>';return;}
+    el.innerHTML=rows.map(t=>{
+      const pont=t.pct_pontualidade;
+      const corPont=pont===null?'var(--text-dim)':pont>=80?'var(--success)':pont>=50?'var(--warning)':'var(--danger)';
+      const desvio=t.desvio_prazo;
+      const corDesvio=desvio===null?'var(--text-dim)':desvio<=0?'var(--success)':desvio<=5?'var(--warning)':'var(--danger)';
+      return`<div style="padding:10px 0;border-bottom:1px solid var(--border)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+          <strong style="font-size:13px">${t.nome}</strong>
+          <span style="font-size:11px;color:var(--text-dim)">${t.total_lotes} lotes (6m)</span>
+        </div>
+        <div style="display:flex;gap:12px;flex-wrap:wrap">
+          <span style="font-size:11px"><span style="color:var(--text-dim)">Pontualidade</span> <strong style="color:${corPont}">${pont!==null?pont+'%':'—'}</strong></span>
+          <span style="font-size:11px"><span style="color:var(--text-dim)">Prazo real</span> <strong style="color:${corDesvio}">${t.prazo_real_avg!==null?t.prazo_real_avg+'d':'—'}</strong> <span style="color:var(--text-dim)">(prometido ${t.prazo_prometido}d${desvio!==null?(desvio>0?' +'+desvio+'d':' '+desvio+'d'):''})</span></span>
+          <span style="font-size:11px"><span style="color:var(--text-dim)">R$/kg</span> <strong>${t.custo_kg_medio?'R$ '+t.custo_kg_medio:'—'}</strong></span>
+        </div>
+      </div>`;
+    }).join('');
+  }catch(e){if(el)el.innerHTML='<div class="alert alert-danger">Erro ao carregar.</div>';}
+}
+
+// E-MAIL DE ATRASOS
+async function testarEmail(){
+  try{
+    toast('Enviando e-mail…','info');
+    const r=await api('POST','/api/notificar-atrasos',{});
+    if(r.enviado)toast('E-mail enviado para '+r.para+' ('+r.lotes+' lotes)','success');
+    else toast(r.msg||'Sem atrasos para notificar','info');
+  }catch(e){
+    if(e.message&&e.message.includes('EMAIL_USER'))toast('Configure EMAIL_USER e EMAIL_PASS no Railway','error');
+    else toast('Erro: '+e.message,'error');
+  }
+}
+
 // CONFIG
 async function saveConfig(){
   const updates={};Object.keys(APP_STATE.config).forEach(key=>{const el=document.getElementById('cfg-'+key);if(el)updates[key]=el.value;});
@@ -1983,6 +2422,167 @@ function toggleTheme(){const isLight=document.body.classList.toggle('light');loc
 // DATE HELPERS
 function formatDate(str){if(!str)return'—';const[y,m,d]=str.slice(0,10).split('-');return`${d}/${m}/${y}`;}
 function formatDateTime(str){if(!str)return'—';const d=new Date(str.replace(' ','T'));return d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'2-digit',hour:'2-digit',minute:'2-digit'});}
+</script>
+
+<script>
+if('serviceWorker' in navigator){
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('/sw.js')
+      .then(r => console.log('SW registrado:', r.scope))
+      .catch(e => console.warn('SW erro:', e));
+  });
+}
+
+
+// ═══════════════════════════
+// EXPORTAÇÃO EXCEL
+// ═══════════════════════════
+function xlsxDate(){return new Date().toLocaleDateString('pt-BR').replace(/\//g,'-');}
+
+async function exportarPlanejamento(){
+  try{
+    toast('Gerando Excel…','info');
+    const data=await api('GET','/api/planejamento');
+    if(!data){toast('Erro ao buscar dados','error');return;}
+    const wb=XLSX.utils.book_new();
+
+    // Aba 1 — Cobertura
+    const cobRows=[['Tipo','Cobertura (dias)','Kg em Pipeline','Consumo Mensal (kg)']];
+    cobRows.push(['PT',data.cobertura?.PT||0,data.pipeline?.PT||0,data.consumo?.PT||0]);
+    cobRows.push(['LISO',data.cobertura?.LISO||0,data.pipeline?.LISO||0,data.consumo?.LISO||0]);
+    const ws1=XLSX.utils.aoa_to_sheet(cobRows);
+    ws1['!cols']=[{wch:10},{wch:20},{wch:22},{wch:24}];
+    XLSX.utils.book_append_sheet(wb,ws1,'Cobertura');
+
+    // Aba 2 — Recomendação de envio
+    const recRows=[['Tipo','Kg a Enviar','Motivo']];
+    if(data.recomendacao_envio?.PT>0)recRows.push(['PT',data.recomendacao_envio.PT,'Abaixo do buffer de '+data.buffer_dias+'d']);
+    if(data.recomendacao_envio?.LISO>0)recRows.push(['LISO',data.recomendacao_envio.LISO,'Abaixo do buffer de '+data.buffer_dias+'d']);
+    if(recRows.length===1)recRows.push(['—','—','Estoque dentro do nível ideal']);
+    const ws2=XLSX.utils.aoa_to_sheet(recRows);
+    ws2['!cols']=[{wch:8},{wch:16},{wch:38}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Recomendação');
+
+    // Aba 3 — Capacidade Tinturarias
+    const capRows=[['Tinturaria','Tipo','Prazo (dias)','Kg Alocado','Capacidade Kg','Ocupação %']];
+    (data.capacidade_tinturarias||[]).forEach(t=>{
+      capRows.push([t.nome,t.tipo,t.prazo_dias,Number(t.kg_alocado),Number(t.capacidade_kg),Number(t.pct_ocupacao)]);
+    });
+    const ws3=XLSX.utils.aoa_to_sheet(capRows);
+    ws3['!cols']=[{wch:20},{wch:10},{wch:14},{wch:14},{wch:16},{wch:12}];
+    XLSX.utils.book_append_sheet(wb,ws3,'Capacidade Tinturarias');
+
+    // Aba 4 — Calendario de Entregas
+    const calRows=[['Mês','Lotes Previstos','PT (kg)','LISO (kg)','Total (kg)']];
+    const grouped={};
+    (data.entregas_mes||[]).forEach(r=>{
+      if(!grouped[r.mes])grouped[r.mes]={lotes:0,PT:0,LISO:0};
+      grouped[r.mes].lotes+=r.lotes;
+      grouped[r.mes][r.tipo]=r.kg;
+    });
+    Object.entries(grouped).forEach(([mes,d])=>{
+      const[year,month]=mes.split('-');
+      const label=new Date(year,Number(month)-1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+      calRows.push([label,d.lotes,d.PT||0,d.LISO||0,(d.PT||0)+(d.LISO||0)]);
+    });
+    const ws4=XLSX.utils.aoa_to_sheet(calRows);
+    ws4['!cols']=[{wch:20},{wch:16},{wch:12},{wch:12},{wch:12}];
+    XLSX.utils.book_append_sheet(wb,ws4,'Calendário Entregas');
+
+    XLSX.writeFile(wb,'Planejamento_NiloTextil_'+xlsxDate()+'.xlsx');
+    toast('Excel baixado!','success');
+  }catch(e){toast('Erro: '+e.message,'error');console.error(e);}
+}
+
+async function exportarFinanceiro(){
+  try{
+    toast('Gerando Excel…','info');
+    const data=await api('GET','/api/financeiro');
+    if(!data){toast('Erro ao buscar dados','error');return;}
+    const wb=XLSX.utils.book_new();
+
+    // Aba 1 — Resumo
+    const r=data.resumo||{};
+    const resRows=[
+      ['Indicador','Valor'],
+      ['Total de Lotes (6 meses)',r.total_lotes||0],
+      ['Total de Kg (6 meses)',Number(r.total_kg||0)],
+      ['Custo Total (6 meses)','R$ '+Number(r.custo_total||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+      ['Custo Médio por Kg','R$ '+Number(r.custo_medio_kg||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+      ['Total Tecelagem','R$ '+Number(r.custo_tecelagem||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+      ['Total Tinturaria','R$ '+Number(r.custo_tinturaria||0).toLocaleString('pt-BR',{minimumFractionDigits:2})],
+    ];
+    const ws1=XLSX.utils.aoa_to_sheet(resRows);
+    ws1['!cols']=[{wch:30},{wch:22}];
+    XLSX.utils.book_append_sheet(wb,ws1,'Resumo');
+
+    // Aba 2 — Custo por Tinturaria
+    const tintRows=[['Tinturaria','Lotes','Kg','Custo Total (R$)','Custo Médio/kg (R$)']];
+    (data.custoTint||[]).forEach(t=>{
+      tintRows.push([t.nome,t.lotes,Number(t.kg),Number(t.custo),Number(t.custo_medio_kg)]);
+    });
+    const ws2=XLSX.utils.aoa_to_sheet(tintRows);
+    ws2['!cols']=[{wch:22},{wch:8},{wch:14},{wch:18},{wch:20}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Por Tinturaria');
+
+    // Aba 3 — Custo por Mês
+    const mesRows=[['Mês','Tipo','Custo (R$)']];
+    (data.custoMes||[]).forEach(r=>{
+      const[year,month]=r.mes.split('-');
+      const label=new Date(year,Number(month)-1).toLocaleDateString('pt-BR',{month:'long',year:'numeric'});
+      mesRows.push([label,r.tipo,Number(r.custo)]);
+    });
+    const ws3=XLSX.utils.aoa_to_sheet(mesRows);
+    ws3['!cols']=[{wch:20},{wch:8},{wch:16}];
+    XLSX.utils.book_append_sheet(wb,ws3,'Por Mês');
+
+    // Aba 4 — Todos os Lotes
+    const lotesRows=[['Código','Tipo','Kg','Tecelagem','Tinturaria','Status','Data Envio','Data Entrega Prev.','Custo Tec. (R$)','Custo Tint. (R$)','Custo Total (R$)','Notas']];
+    (APP_STATE.lotes||[]).forEach(l=>{
+      lotesRows.push([
+        l.codigo,l.tipo,Number(l.peso_kg),
+        l.tecelagem_nome||'',l.tinturaria_nome||'',l.status,
+        l.data_envio_tinturaria||'',l.data_entrega_prevista||'',
+        Number(l.custo_tecelagem||0),Number(l.custo_tinturaria||0),Number(l.custo_total||0),
+        l.notas||''
+      ]);
+    });
+    const ws4=XLSX.utils.aoa_to_sheet(lotesRows);
+    ws4['!cols']=[{wch:14},{wch:6},{wch:10},{wch:18},{wch:18},{wch:12},{wch:14},{wch:16},{wch:16},{wch:16},{wch:14},{wch:30}];
+    XLSX.utils.book_append_sheet(wb,ws4,'Todos os Lotes');
+
+    XLSX.writeFile(wb,'Financeiro_NiloTextil_'+xlsxDate()+'.xlsx');
+    toast('Excel baixado!','success');
+  }catch(e){toast('Erro: '+e.message,'error');console.error(e);}
+}
+
+async function exportarLotes(){
+  try{
+    toast('Gerando Excel…','info');
+    if(!APP_STATE.lotes?.length){toast('Nenhum lote para exportar','error');return;}
+    const wb=XLSX.utils.book_new();
+    const rows=[['Código','Tipo','Kg','Tecelagem','Tinturaria','Status','Data Envio Tint.','Entrega Prevista','Dias p/ Entrega','Atrasado?','Custo Tec. (R$)','Custo Tint. (R$)','Custo Total (R$)','Notas']];
+    const hoje=new Date().toISOString().slice(0,10);
+    APP_STATE.lotes.forEach(l=>{
+      const atrasado=!['entregue','cancelado'].includes(l.status)&&l.data_entrega_prevista&&l.data_entrega_prevista<hoje;
+      const diasParaEntrega=l.data_entrega_prevista?Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000):'';
+      rows.push([
+        l.codigo,l.tipo,Number(l.peso_kg),
+        l.tecelagem_nome||'',l.tinturaria_nome||'',l.status,
+        l.data_envio_tinturaria||'',l.data_entrega_prevista||'',
+        diasParaEntrega,atrasado?'SIM':'NÃO',
+        Number(l.custo_tecelagem||0),Number(l.custo_tinturaria||0),Number(l.custo_total||0),
+        l.notas||''
+      ]);
+    });
+    const ws=XLSX.utils.aoa_to_sheet(rows);
+    ws['!cols']=[{wch:14},{wch:6},{wch:10},{wch:18},{wch:18},{wch:12},{wch:16},{wch:16},{wch:14},{wch:10},{wch:16},{wch:16},{wch:14},{wch:30}];
+    XLSX.utils.book_append_sheet(wb,ws,'Lotes');
+    XLSX.writeFile(wb,'Lotes_NiloTextil_'+xlsxDate()+'.xlsx');
+    toast('Excel baixado!','success');
+  }catch(e){toast('Erro: '+e.message,'error');}
+}
+
 </script>
 </body>
 </html>
