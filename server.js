@@ -10,7 +10,12 @@ const jwt      = require('jsonwebtoken');
 const bcrypt   = require('bcryptjs');
 const { v4: uuidv4 } = require('uuid');
 const path     = require('path');
+const fs       = require('fs');
 const db       = require('./db');
+
+// nodemailer opcional — só ativa se EMAIL_USER estiver configurado
+let nodemailer = null;
+try { nodemailer = require('nodemailer'); } catch(e) { console.warn('nodemailer não instalado — e-mail desativado'); }
 
 const app  = express();
 const PORT = process.env.PORT || 3000;
@@ -611,6 +616,65 @@ app.get('/api/planejamento', auth(ALL), (req, res) => {
 });
 
 // ============================================================
+// ── PREVISÃO DE COMPRA DE FIO ────────────────────────────────
+// ============================================================
+app.get('/api/previsao-fio', auth(ALL), (req, res) => {
+  const cfg = {};
+  db.prepare('SELECT key,value FROM config').all().forEach(r => { cfg[r.key] = Number(r.value); });
+
+  const consumoPT   = cfg.consumo_mensal_pt   || 13200;
+  const consumoLISO = cfg.consumo_mensal_liso  || 20800;
+  const bufferDias  = cfg.buffer_dias          || 15;
+  const prazTec     = cfg.prazo_tecelagem_dias || 30; // dias fio→tecido pronto
+
+  const consumoDiarioPT   = consumoPT   / 30;
+  const consumoDiarioLISO = consumoLISO / 30;
+
+  // Pipeline atual por tipo e por estágio
+  const pipelineRows = db.prepare(`
+    SELECT tipo, status, COALESCE(SUM(peso_kg),0) as kg
+    FROM lotes WHERE status NOT IN ('entregue','cancelado')
+    GROUP BY tipo, status
+  `).all();
+
+  const pipeline = { PT: 0, LISO: 0 };
+  pipelineRows.forEach(r => { pipeline[r.tipo] = (pipeline[r.tipo] || 0) + r.kg; });
+
+  function calcPrevisao(tipo, consumoDiario) {
+    const pipelineKg = pipeline[tipo] || 0;
+    const diasCobertura = consumoDiario > 0 ? pipelineKg / consumoDiario : 0;
+    // Precisa pedir fio com antecedência de prazo_tecelagem + buffer
+    const antecedencia = prazTec + bufferDias;
+    const diasParaPedir = diasCobertura - antecedencia;
+    const dataEncomendar = new Date();
+    dataEncomendar.setDate(dataEncomendar.getDate() + Math.max(0, Math.round(diasParaPedir)));
+    // Quanto pedir: consumo do período de tecelagem + buffer
+    const kgEncomendar = Math.ceil((consumoDiario * antecedencia) - pipelineKg + (consumoDiario * bufferDias));
+    const urgente = diasParaPedir <= 5;
+    const atrasado = diasParaPedir < 0;
+
+    return {
+      pipeline_kg: Math.round(pipelineKg),
+      cobertura_dias: Math.round(diasCobertura * 10) / 10,
+      dias_para_pedir: Math.round(diasParaPedir),
+      data_encomenda: atrasado ? 'HOJE (atrasado)' : dataEncomendar.toISOString().slice(0, 10),
+      kg_recomendar: Math.max(0, kgEncomendar),
+      urgente,
+      atrasado,
+      antecedencia_necessaria: antecedencia
+    };
+  }
+
+  res.json({
+    PT:   calcPrevisao('PT',   consumoDiarioPT),
+    LISO: calcPrevisao('LISO', consumoDiarioLISO),
+    consumo: { PT: consumoPT, LISO: consumoLISO },
+    prazo_tecelagem: prazTec,
+    buffer_dias: bufferDias
+  });
+});
+
+// ============================================================
 // ── DISTRIBUIDOR INTELIGENTE ─────────────────────────────────
 // ============================================================
 app.post('/api/distribuicao/calcular', auth(ALL), (req, res) => {
@@ -775,7 +839,190 @@ app.put('/api/config', auth(ADMIN), (req, res) => {
 
 // ── Health check
 app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: now(), version: '1.0.0' });
+  res.json({ status: 'ok', timestamp: now(), version: '2.0.0' });
+});
+
+// ============================================================
+// ── BACKUP DO BANCO DE DADOS ─────────────────────────────────
+// ============================================================
+app.get('/api/backup', auth(ADMIN), (req, res) => {
+  const dbPath = process.env.DB_PATH || './data/nilotextil.db';
+  if (!fs.existsSync(dbPath)) return res.status(404).json({ error: 'Banco não encontrado' });
+  const filename = `nilotextil_backup_${new Date().toISOString().slice(0,10)}.db`;
+  res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+  res.setHeader('Content-Type', 'application/octet-stream');
+  const stream = fs.createReadStream(dbPath);
+  stream.pipe(res);
+  logAudit(req.user.id, 'export', 'backup', 'database', null, null, null, null, req);
+});
+
+// ============================================================
+// ── HISTÓRICO DE PREÇO/KG POR TINTURARIA ─────────────────────
+// ============================================================
+app.get('/api/financeiro/historico-precos', auth(ALL), (req, res) => {
+  const rows = db.prepare(`
+    SELECT
+      strftime('%Y-%m', l.created_at) as mes,
+      t.nome as tinturaria,
+      ROUND(SUM(l.custo_tinturaria) / NULLIF(SUM(l.peso_kg), 0), 2) as custo_kg,
+      COUNT(*) as lotes,
+      SUM(l.peso_kg) as kg_total
+    FROM lotes l
+    JOIN tinturarias t ON l.tinturaria_id = t.id
+    WHERE l.custo_tinturaria > 0 AND l.peso_kg > 0
+      AND l.created_at >= date('now', '-6 months')
+    GROUP BY mes, t.id
+    ORDER BY mes, t.nome
+  `).all();
+
+  // Organiza por tinturaria → array de meses
+  const byTint = {};
+  const meses = [...new Set(rows.map(r => r.mes))].sort();
+  rows.forEach(r => {
+    if (!byTint[r.tinturaria]) byTint[r.tinturaria] = {};
+    byTint[r.tinturaria][r.mes] = { custo_kg: r.custo_kg, lotes: r.lotes, kg: r.kg_total };
+  });
+
+  res.json({ meses, tinturarias: byTint });
+});
+
+// ============================================================
+// ── PERFORMANCE DAS TINTURARIAS ──────────────────────────────
+// ============================================================
+app.get('/api/tinturarias/performance', auth(ALL), (req, res) => {
+  const rows = db.prepare(`
+    SELECT
+      t.nome,
+      t.prazo_dias as prazo_prometido,
+      COUNT(l.id) as total_lotes,
+      SUM(CASE WHEN l.status = 'entregue' THEN 1 ELSE 0 END) as entregues,
+      AVG(CASE
+        WHEN l.status = 'entregue' AND l.data_envio_tinturaria IS NOT NULL AND l.updated_at IS NOT NULL
+        THEN CAST((julianday(l.updated_at) - julianday(l.data_envio_tinturaria)) AS INTEGER)
+        ELSE NULL END) as prazo_real_avg,
+      SUM(CASE
+        WHEN l.status = 'entregue' AND l.data_envio_tinturaria IS NOT NULL AND l.updated_at IS NOT NULL
+          AND CAST((julianday(l.updated_at) - julianday(l.data_envio_tinturaria)) AS INTEGER) <= t.prazo_dias
+        THEN 1 ELSE 0 END) as no_prazo,
+      ROUND(AVG(CASE WHEN l.custo_tinturaria > 0 AND l.peso_kg > 0
+        THEN l.custo_tinturaria / l.peso_kg ELSE NULL END), 2) as custo_kg_medio,
+      SUM(l.peso_kg) as kg_total
+    FROM tinturarias t
+    LEFT JOIN lotes l ON l.tinturaria_id = t.id
+      AND l.created_at >= date('now', '-6 months')
+    WHERE t.ativo = 1
+    GROUP BY t.id
+    ORDER BY t.prioridade
+  `).all().map(r => ({
+    ...r,
+    pct_pontualidade: r.entregues > 0 ? Math.round((r.no_prazo / r.entregues) * 100) : null,
+    prazo_real_avg: r.prazo_real_avg ? Math.round(r.prazo_real_avg) : null,
+    desvio_prazo: r.prazo_real_avg ? Math.round(r.prazo_real_avg - r.prazo_prometido) : null
+  }));
+
+  res.json(rows);
+});
+
+// ============================================================
+// ── META MENSAL + PROGRESSO ──────────────────────────────────
+// ============================================================
+app.get('/api/meta-mensal', auth(ALL), (req, res) => {
+  const cfg = {};
+  db.prepare('SELECT key,value FROM config').all().forEach(r => { cfg[r.key] = Number(r.value); });
+  const meta = cfg.meta_kg_mes || 34000;
+
+  const mesAtual = new Date().toISOString().slice(0, 7);
+  const row = db.prepare(`
+    SELECT
+      COALESCE(SUM(CASE WHEN status NOT IN ('cancelado') THEN peso_kg ELSE 0 END), 0) as kg_em_producao,
+      COALESCE(SUM(CASE WHEN status = 'entregue' THEN peso_kg ELSE 0 END), 0) as kg_entregue,
+      COUNT(CASE WHEN status NOT IN ('cancelado') THEN 1 END) as lotes_ativos
+    FROM lotes
+    WHERE strftime('%Y-%m', created_at) = ?
+  `).get(mesAtual);
+
+  const pct = meta > 0 ? Math.min(100, Math.round((row.kg_em_producao / meta) * 100)) : 0;
+
+  res.json({
+    meta_kg: meta,
+    kg_em_producao: Math.round(row.kg_em_producao),
+    kg_entregue: Math.round(row.kg_entregue),
+    lotes_ativos: row.lotes_ativos,
+    pct_meta: pct,
+    mes: mesAtual
+  });
+});
+
+// ============================================================
+// ── NOTIFICAÇÃO POR E-MAIL ───────────────────────────────────
+// ============================================================
+app.post('/api/notificar-atrasos', auth(ADMIN), async (req, res) => {
+  const emailUser = process.env.EMAIL_USER;
+  const emailPass = process.env.EMAIL_PASS;
+  const emailTo   = process.env.EMAIL_TO || emailUser;
+
+  if (!nodemailer) return res.status(503).json({ error: 'nodemailer não instalado no servidor' });
+  if (!emailUser || !emailPass) {
+    return res.status(503).json({ error: 'Configure EMAIL_USER e EMAIL_PASS nas variáveis de ambiente do Railway' });
+  }
+
+  const hoje = new Date().toISOString().slice(0, 10);
+  const atrasados = db.prepare(`
+    SELECT l.codigo, l.tipo, l.peso_kg, l.data_entrega_prevista,
+           t.nome as tinturaria, l.status,
+           CAST(julianday('now') - julianday(l.data_entrega_prevista) AS INTEGER) as dias_atraso
+    FROM lotes l
+    LEFT JOIN tinturarias t ON l.tinturaria_id = t.id
+    WHERE l.status NOT IN ('entregue','cancelado')
+      AND l.data_entrega_prevista < ?
+    ORDER BY l.data_entrega_prevista ASC
+  `).all(hoje);
+
+  if (!atrasados.length) {
+    return res.json({ enviado: false, msg: 'Nenhum lote atrasado — e-mail não enviado.' });
+  }
+
+  const linhas = atrasados.map(l =>
+    `• ${l.codigo} (${l.tipo}) — ${l.peso_kg}kg — ${l.tinturaria || '?'} — ${l.dias_atraso}d de atraso`
+  ).join('\n');
+
+  const html = `
+    <h2 style="color:#C83045">⚠ Alerta de Lotes Atrasados — Nilo Têxtil</h2>
+    <p>Os seguintes lotes estão com entrega atrasada:</p>
+    <table border="1" cellpadding="8" style="border-collapse:collapse;font-family:Arial,sans-serif;font-size:13px">
+      <tr style="background:#f0f0f0"><th>Código</th><th>Tipo</th><th>Kg</th><th>Tinturaria</th><th>Previsão</th><th>Atraso</th></tr>
+      ${atrasados.map(l => `<tr>
+        <td><b>${l.codigo}</b></td>
+        <td>${l.tipo}</td>
+        <td>${l.peso_kg}</td>
+        <td>${l.tinturaria || '—'}</td>
+        <td style="color:#C83045">${l.data_entrega_prevista}</td>
+        <td style="color:#C83045;font-weight:bold">${l.dias_atraso}d</td>
+      </tr>`).join('')}
+    </table>
+    <p style="margin-top:20px;color:#666;font-size:12px">
+      Acesse o sistema: <a href="${process.env.APP_URL || 'https://nilo-textil-api-production.up.railway.app'}">Nilo Têxtil — Gestão de Produção</a>
+    </p>
+  `;
+
+  try {
+    const transporter = nodemailer.createTransport({
+      service: 'gmail',
+      auth: { user: emailUser, pass: emailPass }
+    });
+    await transporter.sendMail({
+      from: `"Nilo Têxtil Sistema" <${emailUser}>`,
+      to: emailTo,
+      subject: `⚠ ${atrasados.length} lote(s) atrasado(s) — Nilo Têxtil`,
+      text: `Lotes atrasados:\n\n${linhas}`,
+      html
+    });
+    logAudit(req.user.id, 'email', 'notificacao', 'atrasos', null, null, `${atrasados.length} lotes`, null, req);
+    res.json({ enviado: true, lotes: atrasados.length, para: emailTo });
+  } catch(e) {
+    console.error('Email error:', e.message);
+    res.status(500).json({ error: 'Falha ao enviar: ' + e.message });
+  }
 });
 
 // ── Serve SPA for all non-API routes
