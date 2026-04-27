@@ -85,6 +85,8 @@ function migrate() {
       tipo                     TEXT NOT NULL,
       -- tipo: PT | LISO
       peso_kg                  REAL NOT NULL,
+      kg_recebido              REAL DEFAULT 0,
+      -- kg_recebido: quanto já chegou. Saldo = peso_kg - kg_recebido
       cor                      TEXT DEFAULT '',
       referencia               TEXT DEFAULT '',
       tecelagem_id             TEXT REFERENCES tecelagens(id),
@@ -155,6 +157,13 @@ function migrate() {
     CREATE INDEX IF NOT EXISTS idx_audit_created     ON audit_log(created_at);
     CREATE INDEX IF NOT EXISTS idx_notifications_lida ON notifications(lida);
   `);
+
+  // ── Migrations para bancos existentes ──────────────────────
+  const cols = db.prepare("PRAGMA table_info(lotes)").all().map(c => c.name);
+  if (!cols.includes('kg_recebido')) {
+    db.exec("ALTER TABLE lotes ADD COLUMN kg_recebido REAL DEFAULT 0");
+    console.log('Migration: coluna kg_recebido adicionada');
+  }
 }
 
 // ============================================================
