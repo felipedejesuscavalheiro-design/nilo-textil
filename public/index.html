@@ -1939,7 +1939,7 @@ async function renderDashboard(){
             <div><strong>${atrasadosLotes.length} lote(s) atrasado(s)</strong><div class="overdue-sub">Entregas que passaram do prazo previsto</div></div>
           </div>
           <div class="overdue-list">
-            ${atrasadosLotes.map(l=>{const dias=Math.abs(Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000));return`<div class="overdue-item"><div class="overdue-info"><span class="overdue-code">${l.codigo}</span><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span><span class="overdue-meta">${l.tinturaria_nome||'—'} · ${Number(l.peso_kg).toLocaleString('pt-BR')} kg</span></div><div class="overdue-right"><span class="overdue-days">${dias}d atrasado</span><button class="btn btn-sm btn-secondary" onclick="showPage('lotes')">Ver</button></div></div>`;}).join('')}
+            ${atrasadosLotes.map(l=>{const dias=Math.abs(Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000));return`<div class="overdue-item"><div class="overdue-info"><span class="overdue-code">${l.codigo}</span><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span><span class="overdue-meta">${l.tinturaria_nome||'—'} · ${Number(l.kg_saldo||l.peso_kg).toLocaleString('pt-BR')} kg em aberto</span></div><div class="overdue-right"><span class="overdue-days">${dias}d atrasado</span><button class="btn btn-sm btn-secondary" onclick="showPage('lotes')">Ver</button></div></div>`;}).join('')}
           </div>
         </div>`;
       }else{
@@ -2062,9 +2062,10 @@ function renderLotes(){
   const tbody=document.getElementById('lotes-table');if(!tbody)return;
   if(!lotes.length){tbody.innerHTML='<tr><td colspan="9" style="text-align:center;color:var(--text-dim);padding:32px">Nenhum lote encontrado</td></tr>';return;}
   tbody.innerHTML=lotes.map(l=>{
-    const at=!['entregue','cancelado'].includes(l.status)&&l.data_entrega_prevista&&l.data_entrega_prevista<hoje;
+    const saldoKg=Math.max(0,Number(l.peso_kg)-(Number(l.kg_recebido)||0));const at=!['entregue','cancelado'].includes(l.status)&&l.data_entrega_prevista&&l.data_entrega_prevista<hoje&&saldoKg>0;
     const si=getLoteStatusInfo(l.status);
-    return`<tr ${at?'style="background:rgba(255,69,96,0.04)"':''}><td><span style="font-family:monospace;font-size:12px;color:var(--text-light)">${l.codigo}</span></td><td><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span></td><td><strong>${Number(l.peso_kg).toLocaleString('pt-BR')} kg</strong></td><td>${l.tecelagem_nome||'—'}</td><td>${l.tinturaria_nome||'—'}</td><td><span class="badge badge-${si.cls}">${si.icon} ${si.label}</span>${at?'<span class="badge badge-red" style="margin-left:4px">Atrasado</span>':''}</td><td style="color:${at?'var(--danger)':'inherit'}">${l.data_entrega_prevista?formatDate(l.data_entrega_prevista):'—'}</td><td>${l.custo_total>0?'R$ '+Number(l.custo_total).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—'}</td><td class="action-btns"><button class="btn btn-sm btn-secondary" onclick="viewLote('${l.id}')">👁</button>${canEdit()?`<button class="btn btn-sm btn-secondary" onclick="editLote('${l.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteLote('${l.id}')">🗑</button>`:''}</td></tr>`;
+    const saldo=Math.max(0,Number(l.peso_kg)-(Number(l.kg_recebido)||0));const temSaldo=saldo>0&&(l.kg_recebido||0)>0;
+    return`<tr ${at?'style="background:rgba(255,69,96,0.04)"':''}><td><span style="font-family:monospace;font-size:12px;color:var(--text-light)">${l.codigo}</span></td><td><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span></td><td><strong>${Number(l.peso_kg).toLocaleString('pt-BR')} kg</strong>${temSaldo?`<br><span style="font-size:11px;color:var(--danger);font-weight:600">Saldo: ${saldo.toLocaleString('pt-BR')} kg</span>`:''}${(l.kg_recebido||0)>0&&saldo===0?'<br><span style="font-size:11px;color:var(--success)">✓ Completo</span>':''}</td><td>${l.tecelagem_nome||'—'}</td><td>${l.tinturaria_nome||'—'}</td><td><span class="badge badge-${si.cls}">${si.icon} ${si.label}</span>${at?'<span class="badge badge-red" style="margin-left:4px">Atrasado</span>':''}</td><td style="color:${at?'var(--danger)':'inherit'}">${l.data_entrega_prevista?formatDate(l.data_entrega_prevista):'—'}</td><td>${l.custo_total>0?'R$ '+Number(l.custo_total).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—'}</td><td class="action-btns"><button class="btn btn-sm btn-secondary" onclick="viewLote('${l.id}')">👁</button>${canEdit()?`<button class="btn btn-sm btn-secondary" onclick="editLote('${l.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteLote('${l.id}')">🗑</button>`:''}</td></tr>`;
   }).join('');
 }
 function getLoteStatusInfo(s){const m={fio:{label:'Fio',cls:'brown',icon:'🧵'},tecelagem:{label:'Tecelagem',cls:'blue',icon:'🏭'},tinturaria:{label:'Tinturaria',cls:'orange',icon:'🎨'},pronto:{label:'Pronto',cls:'green',icon:'✅'},entregue:{label:'Entregue',cls:'teal',icon:'📦'},cancelado:{label:'Cancelado',cls:'gray',icon:'❌'}};return m[s]||{label:s,cls:'gray',icon:'?'};}
@@ -2079,7 +2080,9 @@ async function viewLote(id){
       <div><div class="form-label">Código</div><div style="font-family:monospace;font-size:15px;font-weight:700">${lote.codigo}</div></div>
       <div><div class="form-label">Status</div><span class="badge badge-${si.cls}">${si.icon} ${si.label}</span></div>
       <div><div class="form-label">Tipo</div><span class="tag tag-${lote.tipo.toLowerCase()}">${lote.tipo}</span></div>
-      <div><div class="form-label">Peso</div><strong>${Number(lote.peso_kg).toLocaleString('pt-BR')} kg</strong></div>
+      <div><div class="form-label">Peso Total</div><strong>${Number(lote.peso_kg).toLocaleString('pt-BR')} kg</strong></div>
+      <div><div class="form-label">Kg Recebido</div><strong style="color:${(lote.kg_recebido||0)>0?'var(--success)':'var(--text-dim)'}">${Number(lote.kg_recebido||0).toLocaleString('pt-BR')} kg</strong></div>
+      <div><div class="form-label">Saldo em Aberto</div><strong style="color:${Math.max(0,lote.peso_kg-(lote.kg_recebido||0))>0?'var(--danger)':'var(--success)'}">${Math.max(0,Number(lote.peso_kg)-(Number(lote.kg_recebido)||0)).toLocaleString('pt-BR')} kg</strong></div>
       <div><div class="form-label">Tecelagem</div>${lote.tecelagem_nome||'—'}</div>
       <div><div class="form-label">Tinturaria</div>${lote.tinturaria_nome||'—'}</div>
       <div><div class="form-label">Envio Tinturaria</div>${lote.data_envio_tinturaria?formatDate(lote.data_envio_tinturaria):'—'}</div>
@@ -2113,7 +2116,7 @@ function editLote(id){
   f.tecelagem_id.value=l.tecelagem_id||'';f.tinturaria_id.value=l.tinturaria_id||'';
   f.data_envio_tecelagem.value=l.data_envio_tecelagem||'';f.data_prevista_tecelagem.value=l.data_prevista_tecelagem||'';
   f.data_envio_tinturaria.value=l.data_envio_tinturaria||'';f.data_entrega_prevista.value=l.data_entrega_prevista||'';
-  f.custo_tecelagem.value=l.custo_tecelagem||0;f.custo_tinturaria.value=l.custo_tinturaria||0;f.custo_frete.value=l.custo_frete||0;f.notas.value=l.notas||'';
+  f.custo_tecelagem.value=l.custo_tecelagem||0;f.custo_tinturaria.value=l.custo_tinturaria||0;f.custo_frete.value=l.custo_frete||0;f.notas.value=l.notas||'';if(f.kg_recebido)f.kg_recebido.value=l.kg_recebido||0;calcSaldoLote();
   document.getElementById('modal-lote-title').textContent=`Editar Lote ${l.codigo}`;openModal('modal-lote');
 }
 function populateLoteSelects(){
@@ -2122,9 +2125,20 @@ function populateLoteSelects(){
   if(tecs)tecs.innerHTML='<option value="">— Selecione —</option>'+APP_STATE.tecelagens.filter(t=>t.ativo).map(t=>`<option value="${t.id}">${t.nome}</option>`).join('');
   if(tints)tints.innerHTML='<option value="">— Selecione —</option>'+APP_STATE.tinturarias.filter(t=>t.ativo).map(t=>`<option value="${t.id}">${t.nome} (${t.prazo_dias}d)</option>`).join('');
 }
+function calcSaldoLote(){
+  const f=document.getElementById('form-lote');if(!f)return;
+  const total=Number(f.peso_kg?.value||0);
+  const rec=Number(f.kg_recebido?.value||0);
+  const saldo=Math.max(0,total-rec);
+  const el=document.getElementById('lote-saldo-info');if(!el)return;
+  if(total>0&&rec>0){
+    const cor=saldo===0?'var(--success)':saldo<total?'var(--warning)':'var(--danger)';
+    el.innerHTML=`<span style="color:${cor};font-weight:600">${saldo===0?'✓ Chegou tudo':'Saldo em aberto: '+saldo.toLocaleString('pt-BR')+' kg'}</span>`;
+  }else{el.innerHTML='';}
+}
 async function submitLote(){
   const f=document.getElementById('form-lote');if(!f)return;
-  const body={tipo:f.tipo.value,peso_kg:Number(f.peso_kg.value),cor:f.cor.value.trim(),referencia:f.referencia.value.trim(),status:f.status.value,tecelagem_id:f.tecelagem_id.value||null,tinturaria_id:f.tinturaria_id.value||null,data_envio_tecelagem:f.data_envio_tecelagem.value||null,data_prevista_tecelagem:f.data_prevista_tecelagem.value||null,data_envio_tinturaria:f.data_envio_tinturaria.value||null,data_entrega_prevista:f.data_entrega_prevista.value||null,custo_tecelagem:Number(f.custo_tecelagem.value||0),custo_tinturaria:Number(f.custo_tinturaria.value||0),custo_frete:Number(f.custo_frete.value||0),notas:f.notas.value.trim()};
+  const body={tipo:f.tipo.value,peso_kg:Number(f.peso_kg.value),kg_recebido:Number(f.kg_recebido?.value||0),cor:f.cor.value.trim(),referencia:f.referencia.value.trim(),status:f.status.value,tecelagem_id:f.tecelagem_id.value||null,tinturaria_id:f.tinturaria_id.value||null,data_envio_tecelagem:f.data_envio_tecelagem.value||null,data_prevista_tecelagem:f.data_prevista_tecelagem.value||null,data_envio_tinturaria:f.data_envio_tinturaria.value||null,data_entrega_prevista:f.data_entrega_prevista.value||null,custo_tecelagem:Number(f.custo_tecelagem.value||0),custo_tinturaria:Number(f.custo_tinturaria.value||0),custo_frete:Number(f.custo_frete.value||0),notas:f.notas.value.trim()};
   if(!body.tipo||!body.peso_kg){toast('Tipo e peso obrigatórios','error');return;}
   try{
     if(editingLoteId){const u=await api('PUT',`/api/lotes/${editingLoteId}`,body);APP_STATE.lotes=APP_STATE.lotes.map(l=>l.id===editingLoteId?u:l);toast('Lote atualizado');}
