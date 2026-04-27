@@ -357,7 +357,7 @@ app.get('/api/lotes/:id', auth(ALL), (req, res) => {
 
 app.post('/api/lotes', auth(GERENTE), (req, res) => {
   const {
-    tipo, peso_kg, cor='', referencia='',
+    tipo, peso_kg, kg_recebido=0, cor='', referencia='',
     tecelagem_id, tinturaria_id, status='fio',
     data_envio_tecelagem, data_prevista_tecelagem,
     data_envio_tinturaria, data_prevista_tinturaria,
@@ -385,11 +385,11 @@ app.post('/api/lotes', auth(GERENTE), (req, res) => {
   }
 
   db.prepare(`
-    INSERT INTO lotes (id,codigo,tipo,peso_kg,cor,referencia,tecelagem_id,tinturaria_id,status,
+    INSERT INTO lotes (id,codigo,tipo,peso_kg,kg_recebido,cor,referencia,tecelagem_id,tinturaria_id,status,
       data_envio_tecelagem,data_prevista_tecelagem,data_envio_tinturaria,data_prevista_tinturaria,
       data_entrega_prevista,data_entrega_real,custo_tecelagem,custo_tinturaria,custo_frete,custo_total,notas,created_by,updated_by)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-  `).run(id,codigo,tipo,peso_kg,cor,referencia,tecelagem_id||null,tinturaria_id||null,status,
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+  `).run(id,codigo,tipo,peso_kg,Number(kg_recebido)||0,cor,referencia,tecelagem_id||null,tinturaria_id||null,status,
          data_envio_tecelagem||null,data_prevista_tecelagem||null,
          data_envio_tinturaria||null,data_prevista_tinturaria||null,
          entregaPrevista||null,data_entrega_real||null,
@@ -432,12 +432,12 @@ app.put('/api/lotes/:id', auth(GERENTE), (req, res) => {
   }
 
   db.prepare(`
-    UPDATE lotes SET tipo=?,peso_kg=?,cor=?,referencia=?,tecelagem_id=?,tinturaria_id=?,status=?,
+    UPDATE lotes SET tipo=?,peso_kg=?,kg_recebido=?,cor=?,referencia=?,tecelagem_id=?,tinturaria_id=?,status=?,
       data_envio_tecelagem=?,data_prevista_tecelagem=?,data_envio_tinturaria=?,data_prevista_tinturaria=?,
       data_entrega_prevista=?,data_entrega_real=?,custo_tecelagem=?,custo_tinturaria=?,custo_frete=?,custo_total=?,
       notas=?,updated_at=?,updated_by=?
     WHERE id=?
-  `).run(upd.tipo,upd.peso_kg,upd.cor,upd.referencia,upd.tecelagem_id||null,upd.tinturaria_id||null,upd.status,
+  `).run(upd.tipo,upd.peso_kg,Number(upd.kg_recebido)||0,upd.cor,upd.referencia,upd.tecelagem_id||null,upd.tinturaria_id||null,upd.status,
          upd.data_envio_tecelagem||null,upd.data_prevista_tecelagem||null,
          upd.data_envio_tinturaria||null,upd.data_prevista_tinturaria||null,
          upd.data_entrega_prevista||null,upd.data_entrega_real||null,
@@ -505,20 +505,23 @@ app.get('/api/dashboard', auth(ALL), (req, res) => {
     GROUP BY status
   `).all();
 
-  // Atrasados
+  // Atrasados — só conta se tem saldo em aberto (peso_kg - kg_recebido > 0)
   const atrasados = db.prepare(`
     SELECT COUNT(*) as n FROM lotes
     WHERE status NOT IN ('entregue','cancelado')
       AND data_entrega_prevista IS NOT NULL AND data_entrega_prevista < ?
+      AND (peso_kg - COALESCE(kg_recebido,0)) > 0
   `).get(hoje).n;
 
-  // Próximas entregas (60 dias)
+  // Próximas entregas (60 dias) — inclui saldo em aberto
   const entregas = db.prepare(`
-    SELECT l.*, ti.nome as tinturaria_nome
+    SELECT l.*, ti.nome as tinturaria_nome,
+           ROUND(l.peso_kg - COALESCE(l.kg_recebido,0), 2) as kg_saldo
     FROM lotes l
     LEFT JOIN tinturarias ti ON l.tinturaria_id=ti.id
     WHERE l.status NOT IN ('entregue','cancelado')
       AND l.data_entrega_prevista BETWEEN ? AND ?
+      AND (l.peso_kg - COALESCE(l.kg_recebido,0)) > 0
     ORDER BY l.data_entrega_prevista LIMIT 20
   `).all(hoje, em60);
 
