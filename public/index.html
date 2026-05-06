@@ -1233,6 +1233,9 @@ body.light .topbar-user-role { color: var(--text-light); }
       <span class="sidebar-icon">📦</span><span class="sidebar-label">Lotes</span>
       <span class="sidebar-badge" id="badge-atrasados" style="display:none">!</span>
     </button>
+    <button class="sidebar-item" id="nav-fio" onclick="showPage('fio')">
+      <span class="sidebar-icon">🧵</span><span class="sidebar-label">Estoque de Fio</span>
+    </button>
     <div class="sidebar-section">Análise</div>
     <button class="sidebar-item" id="nav-planejamento" onclick="showPage('planejamento')">
       <span class="sidebar-icon">📅</span><span class="sidebar-label">Planejamento</span>
@@ -1342,6 +1345,66 @@ body.light .topbar-user-role { color: var(--text-light); }
 </div>
 
 <!-- LOTES -->
+<div id="page-fio" class="page">
+  <div class="page-header">
+    <div>
+      <div class="page-title">Estoque de Fio</div>
+      <div class="page-subtitle">Controle de compras e saldo de matéria-prima</div>
+    </div>
+    <button class="btn btn-primary" onclick="openNovaCompraFio()">+ Registrar Compra</button>
+  </div>
+  <!-- Cards de saldo -->
+  <div id="fio-saldo-cards" class="grid-3" style="margin-bottom:24px"></div>
+  <!-- Tabela de compras -->
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title">Histórico de Compras</div>
+    </div>
+    <div class="card-body" style="padding:0">
+      <div id="fio-table-container">
+        <table class="table"><thead><tr><th>Data</th><th>Fornecedor</th><th>Nota Fiscal</th><th>Tipo</th><th>Peso (kg)</th><th>Notas</th><th></th></tr></thead>
+        <tbody id="fio-table-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: NOVA COMPRA DE FIO -->
+<div class="overlay" id="modal-compra-fio">
+  <div class="modal">
+    <div class="modal-header">
+      <div class="modal-title">Registrar Compra de Fio</div>
+      <button class="modal-close" onclick="closeModal('modal-compra-fio')">✕</button>
+    </div>
+    <form id="form-compra-fio">
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Data da Compra</label>
+          <input type="date" class="form-control" name="data" required></div>
+        <div class="form-group"><label class="form-label">Tipo</label>
+          <select class="form-control" name="tipo">
+            <option value="PT">PT — Pano Tingido</option>
+            <option value="LISO">LISO — Colorido Liso</option>
+            <option value="ambos">Ambos</option>
+          </select></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Fornecedor</label>
+          <input class="form-control" name="fornecedor" placeholder="Nome do fornecedor"></div>
+        <div class="form-group"><label class="form-label">Nota Fiscal</label>
+          <input class="form-control" name="nota_fiscal" placeholder="Ex: 103-977"></div>
+      </div>
+      <div class="form-group"><label class="form-label">Peso (kg)</label>
+        <input type="number" step="0.01" min="0.01" class="form-control" name="peso_kg" placeholder="Ex: 20000" required></div>
+      <div class="form-group"><label class="form-label">Observações</label>
+        <textarea class="form-control" name="notas" placeholder="Observações sobre esta compra..."></textarea></div>
+    </form>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" onclick="closeModal('modal-compra-fio')">Cancelar</button>
+      <button class="btn btn-primary" onclick="submitCompraFio()">Salvar</button>
+    </div>
+  </div>
+</div>
+
 <div id="page-lotes" class="page">
   <div class="page-header">
     <div class="page-title">Rastreamento de Lotes</div>
@@ -1502,6 +1565,7 @@ body.light .topbar-user-role { color: var(--text-light); }
   <button class="mobile-nav-item active" id="mnav-dashboard" onclick="showPage('dashboard')"><span>📊</span>Dashboard</button>
   <button class="mobile-nav-item" id="mnav-lotes" onclick="showPage('lotes')"><span>📦</span>Lotes</button>
   <button class="mobile-nav-item" id="mnav-planejamento" onclick="showPage('planejamento')"><span>📅</span>Planejar</button>
+  <button class="mobile-nav-item" id="mnav-fio" onclick="showPage('fio')"><span>🧵</span>Fio</button>
   <button class="mobile-nav-item" id="mnav-distribuicao" onclick="showPage('distribuicao')"><span>🤖</span>IA</button>
   <button class="mobile-nav-item" id="mnav-financeiro" onclick="showPage('financeiro')"><span>💰</span>Financeiro</button>
 </div>
@@ -1619,6 +1683,11 @@ body.light .topbar-user-role { color: var(--text-light); }
         <div class="form-group"><label class="form-label">Referência</label>
           <input class="form-control" name="referencia" placeholder="Ex: REF-001"></div>
       </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Nota Fiscal</label>
+          <input class="form-control" name="nota_fiscal" placeholder="Ex: 103-977"></div>
+        <div class="form-group"></div>
+      </div>
       <div class="form-group"><label class="form-label">Status</label>
         <select class="form-control" name="status">
           <option value="fio">🧵 Fio</option>
@@ -1644,6 +1713,11 @@ body.light .topbar-user-role { color: var(--text-light); }
         <div class="form-group"><label class="form-label">Custo Tecelagem (R$)</label>
           <input type="number" step="0.01" class="form-control" name="custo_tecelagem" placeholder="0"></div>
       </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Produzido pela Tecelagem (kg)</label>
+          <input type="number" step="0.01" min="0" class="form-control" name="kg_produzido" placeholder="0" oninput="calcSaldosLote()"></div>
+        <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:4px"><div id="lote-tec-saldo-info"></div></div>
+      </div>
       <div class="divider"></div>
       <div style="font-size:12px;font-weight:700;color:var(--text-light);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:12px">🎨 Tinturaria</div>
       <div class="form-row">
@@ -1659,6 +1733,11 @@ body.light .topbar-user-role { color: var(--text-light); }
           <input type="date" class="form-control" name="data_entrega_prevista"></div>
         <div class="form-group"><label class="form-label">Custo Tinturaria (R$)</label>
           <input type="number" step="0.01" class="form-control" name="custo_tinturaria" placeholder="0"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group"><label class="form-label">Recebido da Tinturaria (kg)</label>
+          <input type="number" step="0.01" min="0" class="form-control" name="kg_recebido" placeholder="0" oninput="calcSaldosLote()"></div>
+        <div class="form-group" style="display:flex;align-items:flex-end;padding-bottom:4px"><div id="lote-saldo-info"></div></div>
       </div>
       <div class="form-group"><label class="form-label">Custo Frete (R$)</label>
         <input type="number" step="0.01" class="form-control" name="custo_frete" placeholder="0"></div>
@@ -1899,7 +1978,7 @@ function showPage(page){
   if(page==='dashboard')renderDashboard();
   if(page==='fornecedores')renderFornecedores();
   if(page==='lotes')renderLotes();
-  if(page==='planejamento'){renderPlanejamento();renderPrevisaoFio();}
+  if(page==='planejamento'){renderPlanejamento();renderPrevisaoFio();}if(page==='fio'){renderEstoqueFio();}
   if(page==='financeiro'){renderFinanceiro();renderHistoricoPrecos();renderPerformanceTint();}
   if(page==='historico')renderHistorico();
   if(page==='usuarios')renderUsuarios();
@@ -1939,7 +2018,7 @@ async function renderDashboard(){
             <div><strong>${atrasadosLotes.length} lote(s) atrasado(s)</strong><div class="overdue-sub">Entregas que passaram do prazo previsto</div></div>
           </div>
           <div class="overdue-list">
-            ${atrasadosLotes.map(l=>{const dias=Math.abs(Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000));return`<div class="overdue-item"><div class="overdue-info"><span class="overdue-code">${l.codigo}</span><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span><span class="overdue-meta">${l.tinturaria_nome||'—'} · ${Number(l.kg_saldo||l.peso_kg).toLocaleString('pt-BR')} kg em aberto</span></div><div class="overdue-right"><span class="overdue-days">${dias}d atrasado</span><button class="btn btn-sm btn-secondary" onclick="showPage('lotes')">Ver</button></div></div>`;}).join('')}
+            ${atrasadosLotes.map(l=>{const dias=Math.abs(Math.round((new Date(l.data_entrega_prevista)-new Date())/86400000));return`<div class="overdue-item"><div class="overdue-info"><span class="overdue-code">${l.codigo}</span>${l.nota_fiscal?`<span style='font-size:10px;color:var(--text-dim);margin-left:4px'>NF ${l.nota_fiscal}</span>`:''}<span class="tag tag-${l.tipo.toLowerCase()}" style='margin-left:4px'>${l.tipo}</span><span class="overdue-meta">${l.tinturaria_nome||'—'} · ${Number(l.kg_saldo||l.peso_kg).toLocaleString('pt-BR')} kg em aberto${l.nota_fiscal?` · Nota ${l.nota_fiscal}`:''}</span></div><div class="overdue-right"><span class="overdue-days">${dias}d atrasado</span><button class="btn btn-sm btn-secondary" onclick="showPage('lotes')">Ver</button></div></div>`;}).join('')}
           </div>
         </div>`;
       }else{
@@ -2064,7 +2143,7 @@ function renderLotes(){
   tbody.innerHTML=lotes.map(l=>{
     const saldoKg=Math.max(0,Number(l.peso_kg)-(Number(l.kg_recebido)||0));const at=!['entregue','cancelado'].includes(l.status)&&l.data_entrega_prevista&&l.data_entrega_prevista<hoje&&saldoKg>0;
     const si=getLoteStatusInfo(l.status);
-    const saldo=Math.max(0,Number(l.peso_kg)-(Number(l.kg_recebido)||0));const temSaldo=saldo>0&&(l.kg_recebido||0)>0;
+    const saldo=Math.max(0,Number(l.peso_kg)-(Number(l.kg_recebido)||0));const temSaldo=saldo>0&&(l.kg_recebido||0)>0;const saldoTec=Math.max(0,Number(l.peso_kg)-(Number(l.kg_produzido)||0));const temSaldoTec=saldoTec>0&&(l.kg_produzido||0)>0;
     return`<tr ${at?'style="background:rgba(255,69,96,0.04)"':''}><td><span style="font-family:monospace;font-size:12px;color:var(--text-light)">${l.codigo}</span></td><td><span class="tag tag-${l.tipo.toLowerCase()}">${l.tipo}</span></td><td><strong>${Number(l.peso_kg).toLocaleString('pt-BR')} kg</strong>${temSaldo?`<br><span style="font-size:11px;color:var(--danger);font-weight:600">Saldo: ${saldo.toLocaleString('pt-BR')} kg</span>`:''}${(l.kg_recebido||0)>0&&saldo===0?'<br><span style="font-size:11px;color:var(--success)">✓ Completo</span>':''}</td><td>${l.tecelagem_nome||'—'}</td><td>${l.tinturaria_nome||'—'}</td><td><span class="badge badge-${si.cls}">${si.icon} ${si.label}</span>${at?'<span class="badge badge-red" style="margin-left:4px">Atrasado</span>':''}</td><td style="color:${at?'var(--danger)':'inherit'}">${l.data_entrega_prevista?formatDate(l.data_entrega_prevista):'—'}</td><td>${l.custo_total>0?'R$ '+Number(l.custo_total).toLocaleString('pt-BR',{minimumFractionDigits:2}):'—'}</td><td class="action-btns"><button class="btn btn-sm btn-secondary" onclick="viewLote('${l.id}')">👁</button>${canEdit()?`<button class="btn btn-sm btn-secondary" onclick="editLote('${l.id}')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteLote('${l.id}')">🗑</button>`:''}</td></tr>`;
   }).join('');
 }
@@ -2081,8 +2160,10 @@ async function viewLote(id){
       <div><div class="form-label">Status</div><span class="badge badge-${si.cls}">${si.icon} ${si.label}</span></div>
       <div><div class="form-label">Tipo</div><span class="tag tag-${lote.tipo.toLowerCase()}">${lote.tipo}</span></div>
       <div><div class="form-label">Peso Total</div><strong>${Number(lote.peso_kg).toLocaleString('pt-BR')} kg</strong></div>
-      <div><div class="form-label">Kg Recebido</div><strong style="color:${(lote.kg_recebido||0)>0?'var(--success)':'var(--text-dim)'}">${Number(lote.kg_recebido||0).toLocaleString('pt-BR')} kg</strong></div>
-      <div><div class="form-label">Saldo em Aberto</div><strong style="color:${Math.max(0,lote.peso_kg-(lote.kg_recebido||0))>0?'var(--danger)':'var(--success)'}">${Math.max(0,Number(lote.peso_kg)-(Number(lote.kg_recebido)||0)).toLocaleString('pt-BR')} kg</strong></div>
+      <div><div class="form-label">Nota Fiscal</div><strong style="color:var(--primary)">${lote.nota_fiscal||'—'}</strong></div>
+      <div><div class="form-label">Produzido Tecelagem</div><strong style="color:${(lote.kg_produzido||0)>0?'var(--success)':'var(--text-dim)'}">${Number(lote.kg_produzido||0).toLocaleString('pt-BR')} kg</strong>${Math.max(0,Number(lote.peso_kg)-(Number(lote.kg_produzido)||0))>0?`<span style="font-size:11px;color:var(--warning);margin-left:6px">saldo: ${Math.max(0,Number(lote.peso_kg)-(Number(lote.kg_produzido)||0)).toLocaleString('pt-BR')} kg</span>`:''}</div>
+      <div><div class="form-label">Recebido Tinturaria</div><strong style="color:${(lote.kg_recebido||0)>0?'var(--success)':'var(--text-dim)'}">${Number(lote.kg_recebido||0).toLocaleString('pt-BR')} kg</strong></div>
+      <div><div class="form-label">Saldo Tinturaria</div><strong style="color:${Math.max(0,lote.peso_kg-(lote.kg_recebido||0))>0?'var(--danger)':'var(--success)'}">${Math.max(0,Number(lote.peso_kg)-(Number(lote.kg_recebido)||0)).toLocaleString('pt-BR')} kg${lote.nota_fiscal&&Math.max(0,lote.peso_kg-(lote.kg_recebido||0))>0?` · NF ${lote.nota_fiscal}`:''}</strong></div>
       <div><div class="form-label">Tecelagem</div>${lote.tecelagem_nome||'—'}</div>
       <div><div class="form-label">Tinturaria</div>${lote.tinturaria_nome||'—'}</div>
       <div><div class="form-label">Envio Tinturaria</div>${lote.data_envio_tinturaria?formatDate(lote.data_envio_tinturaria):'—'}</div>
@@ -2116,7 +2197,7 @@ function editLote(id){
   f.tecelagem_id.value=l.tecelagem_id||'';f.tinturaria_id.value=l.tinturaria_id||'';
   f.data_envio_tecelagem.value=l.data_envio_tecelagem||'';f.data_prevista_tecelagem.value=l.data_prevista_tecelagem||'';
   f.data_envio_tinturaria.value=l.data_envio_tinturaria||'';f.data_entrega_prevista.value=l.data_entrega_prevista||'';
-  f.custo_tecelagem.value=l.custo_tecelagem||0;f.custo_tinturaria.value=l.custo_tinturaria||0;f.custo_frete.value=l.custo_frete||0;f.notas.value=l.notas||'';if(f.kg_recebido)f.kg_recebido.value=l.kg_recebido||0;calcSaldoLote();
+  f.custo_tecelagem.value=l.custo_tecelagem||0;f.custo_tinturaria.value=l.custo_tinturaria||0;f.custo_frete.value=l.custo_frete||0;f.notas.value=l.notas||'';if(f.kg_recebido)f.kg_recebido.value=l.kg_recebido||0;if(f.kg_produzido)f.kg_produzido.value=l.kg_produzido||0;if(f.nota_fiscal)f.nota_fiscal.value=l.nota_fiscal||'';calcSaldosLote();
   document.getElementById('modal-lote-title').textContent=`Editar Lote ${l.codigo}`;openModal('modal-lote');
 }
 function populateLoteSelects(){
@@ -2125,20 +2206,24 @@ function populateLoteSelects(){
   if(tecs)tecs.innerHTML='<option value="">— Selecione —</option>'+APP_STATE.tecelagens.filter(t=>t.ativo).map(t=>`<option value="${t.id}">${t.nome}</option>`).join('');
   if(tints)tints.innerHTML='<option value="">— Selecione —</option>'+APP_STATE.tinturarias.filter(t=>t.ativo).map(t=>`<option value="${t.id}">${t.nome} (${t.prazo_dias}d)</option>`).join('');
 }
-function calcSaldoLote(){
+function calcSaldoLote(){calcSaldosLote();}
+function calcSaldosLote(){
   const f=document.getElementById('form-lote');if(!f)return;
   const total=Number(f.peso_kg?.value||0);
+  // Saldo tinturaria
   const rec=Number(f.kg_recebido?.value||0);
   const saldo=Math.max(0,total-rec);
-  const el=document.getElementById('lote-saldo-info');if(!el)return;
-  if(total>0&&rec>0){
-    const cor=saldo===0?'var(--success)':saldo<total?'var(--warning)':'var(--danger)';
-    el.innerHTML=`<span style="color:${cor};font-weight:600">${saldo===0?'✓ Chegou tudo':'Saldo em aberto: '+saldo.toLocaleString('pt-BR')+' kg'}</span>`;
-  }else{el.innerHTML='';}
+  const el=document.getElementById('lote-saldo-info');
+  if(el){if(total>0&&rec>0){const cor=saldo===0?'var(--success)':saldo<total?'var(--warning)':'var(--danger)';el.innerHTML=`<span style="color:${cor};font-size:12px;font-weight:600">${saldo===0?'✓ Completo':'Em aberto: '+saldo.toLocaleString('pt-BR')+' kg'}</span>`;}else{el.innerHTML='';}}
+  // Saldo tecelagem
+  const prod=Number(f.kg_produzido?.value||0);
+  const saldoTec=Math.max(0,total-prod);
+  const elTec=document.getElementById('lote-tec-saldo-info');
+  if(elTec){if(total>0&&prod>0){const cor=saldoTec===0?'var(--success)':saldoTec<total?'var(--warning)':'var(--danger)';elTec.innerHTML=`<span style="color:${cor};font-size:12px;font-weight:600">${saldoTec===0?'✓ Completo':'Saldo: '+saldoTec.toLocaleString('pt-BR')+' kg'}</span>`;}else{elTec.innerHTML='';}}
 }
 async function submitLote(){
   const f=document.getElementById('form-lote');if(!f)return;
-  const body={tipo:f.tipo.value,peso_kg:Number(f.peso_kg.value),kg_recebido:Number(f.kg_recebido?.value||0),cor:f.cor.value.trim(),referencia:f.referencia.value.trim(),status:f.status.value,tecelagem_id:f.tecelagem_id.value||null,tinturaria_id:f.tinturaria_id.value||null,data_envio_tecelagem:f.data_envio_tecelagem.value||null,data_prevista_tecelagem:f.data_prevista_tecelagem.value||null,data_envio_tinturaria:f.data_envio_tinturaria.value||null,data_entrega_prevista:f.data_entrega_prevista.value||null,custo_tecelagem:Number(f.custo_tecelagem.value||0),custo_tinturaria:Number(f.custo_tinturaria.value||0),custo_frete:Number(f.custo_frete.value||0),notas:f.notas.value.trim()};
+  const body={tipo:f.tipo.value,peso_kg:Number(f.peso_kg.value),kg_recebido:Number(f.kg_recebido?.value||0),kg_produzido:Number(f.kg_produzido?.value||0),nota_fiscal:(f.nota_fiscal?.value||'').trim(),cor:f.cor.value.trim(),referencia:f.referencia.value.trim(),status:f.status.value,tecelagem_id:f.tecelagem_id.value||null,tinturaria_id:f.tinturaria_id.value||null,data_envio_tecelagem:f.data_envio_tecelagem.value||null,data_prevista_tecelagem:f.data_prevista_tecelagem.value||null,data_envio_tinturaria:f.data_envio_tinturaria.value||null,data_entrega_prevista:f.data_entrega_prevista.value||null,custo_tecelagem:Number(f.custo_tecelagem.value||0),custo_tinturaria:Number(f.custo_tinturaria.value||0),custo_frete:Number(f.custo_frete.value||0),notas:f.notas.value.trim()};
   if(!body.tipo||!body.peso_kg){toast('Tipo e peso obrigatórios','error');return;}
   try{
     if(editingLoteId){const u=await api('PUT',`/api/lotes/${editingLoteId}`,body);APP_STATE.lotes=APP_STATE.lotes.map(l=>l.id===editingLoteId?u:l);toast('Lote atualizado');}
@@ -2149,6 +2234,71 @@ async function submitLote(){
 async function deleteLote(id){
   if(!confirm('Excluir este lote permanentemente?'))return;
   try{await api('DELETE',`/api/lotes/${id}`);APP_STATE.lotes=APP_STATE.lotes.filter(l=>l.id!==id);toast('Lote excluído');renderLotes();updateSidebarBadges();}catch(e){toast(e.message,'error');}
+}
+
+// ESTOQUE DE FIO
+let APP_COMPRAS_FIO = [];
+function openNovaCompraFio(){
+  document.getElementById('form-compra-fio')?.reset();
+  const today=new Date().toISOString().slice(0,10);
+  document.querySelector('#form-compra-fio [name=data]').value=today;
+  openModal('modal-compra-fio');
+}
+async function renderEstoqueFio(){
+  try{
+    const [saldo,compras]=await Promise.all([api('GET','/api/estoque-fio'),api('GET','/api/compras-fio')]);
+    APP_COMPRAS_FIO=compras||[];
+    // Cards de saldo
+    const cardsEl=document.getElementById('fio-saldo-cards');
+    if(cardsEl){
+      const fmt=v=>Number(v||0).toLocaleString('pt-BR');
+      cardsEl.innerHTML=`
+        <div class="card"><div class="card-body">
+          <div class="kpi-label">Saldo PT</div>
+          <div class="kpi-value" style="color:${(saldo.saldo?.PT||0)<2000?'var(--danger)':'var(--success)'}">${fmt(saldo.saldo?.PT)} kg</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Comprado: ${fmt(saldo.total_comprado?.PT)} · Consumido: ${fmt(saldo.fio_consumido?.PT)}</div>
+          <div style="font-size:12px;color:var(--warning);margin-top:2px">Na tecelagem: ${fmt(saldo.em_tecelagem?.PT)} kg pendente</div>
+        </div></div>
+        <div class="card"><div class="card-body">
+          <div class="kpi-label">Saldo LISO</div>
+          <div class="kpi-value" style="color:${(saldo.saldo?.LISO||0)<2000?'var(--danger)':'var(--success)'}">${fmt(saldo.saldo?.LISO)} kg</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Comprado: ${fmt(saldo.total_comprado?.LISO)} · Consumido: ${fmt(saldo.fio_consumido?.LISO)}</div>
+          <div style="font-size:12px;color:var(--warning);margin-top:2px">Na tecelagem: ${fmt(saldo.em_tecelagem?.LISO)} kg pendente</div>
+        </div></div>
+        <div class="card"><div class="card-body">
+          <div class="kpi-label">Total Comprado</div>
+          <div class="kpi-value">${fmt(saldo.total_comprado?.geral)} kg</div>
+          <div style="font-size:12px;color:var(--text-dim);margin-top:4px">Total consumido: ${fmt(saldo.fio_consumido?.geral)} kg</div>
+        </div></div>
+      `;
+    }
+    // Tabela
+    const tbody=document.getElementById('fio-table-body');
+    if(tbody){
+      if(!compras.length){tbody.innerHTML='<tr><td colspan="7" style="text-align:center;color:var(--text-dim);padding:32px">Nenhuma compra registrada</td></tr>';return;}
+      tbody.innerHTML=compras.map(c=>`<tr>
+        <td>${formatDate(c.data)}</td>
+        <td>${c.fornecedor||'—'}</td>
+        <td><strong style="color:var(--primary)">${c.nota_fiscal||'—'}</strong></td>
+        <td><span class="tag tag-${c.tipo.toLowerCase()}">${c.tipo}</span></td>
+        <td><strong>${Number(c.peso_kg).toLocaleString('pt-BR')} kg</strong></td>
+        <td style="color:var(--text-dim);font-size:13px">${c.notas||'—'}</td>
+        <td class="action-btns">${canEdit()?`<button class="btn btn-sm btn-danger" onclick="deleteCompraFio('${c.id}')">🗑</button>`:''}
+        </td></tr>`).join('');
+    }
+  }catch(e){console.error('renderEstoqueFio',e);}
+}
+async function submitCompraFio(){
+  const f=document.getElementById('form-compra-fio');if(!f)return;
+  const body={data:f.data.value,fornecedor:f.fornecedor.value.trim(),nota_fiscal:f.nota_fiscal.value.trim(),peso_kg:Number(f.peso_kg.value),tipo:f.tipo.value,notas:f.notas.value.trim()};
+  if(!body.data||!body.peso_kg){toast('Data e peso obrigatórios','error');return;}
+  try{await api('POST','/api/compras-fio',body);toast('Compra registrada');closeModal('modal-compra-fio');renderEstoqueFio();}
+  catch(e){toast(e.message,'error');}
+}
+async function deleteCompraFio(id){
+  if(!confirm('Excluir esta compra?'))return;
+  try{await api('DELETE',`/api/compras-fio/${id}`);toast('Compra excluída');renderEstoqueFio();}
+  catch(e){toast(e.message,'error');}
 }
 
 // PLANEJAMENTO
