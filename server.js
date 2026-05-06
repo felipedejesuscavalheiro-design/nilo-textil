@@ -451,11 +451,18 @@ app.put('/api/lotes/:id', auth(GERENTE), (req, res) => {
 });
 
 app.delete('/api/lotes/:id', auth(GERENTE), (req, res) => {
-  const l = db.prepare('SELECT * FROM lotes WHERE id=?').get(req.params.id);
-  if (!l) return res.status(404).json({ error: 'Lote não encontrado' });
-  db.prepare('DELETE FROM lotes WHERE id=?').run(l.id);
-  audit('lote', l.id, l.codigo, 'delete', { user_id: req.user.id, user_name: req.user.name, ip: getIP(req) });
-  res.json({ ok: true });
+  try {
+    const l = db.prepare('SELECT * FROM lotes WHERE id=?').get(req.params.id);
+    if (!l) return res.status(404).json({ error: 'Lote não encontrado' });
+    // Remove notificações vinculadas (foreign key ON exige isso antes do DELETE)
+    db.prepare('DELETE FROM notifications WHERE lote_id=?').run(l.id);
+    db.prepare('DELETE FROM lotes WHERE id=?').run(l.id);
+    audit('lote', l.id, l.codigo, 'delete', { user_id: req.user.id, user_name: req.user.name, ip: getIP(req) });
+    res.json({ ok: true });
+  } catch(err) {
+    console.error('DELETE lote error:', err);
+    res.status(500).json({ error: err.message });
+  }
 });
 
 // ── Lote history
