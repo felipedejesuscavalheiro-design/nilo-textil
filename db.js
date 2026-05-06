@@ -148,6 +148,20 @@ function migrate() {
       updated_by TEXT
     );
 
+    -- ─── COMPRAS DE FIO ──────────────────────────────────────
+    CREATE TABLE IF NOT EXISTS compras_fio (
+      id          TEXT PRIMARY KEY,
+      data        TEXT NOT NULL,
+      fornecedor  TEXT DEFAULT '',
+      nota_fiscal TEXT DEFAULT '',
+      peso_kg     REAL NOT NULL,
+      tipo        TEXT NOT NULL DEFAULT 'ambos',
+      -- tipo: PT | LISO | ambos
+      notas       TEXT DEFAULT '',
+      created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+      created_by  TEXT REFERENCES users(id)
+    );
+
     -- ─── INDEXES ─────────────────────────────────────────────
     CREATE INDEX IF NOT EXISTS idx_lotes_status      ON lotes(status);
     CREATE INDEX IF NOT EXISTS idx_lotes_tipo        ON lotes(tipo);
@@ -156,6 +170,7 @@ function migrate() {
     CREATE INDEX IF NOT EXISTS idx_audit_entity      ON audit_log(entity_type, entity_id);
     CREATE INDEX IF NOT EXISTS idx_audit_created     ON audit_log(created_at);
     CREATE INDEX IF NOT EXISTS idx_notifications_lida ON notifications(lida);
+    CREATE INDEX IF NOT EXISTS idx_compras_fio_data  ON compras_fio(data);
   `);
 
   // ── Migrations para bancos existentes ──────────────────────
@@ -163,6 +178,35 @@ function migrate() {
   if (!cols.includes('kg_recebido')) {
     db.exec("ALTER TABLE lotes ADD COLUMN kg_recebido REAL DEFAULT 0");
     console.log('Migration: coluna kg_recebido adicionada');
+  }
+
+  // ── Inserir fornecedores novos se ainda não existirem ─────
+  const insertTecIfNew = db.prepare(`
+    INSERT INTO tecelagens (id, nome, capacidade_kg, prazo_dias, tipo, ativo)
+    SELECT ?,?,?,?,?,? WHERE NOT EXISTS (SELECT 1 FROM tecelagens WHERE nome=?)
+  `);
+  const insertTintIfNew = db.prepare(`
+    INSERT INTO tinturarias (id, nome, capacidade_kg, prazo_dias, tipo, prioridade, custo_por_kg, ativo)
+    SELECT ?,?,?,?,?,?,?,? WHERE NOT EXISTS (SELECT 1 FROM tinturarias WHERE nome=?)
+  `);
+
+  // São Pedro — tecelagem
+  const saoPedroAdded = insertTecIfNew.run(uuidv4(), 'São Pedro', 8000, 30, 'ambos', 1, 'São Pedro');
+  if (saoPedroAdded.changes > 0) console.log('✓ Tecelagem São Pedro adicionada');
+
+  // Willrich — tinturaria
+  const willrichAdded = insertTintIfNew.run(uuidv4(), 'Willrich', 5000, 40, 'ambos', 3, 4.3, 1, 'Willrich');
+  if (willrichAdded.changes > 0) console.log('✓ Tinturaria Willrich adicionada');
+
+  // ── Migrations: novos campos nos lotes ────────────────────
+  const colsLotes = db.prepare("PRAGMA table_info(lotes)").all().map(c => c.name);
+  if (!colsLotes.includes('nota_fiscal')) {
+    db.exec("ALTER TABLE lotes ADD COLUMN nota_fiscal TEXT DEFAULT ''");
+    console.log('Migration: coluna nota_fiscal adicionada');
+  }
+  if (!colsLotes.includes('kg_produzido')) {
+    db.exec("ALTER TABLE lotes ADD COLUMN kg_produzido REAL DEFAULT 0");
+    console.log('Migration: coluna kg_produzido adicionada');
   }
 }
 
