@@ -357,7 +357,8 @@ app.get('/api/lotes/:id', auth(ALL), (req, res) => {
 
 app.post('/api/lotes', auth(GERENTE), (req, res) => {
   const {
-    tipo, peso_kg, kg_recebido=0, cor='', referencia='',
+    tipo, peso_kg, kg_recebido=0, kg_produzido=0,
+    nota_fiscal='', cor='', referencia='',
     tecelagem_id, tinturaria_id, status='fio',
     data_envio_tecelagem, data_prevista_tecelagem,
     data_envio_tinturaria, data_prevista_tinturaria,
@@ -385,11 +386,12 @@ app.post('/api/lotes', auth(GERENTE), (req, res) => {
   }
 
   db.prepare(`
-    INSERT INTO lotes (id,codigo,tipo,peso_kg,kg_recebido,cor,referencia,tecelagem_id,tinturaria_id,status,
+    INSERT INTO lotes (id,codigo,tipo,peso_kg,kg_recebido,kg_produzido,nota_fiscal,cor,referencia,tecelagem_id,tinturaria_id,status,
       data_envio_tecelagem,data_prevista_tecelagem,data_envio_tinturaria,data_prevista_tinturaria,
       data_entrega_prevista,data_entrega_real,custo_tecelagem,custo_tinturaria,custo_frete,custo_total,notas,created_by,updated_by)
-    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-  `).run(id,codigo,tipo,peso_kg,Number(kg_recebido)||0,cor,referencia,tecelagem_id||null,tinturaria_id||null,status,
+    VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+  `).run(id,codigo,tipo,peso_kg,Number(kg_recebido)||0,Number(kg_produzido)||0,nota_fiscal||'',
+         cor,referencia,tecelagem_id||null,tinturaria_id||null,status,
          data_envio_tecelagem||null,data_prevista_tecelagem||null,
          data_envio_tinturaria||null,data_prevista_tinturaria||null,
          entregaPrevista||null,data_entrega_real||null,
@@ -432,12 +434,13 @@ app.put('/api/lotes/:id', auth(GERENTE), (req, res) => {
   }
 
   db.prepare(`
-    UPDATE lotes SET tipo=?,peso_kg=?,kg_recebido=?,cor=?,referencia=?,tecelagem_id=?,tinturaria_id=?,status=?,
+    UPDATE lotes SET tipo=?,peso_kg=?,kg_recebido=?,kg_produzido=?,nota_fiscal=?,cor=?,referencia=?,tecelagem_id=?,tinturaria_id=?,status=?,
       data_envio_tecelagem=?,data_prevista_tecelagem=?,data_envio_tinturaria=?,data_prevista_tinturaria=?,
       data_entrega_prevista=?,data_entrega_real=?,custo_tecelagem=?,custo_tinturaria=?,custo_frete=?,custo_total=?,
       notas=?,updated_at=?,updated_by=?
     WHERE id=?
-  `).run(upd.tipo,upd.peso_kg,Number(upd.kg_recebido)||0,upd.cor,upd.referencia,upd.tecelagem_id||null,upd.tinturaria_id||null,upd.status,
+  `).run(upd.tipo,upd.peso_kg,Number(upd.kg_recebido)||0,Number(upd.kg_produzido)||0,upd.nota_fiscal||'',
+         upd.cor,upd.referencia,upd.tecelagem_id||null,upd.tinturaria_id||null,upd.status,
          upd.data_envio_tecelagem||null,upd.data_prevista_tecelagem||null,
          upd.data_envio_tinturaria||null,upd.data_prevista_tinturaria||null,
          upd.data_entrega_prevista||null,upd.data_entrega_real||null,
@@ -850,6 +853,82 @@ app.put('/api/config', auth(ADMIN), (req, res) => {
 // ── Health check
 app.get('/api/health', (req, res) => {
   res.json({ status: 'ok', timestamp: now(), version: '2.0.0' });
+});
+
+// ============================================================
+// ── ESTOQUE DE FIO (COMPRAS) ─────────────────────────────────
+// ============================================================
+
+// Saldo de fio: total comprado − fio em produção na tecelagem
+app.get('/api/estoque-fio', auth(ALL), (req, res) => {
+  const compras = db.prepare(`
+    SELECT
+      COALESCE(SUM(CASE WHEN tipo='PT'   OR tipo='ambos' THEN peso_kg ELSE 0 END),0) as total_pt,
+      COALESCE(SUM(CASE WHEN tipo='LISO' OR tipo='ambos' THEN peso_kg ELSE 0 END),0) as total_liso,
+      COALESCE(SUM(peso_kg),0) as total_geral
+    FROM compras_fio
+  `).get();
+
+  // Fio consumido = lotes que já saíram do estágio 'fio' (estão em produção ou entregues)
+  const consumo = db.prepare(`
+    SELECT tipo, COALESCE(SUM(peso_kg),0) as kg
+    FROM lotes WHERE status NOT IN ('fio','cancelado')
+    GROUP BY tipo
+  `).all();
+  const consumoPT   = consumo.find(r => r.tipo==='PT')?.kg   || 0;
+  const consumoLISO = consumo.find(r => r.tipo==='LISO')?.kg || 0;
+
+  // Saldo pendente na tecelagem (enviado mas não devolvido ainda)
+  const tec = db.prepare(`
+    SELECT tipo,
+      COALESCE(SUM(CASE WHEN kg_produzido IS NULL THEN peso_kg ELSE MAX(0, peso_kg - kg_produzido) END),0) as kg_pendente
+    FROM lotes WHERE status='tecelagem'
+    GROUP BY tipo
+  `).all();
+  const tecPT   = tec.find(r => r.tipo==='PT')?.kg_pendente   || 0;
+  const tecLISO = tec.find(r => r.tipo==='LISO')?.kg_pendente || 0;
+
+  res.json({
+    total_comprado: { PT: compras.total_pt, LISO: compras.total_liso, geral: compras.total_geral },
+    fio_consumido:  { PT: consumoPT, LISO: consumoLISO, geral: consumoPT + consumoLISO },
+    saldo:          { PT: Math.max(0, compras.total_pt - consumoPT), LISO: Math.max(0, compras.total_liso - consumoLISO) },
+    em_tecelagem:   { PT: tecPT, LISO: tecLISO }
+  });
+});
+
+// Listar compras de fio
+app.get('/api/compras-fio', auth(ALL), (req, res) => {
+  const rows = db.prepare(`
+    SELECT c.*, u.name as created_by_name
+    FROM compras_fio c
+    LEFT JOIN users u ON c.created_by = u.id
+    ORDER BY c.data DESC, c.created_at DESC
+  `).all();
+  res.json(rows);
+});
+
+// Registrar compra de fio
+app.post('/api/compras-fio', auth(GERENTE), (req, res) => {
+  const { data, fornecedor='', nota_fiscal='', peso_kg, tipo='ambos', notas='' } = req.body || {};
+  if (!data || !peso_kg || peso_kg <= 0) return res.status(400).json({ error: 'Data e peso obrigatórios' });
+  if (!['PT','LISO','ambos'].includes(tipo)) return res.status(400).json({ error: 'Tipo inválido' });
+  const id = uuidv4();
+  db.prepare(`INSERT INTO compras_fio (id,data,fornecedor,nota_fiscal,peso_kg,tipo,notas,created_by)
+              VALUES (?,?,?,?,?,?,?,?)`)
+    .run(id, data, fornecedor, nota_fiscal, Number(peso_kg), tipo, notas, req.user.id);
+  audit('compra_fio', id, nota_fiscal||fornecedor, 'create',
+    { new_val: `${peso_kg}kg ${tipo}`, user_id: req.user.id, user_name: req.user.name, ip: getIP(req) });
+  res.status(201).json(db.prepare('SELECT * FROM compras_fio WHERE id=?').get(id));
+});
+
+// Excluir compra de fio
+app.delete('/api/compras-fio/:id', auth(GERENTE), (req, res) => {
+  const c = db.prepare('SELECT * FROM compras_fio WHERE id=?').get(req.params.id);
+  if (!c) return res.status(404).json({ error: 'Compra não encontrada' });
+  db.prepare('DELETE FROM compras_fio WHERE id=?').run(c.id);
+  audit('compra_fio', c.id, c.nota_fiscal||c.fornecedor, 'delete',
+    { user_id: req.user.id, user_name: req.user.name, ip: getIP(req) });
+  res.json({ ok: true });
 });
 
 // ============================================================
