@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Shop | CAVELLE</title>
+  <meta name="description" content="Shorts, leggings, macacões, blusas e acessórios CAVELLE. 5% off no Pix, 2x sem juros e frete grátis acima de R$499.">
+  <meta name="theme-color" content="#FFFCFC">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="shop">
+  <header id="cabecalho"></header>
+
+  <main class="container">
+    <section class="cabeca-pagina">
+      <p class="trilha"><a href="index.html">Início</a> / <span data-trilha>Shop</span></p>
+      <h1 class="titulo-display" data-titulo>Shop</h1>
+      <p data-sub></p>
+    </section>
+
+    <div class="filtros">
+      <nav class="filtros__cats" aria-label="Filtrar por categoria" data-chips></nav>
+      <div class="filtros__dir">
+        <span data-qtd></span>
+        <label><span class="sr">Ordenar por</span>
+          <select class="select" data-ordem>
+            <option value="destaque">Destaques</option>
+            <option value="novos">Novidades</option>
+            <option value="menor">Menor preço</option>
+            <option value="maior">Maior preço</option>
+            <option value="az">A – Z</option>
+          </select>
+        </label>
+      </div>
+    </div>
+
+    <div class="grade-produtos" data-lista></div>
+    <div style="height:100px"></div>
+  </main>
+
+  <footer id="rodape"></footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/produtos.js"></script>
+  <script src="assets/js/regras.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/shop.js"></script>
+</body>
+</html>

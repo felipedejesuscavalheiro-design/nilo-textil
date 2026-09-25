@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Produto | CAVELLE</title>
+  <meta name="description" content="CAVELLE — movimento para todos os momentos.">
+  <meta name="theme-color" content="#FFFCFC">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="produto">
+  <header id="cabecalho"></header>
+
+  <main class="container" data-produto></main>
+
+  <section class="secao" style="padding-top:0" data-relacionados-sec hidden>
+    <div class="container">
+      <div class="secao__cabeca">
+        <h2 class="titulo-secao">Complete o look</h2>
+        <a class="link-seta" href="shop.html">Ver todos <svg class="icone icone--p" viewBox="0 0 24 24"><path d="M4 12h15M14 7l5 5-5 5"/></svg></a>
+      </div>
+      <div class="grade-produtos" data-relacionados></div>
+    </div>
+  </section>
+
+  <footer id="rodape"></footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/produtos.js"></script>
+  <script src="assets/js/regras.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/produto.js"></script>
+</body>
+</html>

@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Pedidos | CAVELLE</title>
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="assets/css/style.css">
+  <style>
+    .adm-topo { background: var(--preto); color: var(--off); }
+    .adm-topo .container { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .adm-topo .logo { font-size: 22px; }
+    .adm-resumo { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; margin: 28px 0; }
+    .adm-resumo div { background: var(--bege-claro); padding: 18px 20px; }
+    .adm-resumo b { display: block; font-family: var(--f-titulo); font-size: 30px; font-weight: 400; }
+    .adm-resumo span { font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--suave); }
+    .adm-filtros { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 18px; }
+    .adm-pedido { border: 1px solid var(--linha); margin-bottom: 12px; background: var(--off); }
+    .adm-pedido summary { display: grid; grid-template-columns: 110px 1.4fr 1fr 110px 170px; gap: 12px; align-items: center; padding: 16px 18px; cursor: pointer; list-style: none; font-size: 13px; }
+    .adm-pedido summary::-webkit-details-marker { display: none; }
+    .adm-corpo { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 24px; padding: 6px 18px 20px; border-top: 1px solid var(--linha); font-size: 13px; }
+    .adm-corpo h4 { font-size: 10.5px; font-weight: 500; letter-spacing: .18em; text-transform: uppercase; margin: 14px 0 8px; }
+    .adm-corpo .campo { height: 40px; }
+    .adm-corpo .btn { min-height: 40px; margin-top: 10px; }
+    @media (max-width: 900px) {
+      .adm-resumo { grid-template-columns: 1fr 1fr; }
+      .adm-pedido summary { grid-template-columns: 1fr 1fr; }
+      .adm-corpo { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="adm-topo"><div class="container"><span class="logo">CAVELLE</span><span class="sobretitulo">Painel de pedidos</span></div></header>
+  <main class="container" style="padding-bottom:80px">
+    <section data-login style="max-width:380px;margin:80px auto;text-align:center">
+      <h1 class="titulo-secao" style="margin-bottom:10px">Entrar</h1>
+      <p class="texto-suave" style="margin-bottom:24px">Use a senha definida em ADMIN_TOKEN no servidor.</p>
+      <form data-form-login>
+        <input class="campo" type="password" name="token" placeholder="Senha do painel" autocomplete="current-password" required>
+        <button class="btn btn--bloco" style="margin-top:12px">Entrar</button>
+        <p class="aviso-estoque aviso-erro" data-erro-login></p>
+      </form>
+    </section>
+    <section data-painel hidden>
+      <div class="adm-resumo" data-resumo></div>
+      <div class="adm-filtros" data-filtros></div>
+      <div data-lista></div>
+    </section>
+  </main>
+
+  <script>
+  (function () {
+    'use strict';
+    const $ = (s, e = document) => e.querySelector(s);
+    const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+    const moeda = (v) => Number(v).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+    const NOMES = { aguardando_pagamento: 'Aguardando pagamento', pago: 'Pago', em_separacao: 'Em separação', enviado: 'Enviado', entregue: 'Entregue', cancelado: 'Cancelado' };
+    let token = '';
+    try { token = sessionStorage.getItem('cavelle_admin') || ''; } catch (e) {}
+    let dados = { pedidos: [], status: [] };
+    let filtro = 'todos';
+
+    async function api(url, opts = {}) {
+      const r = await fetch(url, { ...opts, headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${token}`, ...(opts.headers || {}) } });
+      const d = await r.json().catch(() => ({ erro: 'Servidor indisponível.' }));
+      if (!r.ok) throw new Error(d.erro || 'Erro');
+      return d;
+    }
+
+    async function carregar() {
+      try {
+        dados = await api('api/admin/pedidos');
+        try { sessionStorage.setItem('cavelle_admin', token); } catch (e) {}
+        $('[data-login]').hidden = true;
+        $('[data-painel]').hidden = false;
+        desenhar();
+      } catch (e) {
+        $('[data-erro-login]').textContent = e.message;
+        $('[data-login]').hidden = false;
+        $('[data-painel]').hidden = true;
+      }
+    }
+
+    function desenhar() {
+      const ps = dados.pedidos;
+      const ativos = ps.filter((p) => p.status !== 'cancelado');
+      $('[data-resumo]').innerHTML = `
+        <div><b>${ps.length}</b><span>Pedidos</span></div>
+        <div><b>${ps.filter((p) => p.status === 'aguardando_pagamento').length}</b><span>Aguardando pagamento</span></div>
+        <div><b>${ps.filter((p) => ['pago', 'em_separacao'].includes(p.status)).length}</b><span>Para enviar</span></div>
+        <div><b>${moeda(ativos.filter((p) => p.status !== 'aguardando_pagamento').reduce((t, p) => t + p.total, 0))}</b><span>Vendido (pago)</span></div>`;
+      $('[data-filtros]').innerHTML = ['todos', ...dados.status].map((s) => `<button class="chip${s === filtro ? ' ativo' : ''}" data-filtro="${s}">${s === 'todos' ? 'Todos' : NOMES[s]}</button>`).join('');
+      const lista = ps.filter((p) => filtro === 'todos' || p.status === filtro);
+      $('[data-lista]').innerHTML = lista.length ? lista.map((p) => {
+        const c = p.cliente;
+        const tel = String(c.telefone).replace(/\D/g, '');
+        return `
+        <details class="adm-pedido">
+          <summary>
+            <b style="font-weight:500">${esc(p.numero)}</b>
+            <span>${esc(c.nome)}<br><small class="texto-suave">${new Date(p.criadoEm).toLocaleString('pt-BR')}</small></span>
+            <span>${p.pagamento === 'pix' ? 'Pix' : `Cartão ${p.parcelas}x`}<br><small class="texto-suave">${esc(p.frete.nome)}</small></span>
+            <b style="font-weight:500">${moeda(p.total)}</b>
+            <span class="status">${NOMES[p.status]}</span>
+          </summary>
+          <div class="adm-corpo">
+            <div>
+              <h4>Itens</h4>
+              ${p.linhas.map((l) => `<p>${l.qtd}x ${esc(l.nome)} — ${esc(l.cor)} / ${esc(l.tam)} · ${moeda(l.total)}</p>`).join('')}
+              <h4>Valores</h4>
+              <p>Subtotal ${moeda(p.subtotal)}${p.cupom ? ` · Cupom ${esc(p.cupom.codigo)} −${moeda(p.cupom.desconto)}` : ''}${p.descontoPix ? ` · Pix −${moeda(p.descontoPix)}` : ''} · Frete ${moeda(p.frete.valor)}</p>
+            </div>
+            <div>
+              <h4>Cliente</h4>
+              <p>${esc(c.nome)} · CPF ${esc(c.cpf)}<br>${esc(c.email)}<br><a href="https://wa.me/55${tel}" target="_blank" rel="noopener" style="text-decoration:underline">${esc(c.telefone)} (WhatsApp)</a></p>
+              <h4>Entrega</h4>
+              <p>${esc(c.rua)}, ${esc(c.numero)}${c.complemento ? ` — ${esc(c.complemento)}` : ''}<br>${esc(c.bairro)} · ${esc(c.cidade)}/${esc(c.uf)} · CEP ${esc(c.cep)}</p>
+            </div>
+            <form data-atualizar="${esc(p.numero)}">
+              <h4>Status</h4>
+              <select class="select campo" name="status">${dados.status.map((s) => `<option value="${s}" ${s === p.status ? 'selected' : ''}>${NOMES[s]}</option>`).join('')}</select>
+              <h4>Código de rastreio</h4>
+              <input class="campo" name="rastreio" value="${esc(p.rastreio)}" placeholder="AA123456789BR">
+              <button class="btn btn--bloco">Salvar</button>
+            </form>
+          </div>
+        </details>`;
+      }).join('') : '<p class="texto-suave">Nenhum pedido aqui.</p>';
+    }
+
+    document.addEventListener('click', (e) => {
+      const b = e.target.closest('[data-filtro]');
+      if (b) { filtro = b.dataset.filtro; desenhar(); }
+    });
+    document.addEventListener('submit', async (e) => {
+      const f = e.target.closest('[data-atualizar]');
+      if (f) {
+        e.preventDefault();
+        try {
+          const p = await api(`api/admin/pedidos/${encodeURIComponent(f.dataset.atualizar)}`, { method: 'PATCH', body: JSON.stringify({ status: f.status.value, rastreio: f.rastreio.value }) });
+          dados.pedidos = dados.pedidos.map((x) => (x.numero === p.numero ? p : x));
+          desenhar();
+        } catch (err) { alert(err.message); }
+      }
+      if (e.target.matches('[data-form-login]')) {
+        e.preventDefault();
+        token = e.target.token.value;
+        carregar();
+      }
+    });
+    if (token) carregar();
+  })();
+  </script>
+</body>
+</html>
