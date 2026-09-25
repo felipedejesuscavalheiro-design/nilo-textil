@@ -74,11 +74,11 @@ save(crop("banner-1", 0.5, 0.5, 1, 1334 / 2000), "banners/banner-1.jpg", 2000)
 save(clarear(load("banner-2")), "banners/banner-2.jpg", 1200)
 save(load("banner-3"), "banners/banner-3.jpg", 1200)
 save(crop("banner-4", 0.5, 0.5, 1, 1334 / 2000), "banners/banner-4.jpg", 2000)
-# Mobile: recortes verticais 4:5
-save(crop("banner-1", 0.64, 0.5, 0.55, 5 / 4), "banners/banner-1-m.jpg", 900)
-save(crop("banner-2", 0.5, 0.5, 1, 5 / 4), "banners/banner-2-m.jpg", 900)
-save(crop("banner-3", 0.5, 0.42, 1, 5 / 4), "banners/banner-3-m.jpg", 900)
-save(crop("banner-4", 0.6, 0.5, 0.55, 5 / 4), "banners/banner-4-m.jpg", 900)
+# Mobile: recortes verticais 3:4 (o texto fica sobre a parte clara de baixo)
+save(crop("banner-1", 0.64, 0.5, 0.55, 4 / 3), "banners/banner-1-m.jpg", 900)
+save(crop("banner-2", 0.5, 0.52, 1, 4 / 3), "banners/banner-2-m.jpg", 900)
+save(crop("banner-3", 0.5, 0.45, 1, 4 / 3), "banners/banner-3-m.jpg", 900)
+save(crop("banner-4", 0.6, 0.5, 0.55, 4 / 3), "banners/banner-4-m.jpg", 900)
 
 # ── Categorias (quadradas, exibidas em círculo) ─────────────
 save(crop("shorts", 0.52, 0.72, 0.62, 1), "categorias/shorts.jpg", 640)

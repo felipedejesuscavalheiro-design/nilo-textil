@@ -32,6 +32,11 @@
     razaoSocial: '',
     documento: '',   // CNPJ ou CPF
 
+    // Medição (cole os códigos quando tiver). Só carregam depois que a
+    // visitante aceitar os cookies no aviso do site (LGPD).
+    googleAnalytics: '',   // ex.: 'G-XXXXXXXXXX'
+    pixelMeta: '',         // ex.: '123456789012345'
+
     // ── Frete (valores de EXEMPLO — ajuste com a tabela real
     //    da transportadora / Nuvem Envio / Melhor Envio) ─────
     // A região é identificada pelo 1º dígito do CEP de destino.

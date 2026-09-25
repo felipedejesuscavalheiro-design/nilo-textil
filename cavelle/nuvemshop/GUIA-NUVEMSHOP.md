@@ -8,6 +8,20 @@ Ele segue o **briefing final** e resolve os pontos da **auditoria** feita no pai
 
 ---
 
+## 🧭 0. Caminho recomendado
+
+**O que a análise mostrou:**
+- **A GUEP (site de referência) também é Nuvemshop**, com o tema **Rio**. A estrutura que o briefing pede (carrossel, faixa de benefícios, vitrine New In, banners grandes, rodapé completo) existe de forma nativa no Rio.
+- **A sua loja usa o tema Simple com código editado** (seções `cav-…` feitas por alguém com acesso ao código do tema). Então dá para levar o design novo direto para o tema.
+
+**Duas opções:**
+1. **Continuar no tema atual e aplicar o kit de seções** em [`tema/`](tema/LEIA-ME.md). Mantém o que já foi feito, mas exige acesso ao código do tema (FTP).
+2. **Migrar para o tema Rio**, em rascunho, e montar a home só com as seções nativas, seguindo a ordem da seção 2 deste guia. Não precisa de código, e fica mais perto da GUEP.
+
+Se você me passar o acesso FTP do tema, **com segurança, pelas configurações do ambiente e nunca pelo chat**, eu mesmo aplico a opção 1.
+
+---
+
 ## 🔴 1. Bloqueios do lançamento (fazer primeiro)
 
 ### 1.1 Centro de distribuição e frete

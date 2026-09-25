@@ -100,6 +100,9 @@
             <button class="icone-btn" data-abrir="sacola" aria-label="Abrir sacola">${I.sacola}<span class="contador" data-contador></span></button>
           </div>
         </div>
+        <div class="busca-mobile so-mobile-bloco">
+          <button class="busca-mobile__campo" data-abrir="busca">${I.busca}<span>O que você está buscando?</span></button>
+        </div>
         <nav class="menu so-desktop" aria-label="Menu principal">
           <div class="menu__item"><a class="menu__link${ativo('inicio')}" href="index.html">Início</a></div>
           <div class="menu__item"><a class="menu__link${ativo('new')}" href="shop.html?c=new">New In</a></div>
@@ -324,6 +327,8 @@
     }
     if (item) item.qtd += qtd; else s.push({ id, cor, tam, qtd });
     gravarSacola(s);
+    const pAdd = produto(id);
+    evento('add_to_cart', { value: pAdd.preco * qtd, items: [{ item_id: id, item_name: pAdd.nome, item_variant: `${cor} ${tam}`, price: pAdd.preco, quantity: qtd }] });
     renderSacola();
     abrir($('#sacola'));
     return true;
@@ -624,6 +629,60 @@
   }
 
   // ============================================================
+  // COOKIES (LGPD) E MEDIÇÃO — Google Analytics 4 e Pixel da Meta
+  // ============================================================
+  const medir = { ativo: false };
+  function carregarMedicao() {
+    if (medir.ativo) return;
+    medir.ativo = true;
+    if (CFG.googleAnalytics) {
+      const sc = document.createElement('script');
+      sc.async = true;
+      sc.src = `https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(CFG.googleAnalytics)}`;
+      document.head.appendChild(sc);
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { window.dataLayer.push(arguments); };
+      window.gtag('js', new Date());
+      window.gtag('config', CFG.googleAnalytics);
+    }
+    if (CFG.pixelMeta) {
+      /* eslint-disable */
+      !function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,document,'script','https://connect.facebook.net/en_US/fbevents.js');
+      /* eslint-enable */
+      window.fbq('init', CFG.pixelMeta);
+      window.fbq('track', 'PageView');
+    }
+  }
+  // Eventos de compra (só disparam se a medição estiver ativa)
+  function evento(nome, dados = {}) {
+    if (!medir.ativo) return;
+    const mapaMeta = { view_item: 'ViewContent', add_to_cart: 'AddToCart', begin_checkout: 'InitiateCheckout', purchase: 'Purchase' };
+    if (window.gtag) window.gtag('event', nome, { currency: 'BRL', ...dados });
+    if (window.fbq && mapaMeta[nome]) window.fbq('track', mapaMeta[nome], { currency: 'BRL', value: dados.value });
+  }
+
+  function montarAvisoCookies() {
+    const escolha = guardado.ler('cavelle_cookies', null);
+    if (escolha === 'todos') carregarMedicao();
+    if (escolha) return;
+    document.body.insertAdjacentHTML('beforeend', `
+      <div class="cookies" role="region" aria-label="Aviso de cookies">
+        <p>Usamos cookies para melhorar sua experiência e entender como o site é usado. Veja a <a href="privacidade.html">Política de Privacidade</a>.</p>
+        <div class="cookies__acoes">
+          <button class="btn btn--linha" data-cookies="essenciais">Só essenciais</button>
+          <button class="btn" data-cookies="todos">Aceitar</button>
+        </div>
+      </div>`);
+    document.querySelector('.cookies').addEventListener('click', (e) => {
+      const b = e.target.closest('[data-cookies]');
+      if (!b) return;
+      guardado.gravar('cavelle_cookies', b.dataset.cookies);
+      if (b.dataset.cookies === 'todos') carregarMedicao();
+      document.querySelector('.cookies').remove();
+    });
+  }
+
+  // ============================================================
   // INICIAR
   // ============================================================
   montarCabecalho();
@@ -631,6 +690,7 @@
   montarBusca();
   montarSacola();
   montarModais();
+  montarAvisoCookies();
   ligarPaineis();
   atualizarContador();
   renderSacola();
@@ -642,6 +702,6 @@
     CFG, PRODUTOS, $, $$, I, esc, moeda, centavos, reais, precoPix, parcela, pctPix, param, semAcento,
     linkWhats, produto, estoqueTotal, nomeCategoria, card, htmlPrecos, htmlItem, htmlFreteBarra, seletor, estadoInicial,
     adicionar, lerSacola, gravarSacola, totais, renderSacola, calcularFrete, resumoPedido, mascaraCep, buscar,
-    favoritos, guardado, aviso, abrir, fechar, revelar,
+    favoritos, guardado, aviso, abrir, fechar, revelar, evento,
   };
 })();

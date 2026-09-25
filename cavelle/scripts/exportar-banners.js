@@ -5,7 +5,7 @@
      node scripts/exportar-banners.js
 
    Gera nuvemshop/banners/com-texto/banner-N-desktop.jpg (1920×800)
-   e banner-N-celular.jpg (1080×1860). */
+   e banner-N-celular.jpg (1080×1440). */
 'use strict';
 const path = require('path');
 const fs = require('fs');
@@ -30,7 +30,7 @@ const SAIDA = path.join(__dirname, '..', 'nuvemshop', 'banners', 'com-texto');
     await pg.addStyleTag({
       content: `.cabecalho,.whats-fixo,.hero__seta,.hero__controles{display:none!important}
         .slide,.slide__foto img{transition:none!important}.slide__foto img{transform:none!important}
-        ${f.nome === 'desktop' ? `.hero__trilho{height:${f.altura}px!important}` : '.slide.ativo{height:620px!important;overflow:hidden}.slide__texto{padding-bottom:0!important}'}`,
+        ${f.nome === 'desktop' ? `.hero__trilho{height:${f.altura}px!important}` : ''}`,
     });
     for (let i = 0; i < 4; i++) {
       await pg.evaluate((n) => {

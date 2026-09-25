@@ -190,6 +190,7 @@
 
   desenharGaleria();
   desenharSeletor();
+  window.CV.evento('view_item', { value: p.preco, items: [{ item_id: p.id, item_name: p.nome, price: p.preco }] });
 
   // ── Relacionados ───────────────────────────────────────
   const rel = PRODUTOS.filter((x) => x.id !== p.id)

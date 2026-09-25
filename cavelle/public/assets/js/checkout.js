@@ -181,7 +181,8 @@
       atualizar();
     });
   }
-  atualizar();
+  const inicial = atualizar();
+  window.CV.evento('begin_checkout', { value: inicial.subtotal });
   if (soNum(f.cep.value).length === 8 && !f.rua.value) buscarCep();
 
   // ── Finalizar ─────────────────────────────────────────
@@ -226,6 +227,7 @@
     const meus = guardado.ler('cavelle_pedidos', []);
     guardado.gravar('cavelle_pedidos', [{ numero: pedido.numero, email: cliente.email, total: pedido.total, criadoEm: pedido.criadoEm, local: !!pedido.local }, ...meus].slice(0, 20));
     gravarSacola([]);
+    window.CV.evento('purchase', { transaction_id: pedido.numero, value: pedido.total, shipping: pedido.frete ? pedido.frete.valor : 0 });
     confirmar(pedido, cliente, f.pagamento.value);
   });
 

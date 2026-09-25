@@ -36,6 +36,7 @@ Site completo da **CAVELLE** (moda fitness e lifestyle), feito a partir do brief
 | Textos dos banners, benefícios e seções da home | `public/index.html` |
 | Cores, fontes e espaçamentos | `public/assets/css/style.css` (no topo, em `:root`) |
 | Fotos | substitua em `fotos-originais/` e rode `npm run imagens` |
+| Google Analytics 4 e Pixel da Meta | `googleAnalytics` e `pixelMeta` em `config.js`. Só carregam depois do "Aceitar" no aviso de cookies |
 
 > ⚠️ **Os produtos, preços, estoques, composição e valores de frete são EXEMPLOS**, montados a partir das fotos enviadas. Troque pelos dados reais antes de publicar.
 
@@ -58,6 +59,9 @@ npm test                        # testes das regras e da API
 - Na Render ou Railway, crie um serviço apontando para a pasta `cavelle` como *Root Directory*, com o comando `npm start` e a variável `ADMIN_TOKEN`. Use um disco persistente em `/app/data` (ou defina `DATA_DIR`).
 - Com Docker: `docker build -t cavelle . && docker run -p 3000:3000 -e ADMIN_TOKEN=… -v $(pwd)/data:/app/data cavelle`
 
+### SEO
+Cada página tem título, descrição e prévia de compartilhamento. A home tem dados estruturados da marca, e os produtos têm dados de produto. `sitemap.xml` e `robots.txt` já estão prontos para o domínio usecavelle.com.br.
+
 ### Pagamento
 O checkout calcula tudo e registra o pedido. A cobrança acontece pelo WhatsApp: a equipe envia a chave Pix ou o link de pagamento do cartão. Para cobrar automaticamente no site, o próximo passo é integrar um gateway (Mercado Pago, Pagar.me ou o Nuvem Pago na Nuvemshop).
 
@@ -65,7 +69,8 @@ O checkout calcula tudo e registra o pedido. A cobrança acontece pelo WhatsApp:
 A loja em produção está na Nuvemshop. A pasta **`nuvemshop/`** tem:
 - `GUIA-NUVEMSHOP.md`: passo a passo para aplicar este design e resolver os bloqueios da auditoria (frete, peso, conta bancária, páginas legais etc.)
 - `TEXTOS.md`: todos os textos prontos para colar (páginas, SEO, produtos, banners)
-- `banners/com-texto/`: os 4 banners do carrossel com texto, em 1920×800 (desktop) e 1080×1860 (celular). Para gerar de novo: `node scripts/exportar-banners.js`
+- `banners/com-texto/`: os 4 banners do carrossel com texto, em 1920×800 (desktop) e 1080×1440 (celular).
+- `tema/`: kit de seções da home (benefícios, categorias, lifestyle, Instagram e Grupo VIP) para colar no código do tema atual, testado na loja publicada Para gerar de novo: `node scripts/exportar-banners.js`
 
 ## Estrutura
 
@@ -91,7 +96,6 @@ Os efeitos em `public/assets/js/efeitos.js` são implementações próprias, sem
 |---|---|
 | Títulos dos banners letra por letra, saindo do desfoque | [Soft Blur In](https://21st.dev/@educalvolpz/components/soft-blur-in) |
 | Letras do menu que rolam no hover | [Text Roll](https://21st.dev/@ibelick/components/text-roll) |
-| Faixa editorial que acelera e inverte com a rolagem | [Scroll Based Velocity](https://21st.dev/@dillionverma/components/scroll-based-velocity) |
 | Banner lifestyle com zoom em camadas (desktop) | [Zoom Parallax](https://21st.dev/@efferd/components/zoom-parallax) |
 | Faixas de imagem que se expandem (Quem Somos) | [Hover Expand](https://21st.dev/@educalvolpz/components/hover-expand) |
 | Desfoque em camadas sob as legendas | [Progressive Blur](https://21st.dev/@ibelick/components/progressive-blur) |

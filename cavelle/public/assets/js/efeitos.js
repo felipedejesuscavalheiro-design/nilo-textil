@@ -2,7 +2,7 @@
    CAVELLE — Efeitos editoriais
    · Títulos que surgem palavra por palavra
    · Parallax suave nas fotos grandes
-   · Faixas em movimento contínuo (marquee)
+   · Galeria contínua do Instagram (marquee)
    Tudo desliga com "reduzir movimento" do sistema. Sem JavaScript,
    o conteúdo aparece normalmente (os estados ocultos dependem de html.js).
    ============================================================ */
@@ -120,43 +120,6 @@
     link.textContent = '';
     link.appendChild(rolo);
   });
-
-  // ── Scroll Based Velocity: faixa acelera e inverte com a rolagem ──
-  const linhas = Array.from(document.querySelectorAll('[data-velocidade]'));
-  if (linhas.length && !calmo) {
-    const estado = linhas.map((el) => ({ el, trilho: el.firstElementChild, x: 0, sentido: Number(el.dataset.velocidade) || 1, visivel: true }));
-    if ('IntersectionObserver' in window) {
-      const io2 = new IntersectionObserver((ents) => ents.forEach((en) => {
-        const e = estado.find((x) => x.el === en.target);
-        if (e) e.visivel = en.isIntersecting;
-      }));
-      estado.forEach((e) => io2.observe(e.el));
-    }
-    let ultimoY = window.scrollY;
-    let vel = 0;
-    let direcao = 1;
-    let t0 = performance.now();
-    const BASE = 38; // px por segundo
-    const quadro = (t) => {
-      const dt = Math.min(64, t - t0) / 1000;
-      t0 = t;
-      const dy = window.scrollY - ultimoY;
-      ultimoY = window.scrollY;
-      vel += (dy / Math.max(dt, 0.001) - vel) * 0.12; // velocidade suavizada (px/s)
-      if (vel < -5) direcao = -1; else if (vel > 5) direcao = 1;
-      const fator = 1 + Math.min(6, Math.abs(vel) / 250);
-      estado.forEach((e) => {
-        if (!e.visivel) return;
-        const metade = e.trilho.scrollWidth / 2;
-        if (!metade) return;
-        e.x -= e.sentido * direcao * BASE * fator * dt;
-        e.x = ((e.x % metade) - metade) % metade;
-        e.trilho.style.transform = `translate3d(${e.x.toFixed(2)}px, 0, 0)`;
-      });
-      requestAnimationFrame(quadro);
-    };
-    requestAnimationFrame(quadro);
-  }
 
   // ── Zoom Parallax: progresso da rolagem vira escala das camadas ──
   const zoom = document.querySelector('[data-zoom]');
