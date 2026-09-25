@@ -42,8 +42,36 @@
   const hero = document.querySelector('.sobre-hero');
   if (hero) hero.dataset.parallax = '60';
 
-  // Carrossel: divide os títulos e faz a entrada do primeiro banner
-  document.querySelectorAll('.slide__titulo').forEach(dividir);
+  // Divide em letras, mantendo cada palavra inteira na mesma linha
+  function dividirLetras(el) {
+    if (el.dataset.dividido) return;
+    el.dataset.dividido = '1';
+    el.setAttribute('aria-label', el.textContent.replace(/\s+/g, ' ').trim());
+    let c = 0;
+    Array.from(el.childNodes).forEach((no) => {
+      if (no.nodeType !== 3) return;
+      const frag = document.createDocumentFragment();
+      no.textContent.split(/(\s+)/).forEach((parte) => {
+        if (!parte) return;
+        if (/^\s+$/.test(parte)) { frag.appendChild(document.createTextNode(' ')); return; }
+        const palavra = document.createElement('span');
+        palavra.className = 'letras-palavra';
+        palavra.setAttribute('aria-hidden', 'true');
+        Array.from(parte).forEach((ch) => {
+          const l = document.createElement('span');
+          l.className = 'letra';
+          l.textContent = ch;
+          l.style.setProperty('--c', c++);
+          palavra.appendChild(l);
+        });
+        frag.appendChild(palavra);
+      });
+      no.replaceWith(frag);
+    });
+  }
+
+  // Carrossel (Soft Blur In): títulos letra por letra e entrada do primeiro banner
+  document.querySelectorAll('.slide__titulo').forEach(dividirLetras);
   const primeiro = document.querySelector('.hero .slide.ativo');
   if (primeiro && !calmo) {
     primeiro.classList.remove('ativo');
@@ -69,6 +97,100 @@
     trilho.dataset.duplicado = '1';
     trilho.innerHTML += trilho.innerHTML;
     Array.from(trilho.children).slice(trilho.children.length / 2).forEach((c) => c.setAttribute('aria-hidden', 'true'));
+  });
+
+  // ── Text Roll: letras do menu rolam no hover ────────────
+  document.querySelectorAll('.menu__link').forEach((link) => {
+    if (link.dataset.rolo) return;
+    link.dataset.rolo = '1';
+    const texto = link.textContent.trim();
+    link.setAttribute('aria-label', texto);
+    const rolo = document.createElement('span');
+    rolo.className = 'rolo';
+    rolo.setAttribute('aria-hidden', 'true');
+    Array.from(texto).forEach((ch, i) => {
+      const col = document.createElement('span');
+      col.className = 'rolo__l';
+      col.style.setProperty('--c', i);
+      const a = document.createElement('span');
+      const b = document.createElement('span');
+      a.textContent = b.textContent = ch;
+      if (ch === ' ') { a.className = b.className = 'esp'; }
+      col.append(a, b);
+      rolo.appendChild(col);
+    });
+    link.textContent = '';
+    link.appendChild(rolo);
+  });
+
+  // ── Scroll Based Velocity: faixa acelera e inverte com a rolagem ──
+  const linhas = Array.from(document.querySelectorAll('[data-velocidade]'));
+  if (linhas.length && !calmo) {
+    const estado = linhas.map((el) => ({ el, trilho: el.firstElementChild, x: 0, sentido: Number(el.dataset.velocidade) || 1, visivel: true }));
+    if ('IntersectionObserver' in window) {
+      const io2 = new IntersectionObserver((ents) => ents.forEach((en) => {
+        const e = estado.find((x) => x.el === en.target);
+        if (e) e.visivel = en.isIntersecting;
+      }));
+      estado.forEach((e) => io2.observe(e.el));
+    }
+    let ultimoY = window.scrollY;
+    let vel = 0;
+    let direcao = 1;
+    let t0 = performance.now();
+    const BASE = 38; // px por segundo
+    const quadro = (t) => {
+      const dt = Math.min(64, t - t0) / 1000;
+      t0 = t;
+      const dy = window.scrollY - ultimoY;
+      ultimoY = window.scrollY;
+      vel += (dy / Math.max(dt, 0.001) - vel) * 0.12; // velocidade suavizada (px/s)
+      if (vel < -5) direcao = -1; else if (vel > 5) direcao = 1;
+      const fator = 1 + Math.min(6, Math.abs(vel) / 250);
+      estado.forEach((e) => {
+        if (!e.visivel) return;
+        const metade = e.trilho.scrollWidth / 2;
+        if (!metade) return;
+        e.x -= e.sentido * direcao * BASE * fator * dt;
+        e.x = ((e.x % metade) - metade) % metade;
+        e.trilho.style.transform = `translate3d(${e.x.toFixed(2)}px, 0, 0)`;
+      });
+      requestAnimationFrame(quadro);
+    };
+    requestAnimationFrame(quadro);
+  }
+
+  // ── Zoom Parallax: progresso da rolagem vira escala das camadas ──
+  const zoom = document.querySelector('[data-zoom]');
+  if (zoom) {
+    let pz = false;
+    const atualizar = () => {
+      pz = false;
+      if (zoom.offsetHeight === 0) return;
+      const r = zoom.getBoundingClientRect();
+      const total = r.height - window.innerHeight;
+      const p = Math.min(1, Math.max(0, -r.top / total));
+      zoom.style.setProperty('--p', p.toFixed(4));
+      zoom.toggleAttribute('data-fim', p > 0.85);
+    };
+    const pedirZ = () => { if (!pz) { pz = true; requestAnimationFrame(atualizar); } };
+    window.addEventListener('scroll', pedirZ, { passive: true });
+    window.addEventListener('resize', pedirZ);
+    atualizar();
+  }
+
+  // ── Hover Expand: painel ativo cresce ───────────────────
+  document.querySelectorAll('[data-expande]').forEach((grupo) => {
+    const paineis = Array.from(grupo.children);
+    const ativar = (p) => paineis.forEach((x) => x.classList.toggle('ativo', x === p));
+    paineis.forEach((p) => {
+      p.addEventListener('mouseenter', () => ativar(p));
+      p.addEventListener('focus', () => ativar(p));
+      p.addEventListener('click', (e) => {
+        // No toque, o primeiro clique abre o painel; o segundo segue o link
+        if (!p.classList.contains('ativo')) { e.preventDefault(); ativar(p); }
+      });
+    });
   });
 
   // ── Parallax suave (só desktop) ─────────────────────────

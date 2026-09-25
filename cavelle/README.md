@@ -82,3 +82,18 @@ cavelle/
   nuvemshop/             guia, textos e banners para a Nuvemshop
   test/                  testes automáticos
 ```
+
+## Efeitos e referências de design
+
+Os efeitos em `public/assets/js/efeitos.js` são implementações próprias, sem dependências, inspiradas em componentes do [21st.dev](https://21st.dev). O código de lá é React + Tailwind e não foi copiado.
+
+| Efeito no site | Referência |
+|---|---|
+| Títulos dos banners letra por letra, saindo do desfoque | [Soft Blur In](https://21st.dev/@educalvolpz/components/soft-blur-in) |
+| Letras do menu que rolam no hover | [Text Roll](https://21st.dev/@ibelick/components/text-roll) |
+| Faixa editorial que acelera e inverte com a rolagem | [Scroll Based Velocity](https://21st.dev/@dillionverma/components/scroll-based-velocity) |
+| Banner lifestyle com zoom em camadas (desktop) | [Zoom Parallax](https://21st.dev/@efferd/components/zoom-parallax) |
+| Faixas de imagem que se expandem (Quem Somos) | [Hover Expand](https://21st.dev/@educalvolpz/components/hover-expand) |
+| Desfoque em camadas sob as legendas | [Progressive Blur](https://21st.dev/@ibelick/components/progressive-blur) |
+
+Todos os efeitos respeitam a opção "reduzir movimento" do sistema. Sem JavaScript, o conteúdo aparece normalmente.

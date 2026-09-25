@@ -989,3 +989,119 @@ body.trava { overflow: hidden; }
   .insta--rolando a { width: 42vw; }
   .marquee__item { font-size: 24px; }
 }
+
+/* ============================================================
+   COMPONENTES INSPIRADOS NO 21st.dev (implementação própria)
+   ============================================================ */
+
+/* ── Soft Blur In: título do banner surge letra por letra, do desfoque ── */
+.letras-palavra { display: inline-block; white-space: nowrap; }
+.letra { display: inline-block; }
+.js .hero .slide__titulo .letra {
+  opacity: 0; filter: blur(14px); transform: translateY(.18em);
+  transition: opacity .9s var(--ease), filter .9s var(--ease), transform .9s var(--ease);
+  transition-delay: calc(.2s + var(--c, 0) * 28ms);
+}
+.js .hero .slide.ativo .slide__titulo .letra { opacity: 1; filter: blur(0); transform: none; }
+
+/* ── Text Roll: letras do menu rolam no hover ── */
+.rolo { display: inline-flex; overflow: hidden; line-height: 1.25; height: 1.25em; vertical-align: top; }
+.rolo__l { display: inline-flex; flex-direction: column; }
+.rolo__l span { display: block; height: 1.25em; transition: transform .5s var(--ease); transition-delay: calc(var(--c, 0) * 18ms); }
+.menu__link:hover .rolo__l span, .menu__link:focus-visible .rolo__l span { transform: translateY(-100%); }
+.rolo__l span.esp { width: .3em; }
+
+/* ── Scroll Based Velocity: faixa editorial com duas linhas ── */
+.faixa-editorial { display: grid; gap: clamp(6px, 1vw, 12px); }
+.velocidade { overflow: hidden; }
+.velocidade .marquee__trilho { animation: none; will-change: transform; }
+.velocidade--fina .marquee__item { font-size: clamp(20px, 2.4vw, 34px); }
+.velocidade--fina .marquee__item::after { width: 6px; height: 6px; }
+
+/* ── Zoom Parallax (desktop) ── */
+.zoom-parallax { display: none; }
+@media (min-width: 901px) and (prefers-reduced-motion: no-preference) {
+  .js .zoom-parallax { display: block; position: relative; height: 300vh; background: var(--bege-claro); --p: 0; }
+  .js .lifestyle--alternativa { display: none; }
+}
+.zoom__palco { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.zoom__camada {
+  position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
+  transform: scale(calc(1 + var(--p) * (var(--k) - 1)));
+}
+.zoom__palco::after {
+  content: ''; position: absolute; inset: 0; z-index: 1; pointer-events: none;
+  background: linear-gradient(90deg, rgba(251, 243, 234, .92) 0%, rgba(251, 243, 234, .7) 32%, rgba(251, 243, 234, 0) 58%);
+  opacity: clamp(0, calc((var(--p) - .7) * 5), 1);
+}
+.zoom__img { position: relative; overflow: hidden; background: var(--bege); }
+.zoom__img img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.z1 { width: 25vw; height: 25vh; }
+.z2 { top: -30vh; left: 5vw; width: 35vw; height: 30vh; }
+.z3 { top: -10vh; left: -25vw; width: 20vw; height: 45vh; }
+.z4 { left: 27.5vw; width: 25vw; height: 25vh; }
+.z5 { top: 27.5vh; left: 5vw; width: 20vw; height: 25vh; }
+.z6 { top: 27.5vh; left: -22.5vw; width: 30vw; height: 25vh; }
+.z7 { top: 22.5vh; left: 25vw; width: 15vw; height: 15vh; }
+.zoom__texto {
+  position: absolute; z-index: 2; left: 0; top: 50%; transform: translateY(-50%);
+  width: min(560px, 44vw); margin-left: max(var(--gutter), calc((100vw - var(--largura)) / 2 + var(--gutter)));
+  opacity: clamp(0, calc((var(--p) - .72) * 5), 1);
+  pointer-events: none;
+}
+.zoom__texto > * { transform: translateY(calc((1 - clamp(0, (var(--p) - .72) * 5, 1)) * 24px)); }
+.zoom__texto .sobretitulo { margin-bottom: 20px; }
+.zoom__texto .titulo-display { font-size: clamp(40px, 4.4vw, 66px); }
+.zoom__texto p:not(.sobretitulo) { font-size: 15px; margin: 22px 0 32px; }
+.zoom-parallax[data-fim] .zoom__texto { pointer-events: auto; }
+.zoom__texto .btn { background: transparent; color: var(--preto); }
+.zoom__texto .btn:hover { background: var(--preto); color: var(--off); }
+
+/* ── Hover Expand: faixas de imagem que se expandem ── */
+.expande { display: flex; gap: 8px; height: clamp(420px, 62vh, 620px); }
+.expande__painel {
+  position: relative; flex: 1 1 0; min-width: 0; overflow: hidden; background: var(--bege);
+  transition: flex-grow .8s var(--ease);
+}
+.expande__painel.ativo { flex-grow: 5; }
+.expande__painel img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; transform: scale(1.04); transition: transform 1.2s var(--ease); }
+.expande__painel.ativo img { transform: none; }
+.expande__rotulo {
+  position: absolute; left: 50%; bottom: 28px; transform: translateX(-50%) rotate(180deg); writing-mode: vertical-rl;
+  font-size: 11px; font-weight: 500; letter-spacing: .26em; text-transform: uppercase; color: var(--preto);
+  background: rgba(255, 252, 252, .82); padding: 14px 7px; transition: opacity .4s;
+}
+.expande__painel.ativo .expande__rotulo { opacity: 0; }
+.expande__legenda {
+  position: absolute; left: 0; right: 0; bottom: 0; padding: 70px 28px 26px; color: var(--off);
+  display: flex; flex-direction: column; gap: 4px;
+  opacity: 0; transform: translateY(12px); transition: opacity .5s var(--ease) .2s, transform .5s var(--ease) .2s;
+}
+.expande__painel.ativo .expande__legenda { opacity: 1; transform: none; }
+.expande__legenda b, .expande__legenda small { position: relative; z-index: 1; }
+.expande__legenda b { font-family: var(--f-titulo); font-weight: 400; font-size: clamp(26px, 2.6vw, 36px); letter-spacing: .06em; text-transform: uppercase; line-height: 1.1; }
+.expande__legenda small { font-size: 12px; letter-spacing: .08em; }
+
+/* ── Progressive Blur: desfoque em camadas sob a legenda ── */
+.desfoque { position: absolute; inset: 0; pointer-events: none; }
+.desfoque::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(15, 15, 15, 0), rgba(15, 15, 15, .42)); }
+.desfoque i { position: absolute; inset: 0; }
+.desfoque i:nth-child(1) { backdrop-filter: blur(1px); -webkit-backdrop-filter: blur(1px); -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 50%, transparent 75%); mask-image: linear-gradient(180deg, transparent 0%, #000 25%, #000 50%, transparent 75%); }
+.desfoque i:nth-child(2) { backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); -webkit-mask-image: linear-gradient(180deg, transparent 25%, #000 50%, #000 75%, transparent 100%); mask-image: linear-gradient(180deg, transparent 25%, #000 50%, #000 75%, transparent 100%); }
+.desfoque i:nth-child(3) { backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); -webkit-mask-image: linear-gradient(180deg, transparent 50%, #000 75%, #000 100%); mask-image: linear-gradient(180deg, transparent 50%, #000 75%, #000 100%); }
+.desfoque i:nth-child(4) { backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); -webkit-mask-image: linear-gradient(180deg, transparent 75%, #000 100%); mask-image: linear-gradient(180deg, transparent 75%, #000 100%); }
+
+@media (max-width: 900px) {
+  .expande { flex-direction: column; height: auto; }
+  .expande__painel { flex: none; height: 76px; transition: height .7s var(--ease); }
+  .expande__painel.ativo { height: 420px; }
+  .expande__rotulo { writing-mode: horizontal-tb; transform: translate(-50%, 50%); bottom: 50%; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .js .hero .slide__titulo .letra { opacity: 1; filter: none; transform: none; }
+}
+
+/* Molduras de foto: garante que a imagem (com mix-blend-mode e zoom/escala)
+   nunca vaze para fora do quadro */
+.galeria__principal, .galeria__mini, .card__midia, .categoria__img, .lifestyle__foto,
+.sobre-bloco__foto, .zoom__img, .expande__painel, .insta a { contain: paint; isolation: isolate; }

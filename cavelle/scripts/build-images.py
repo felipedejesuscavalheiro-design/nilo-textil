@@ -112,6 +112,9 @@ for slug, imgs in products.items():
 save(crop("macacao", 0.52, 0.45, 0.9, P), "lifestyle/lifestyle-1.jpg", 1000)
 save(crop("legging", 0.5, 0.52, 0.92, P), "lifestyle/lifestyle-2.jpg", 1000)
 
+# ── Zoom Parallax da home (imagem central que ocupa a tela) ──
+save(crop("macacao", 0.5, 0.42, 1, 10 / 16), "lifestyle/zoom-centro.jpg", 1600, 84)
+
 # ── Grade do Instagram (quadradas) ───────────────────────────
 save(crop("banner-1", 0.6, 0.45, 0.62, 1), "instagram/ig-1.jpg", 600)
 save(crop("banner-2", 0.47, 0.45, 0.85, 1), "instagram/ig-2.jpg", 600)
