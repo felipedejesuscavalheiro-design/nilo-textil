@@ -126,7 +126,7 @@ body.trava { overflow: hidden; }
 /* ============================================================
    CABEÇALHO
    ============================================================ */
-.cabecalho { position: sticky; top: 0; z-index: 50; }
+.cabecalho { position: sticky; top: env(safe-area-inset-top, 0px); z-index: 50; }
 
 .faixa {
   height: var(--altura-faixa);
