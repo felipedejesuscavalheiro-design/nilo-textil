@@ -494,12 +494,21 @@
     const selo = esgotado ? '<span class="card__selo">Esgotado</span>'
       : p.precoDe ? `<span class="card__selo card__selo--escuro">-${Math.round((1 - p.preco / p.precoDe) * 100)}%</span>`
       : p.novo ? '<span class="card__selo">New In</span>' : '';
+    // Tamanhos rápidos sobre a foto (desktop): usa a primeira cor com estoque
+    const corRapida = p.cores.find((c) => Object.values(c.estoque).some((n) => n > 0)) || p.cores[0];
+    const rapido = esgotado ? '' : `
+          <div class="card__tamanhos">
+            <p>${p.tamanhos.length > 1 ? `Adicionar à sacola · ${esc(corRapida.nome)}` : 'Adicionar à sacola'}</p>
+            <div>${p.tamanhos.map((t) => `<button data-rapido="${p.id}" data-rapido-cor="${esc(corRapida.nome)}" data-rapido-tam="${esc(t)}" ${corRapida.estoque[t] ? '' : 'disabled'} aria-label="Adicionar ${esc(p.nome)} tamanho ${esc(t)}">${p.tamanhos.length > 1 ? esc(t) : '+ Adicionar'}</button>`).join('')}</div>
+          </div>`;
     return `
       <article class="card${esgotado ? ' card--esgotado' : ''}">
-        <a class="card__midia" href="produto.html?id=${p.id}" aria-label="${esc(p.nome)}">
-          <img src="${f[0]}" alt="${esc(p.nome)} ${esc(p.cores[0].nome)}" loading="lazy">
-          ${f[1] ? `<img class="card__img2" src="${f[1]}" alt="" loading="lazy">` : ''}
-        </a>
+        <div class="card__visual">
+          <a class="card__midia" href="produto.html?id=${p.id}" aria-label="${esc(p.nome)}">
+            <img src="${f[0]}" alt="${esc(p.nome)} ${esc(p.cores[0].nome)}" loading="lazy">
+            ${f[1] ? `<img class="card__img2" src="${f[1]}" alt="" loading="lazy">` : ''}
+          </a>${rapido}
+        </div>
         ${selo}
         <button class="card__fav${fav ? ' ativo' : ''}" data-fav="${p.id}" aria-pressed="${fav}" aria-label="Favoritar ${esc(p.nome)}">${I.coracao}</button>
         <div class="card__info">
@@ -538,6 +547,8 @@
       </div>`);
 
     document.addEventListener('click', (e) => {
+      const r = e.target.closest('[data-rapido]');
+      if (r) { e.preventDefault(); adicionar(r.dataset.rapido, r.dataset.rapidoCor, r.dataset.rapidoTam, 1); return; }
       const b = e.target.closest('[data-comprar]');
       if (!b) return;
       e.preventDefault();
