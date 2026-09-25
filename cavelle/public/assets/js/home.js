@@ -65,7 +65,7 @@
   $('[data-new-in]').innerHTML = novos.map(card).join('');
 
   // ── Instagram ──────────────────────────────────────────
-  const fotos = [1, 2, 3, 4, 5, 6].map((n) => `assets/img/instagram/ig-${n}.jpg`);
+  const fotos = [7, 8, 1, 9, 2, 10, 11, 5, 12, 13, 4, 14].map((n) => `assets/img/instagram/ig-${n}.jpg`);
   $('[data-insta]').innerHTML = `<div class="marquee__trilho">${fotos.map((f) => `
     <a href="${CFG.instagram}" target="_blank" rel="noopener" aria-label="Ver no Instagram">
       <img src="${f}" alt="" loading="lazy">${I.instagram}

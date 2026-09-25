@@ -111,7 +111,7 @@
                   <p class="sobretitulo mega__titulo">Categorias</p>
                   <ul class="mega__lista">${cats}<li style="margin-top:22px"><a class="todos" href="shop.html">Todos os produtos →</a></li></ul>
                 </div>
-                <a class="mega__card" href="shop.html?c=new"><img src="assets/img/lifestyle/lifestyle-2.jpg" alt="" loading="lazy" style="object-position:50% 30%"><span>New In</span></a>
+                <a class="mega__card" href="shop.html?c=new"><img src="assets/img/editorial/duo-azul-cinza.jpg" alt="" loading="lazy" style="object-position:50% 30%"><span>New In</span></a>
                 <a class="mega__card" href="shop.html?c=acessorios"><img src="assets/img/categorias/acessorios.jpg" alt="" loading="lazy"><span>Acessórios</span></a>
               </div>
             </div>

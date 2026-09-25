@@ -131,3 +131,58 @@ save(crop("bolsa", 0.5, 0.5, 1, P), "sobre/sobre-3.jpg", 1000)
 
 # ── Compartilhamento (Open Graph 1200x630) ───────────────────
 save(crop("banner-1", 0.55, 0.45, 1, 630 / 1200), "og-cavelle.jpg", 1200)
+
+# ============================================================
+# FOTOS NOVAS (segundo ensaio)
+# ============================================================
+P45 = 5 / 4
+
+# ── Produtos novos e fotos extras ────────────────────────────
+novos = {
+    # Macaquinho Bloom — manga curta, decote quadrado
+    "macaquinho-bloom-rosa": [crop("macaquinho-rosa", 0.5, 0.5, 1, P), crop("macaquinho-rosa", 0.47, 0.4, 0.55, P), crop("duo-marrom-rosa", 0.62, 0.4, 0.5, P)],
+    "macaquinho-bloom-marrom": [crop("duo-marrom-rosa-costas", 0.3, 0.4, 0.5, P), crop("duo-marrom-rosa", 0.37, 0.42, 0.5, P), crop("ed-duo-preto-marrom", 0.41, 0.62, 0.52, P)],
+    "macaquinho-bloom-preto": [crop("ed-duo-preto-marrom", 0.62, 0.33, 0.46, P), crop("ed-duo-preto-marrom", 0.5, 0.5, 1, P)],
+    # Macaquinho Lumi — alças finas
+    "macaquinho-lumi-cinza": [crop("macaquinho-cinza", 0.5, 0.48, 1, P), crop("duo-azul-cinza", 0.66, 0.5, 0.55, P), crop("macaquinho-cinza", 0.52, 0.42, 0.6, P)],
+    "macaquinho-lumi-azul": [crop("duo-azul-cinza", 0.27, 0.42, 0.55, P), crop("duo-azul-cinza", 0.5, 0.47, 1, P)],
+    # Top Essential
+    "top-essential-preto": [crop("duo-leggings", 0.3, 0.33, 0.42, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
+    "top-essential-marrom": [crop("duo-leggings", 0.67, 0.33, 0.42, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
+    # Fotos extras de produtos existentes
+    "legging-sculpt-preto": [crop("duo-leggings", 0.28, 0.56, 0.55, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
+}
+for slug, imgs in novos.items():
+    for i, im in enumerate(imgs, 1):
+        save(im, f"produtos/{slug}-{i}.jpg", 900)
+save(crop("duo-leggings", 0.66, 0.56, 0.5, P), "produtos/legging-sculpt-marrom-4.jpg", 900)
+save(crop("duo-marrom-rosa-costas", 0.68, 0.56, 0.55, P), "produtos/macaquinho-aura-rosa-4.jpg", 900)
+save(crop("duo-marrom-rosa-costas-2", 0.58, 0.62, 0.55, P), "produtos/macaquinho-aura-rosa-5.jpg", 900)
+save(crop("camiseta-shake", 0.5, 0.45, 1, P), "produtos/camiseta-oversized-rosa-4.jpg", 900)
+save(crop("ed-retrato-camisa", 0.5, 0.5, 1, P), "produtos/macaquinho-essence-preto-4.jpg", 900)
+save(crop("quem-somos", 0.5, 0.5, 1, P), "produtos/macaquinho-essence-preto-5.jpg", 900)
+
+# ── Editoriais (3:4 e 4:5) ───────────────────────────────────
+editoriais = {
+    "ed-duo-preto-marrom": ("ed-duo-preto-marrom", 0.5, 0.5),
+    "duo-azul-cinza": ("duo-azul-cinza", 0.5, 0.47),
+    "duo-marrom-rosa": ("duo-marrom-rosa", 0.5, 0.5),
+    "duo-leggings": ("duo-leggings", 0.5, 0.52),
+    "ed-retrato": ("ed-retrato-camisa", 0.5, 0.5),
+    "ed-leitura": ("ed-leitura", 0.5, 0.45),
+    "quem-somos": ("quem-somos", 0.5, 0.5),
+    "ed-sentada": ("ed-sentada-camisa", 0.55, 0.55),
+    "camiseta-shake": ("camiseta-shake", 0.5, 0.45),
+}
+for nome, (src, cx, cy) in editoriais.items():
+    save(crop(src, cx, cy, 1, P), f"editorial/{nome}.jpg", 1000)
+    save(crop(src, cx, cy, 1, P45), f"editorial/{nome}-45.jpg", 1000)
+
+# ── Instagram (quadradas) ────────────────────────────────────
+ig_novas = [
+    ("ed-leitura", 0.5, 0.36, 0.82), ("duo-azul-cinza", 0.5, 0.4, 0.92), ("ed-retrato-camisa", 0.5, 0.33, 0.88),
+    ("camiseta-shake", 0.5, 0.33, 0.85), ("ed-duo-preto-marrom", 0.5, 0.5, 0.92), ("macaquinho-rosa", 0.5, 0.35, 0.8),
+    ("duo-leggings", 0.5, 0.45, 0.92), ("quem-somos", 0.5, 0.45, 0.92),
+]
+for k, (src, cx, cy, w) in enumerate(ig_novas, 7):
+    save(crop(src, cx, cy, w, 1), f"instagram/ig-{k}.jpg", 600)

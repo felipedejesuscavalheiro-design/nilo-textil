@@ -259,6 +259,40 @@ Modelo veste [tamanho] · altura [x,xx m]
 Veja o guia de tamanhos. Dúvidas? Fale com a gente no WhatsApp (11) 91496-6038.
 ```
 
+### Macaquinho Bloom
+
+**Preço:** R$ 229,90 · **Pix:** R$ 218,41 · **Cores:** Rosa, Marrom, Preto
+
+Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. Feminino no treino, elegante com uma camisa aberta por cima.
+
+• Decote quadrado
+• Manga curta
+• Recortes que modelam
+• Compressão média
+
+Composição: 80% poliamida, 20% elastano [confirmar]
+Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
+
+**SEO, título:** Macaquinho Bloom | CAVELLE
+**SEO, descrição:** Macaquinho Bloom CAVELLE. Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. R$ 218,41 no Pix ou 2x sem juros.
+
+### Macaquinho Lumi
+
+**Preço:** R$ 219,90 · **Pix:** R$ 208,91 · **Cores:** Cinza, Azul
+
+Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. Leve para o treino e bonito para o dia a dia.
+
+• Alças finas
+• Decote reto
+• Tecido macio e firme
+• Não marca
+
+Composição: 80% poliamida, 20% elastano [confirmar]
+Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
+
+**SEO, título:** Macaquinho Lumi | CAVELLE
+**SEO, descrição:** Macaquinho Lumi CAVELLE. Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. R$ 208,91 no Pix ou 2x sem juros.
+
 ### Macacão Curve
 
 **Preço:** R$ 299,90 · **Pix:** R$ 284,91 · **Cores:** Marrom, Preto
@@ -312,7 +346,7 @@ Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão
 
 ### Legging Sculpt
 
-**Preço:** R$ 279,90 · **Pix:** R$ 265,91 · **Cores:** Marrom
+**Preço:** R$ 279,90 · **Pix:** R$ 265,91 · **Cores:** Marrom, Preto
 
 Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. Sustentação para o treino, elegância para o resto do dia.
 
@@ -377,6 +411,23 @@ Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão
 
 **SEO, título:** Top Serena | CAVELLE
 **SEO, descrição:** Top Serena CAVELLE. Top de alças finas com decote delicado e sustentação média. R$ 123,41 no Pix ou 2x sem juros.
+
+### Top Essential
+
+**Preço:** R$ 139,90 · **Pix:** R$ 132,91 · **Cores:** Preto, Marrom
+
+Top de alças largas com decote nadador e faixa firme sob o busto. Combina com a Legging Sculpt para um conjunto completo.
+
+• Decote nadador
+• Bojo removível
+• Sustentação média a alta
+• Faixa inferior firme
+
+Composição: 80% poliamida, 20% elastano [confirmar]
+Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
+
+**SEO, título:** Top Essential | CAVELLE
+**SEO, descrição:** Top Essential CAVELLE. Top de alças largas com decote nadador e faixa firme sob o busto. R$ 132,91 no Pix ou 2x sem juros.
 
 ### Shorts Flow
 

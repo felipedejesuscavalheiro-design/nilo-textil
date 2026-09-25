@@ -17,6 +17,35 @@
 
   const PRODUTOS = [
     {
+      id: 'macaquinho-bloom',
+      nome: 'Macaquinho Bloom',
+      categoria: 'macacoes',
+      preco: 229.9,
+      novo: true,
+      cores: [
+        { nome: 'Rosa',   hex: '#F2A7C3', fotos: img('macaquinho-bloom-rosa', 3),   estoque: { P: 4, M: 5, G: 3, GG: 2 } },
+        { nome: 'Marrom', hex: '#5A3527', fotos: img('macaquinho-bloom-marrom', 3), estoque: { P: 3, M: 5, G: 3, GG: 1 } },
+        { nome: 'Preto',  hex: '#0F0F0F', fotos: img('macaquinho-bloom-preto', 2),  estoque: { P: 3, M: 4, G: 3, GG: 1 } },
+      ],
+      descricao: 'Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. Feminino no treino, elegante com uma camisa aberta por cima.',
+      detalhes: ['Decote quadrado', 'Manga curta', 'Recortes que modelam', 'Compressão média'],
+      composicao: '80% poliamida, 20% elastano',
+    },
+    {
+      id: 'macaquinho-lumi',
+      nome: 'Macaquinho Lumi',
+      categoria: 'macacoes',
+      preco: 219.9,
+      novo: true,
+      cores: [
+        { nome: 'Cinza', hex: '#857B84', fotos: img('macaquinho-lumi-cinza', 3), estoque: { P: 3, M: 5, G: 4, GG: 2 } },
+        { nome: 'Azul',  hex: '#2447A8', fotos: img('macaquinho-lumi-azul', 2),  estoque: { P: 3, M: 4, G: 3, GG: 1 } },
+      ],
+      descricao: 'Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. Leve para o treino e bonito para o dia a dia.',
+      detalhes: ['Alças finas', 'Decote reto', 'Tecido macio e firme', 'Não marca'],
+      composicao: '80% poliamida, 20% elastano',
+    },
+    {
       id: 'macacao-curve',
       nome: 'Macacão Curve',
       categoria: 'macacoes',
@@ -37,7 +66,7 @@
       preco: 229.9,
       novo: true,
       cores: [
-        { nome: 'Rosa', hex: '#EE9AC0', fotos: img('macaquinho-aura-rosa', 3), estoque: { P: 3, M: 4, G: 3, GG: 1 } },
+        { nome: 'Rosa', hex: '#EE9AC0', fotos: img('macaquinho-aura-rosa', 5), estoque: { P: 3, M: 4, G: 3, GG: 1 } },
       ],
       descricao: 'Macaquinho de manga curta com decote nas costas e tira de ajuste. Feminino, confortável e pronto para qualquer momento.',
       detalhes: ['Costas abertas com tira', 'Manga curta', 'Cós alto que modela', 'Não marca'],
@@ -50,7 +79,7 @@
       preco: 199.9,
       precoDe: 249.9,
       cores: [
-        { nome: 'Preto', hex: '#0F0F0F', fotos: img('macaquinho-essence-preto', 3), estoque: { P: 2, M: 3, G: 2, GG: 0 } },
+        { nome: 'Preto', hex: '#0F0F0F', fotos: ['assets/img/produtos/macaquinho-essence-preto-4.jpg', ...img('macaquinho-essence-preto', 3), 'assets/img/produtos/macaquinho-essence-preto-5.jpg'], estoque: { P: 2, M: 3, G: 2, GG: 0 } },
       ],
       descricao: 'O preto essencial. Macaquinho de alças com recorte limpo, perfeito com camisa aberta, blazer ou sozinho no treino.',
       detalhes: ['Alças finas', 'Decote reto', 'Compressão leve', 'Versátil do treino ao dia a dia'],
@@ -63,7 +92,8 @@
       preco: 279.9,
       novo: true,
       cores: [
-        { nome: 'Marrom', hex: '#4A3024', fotos: img('legging-sculpt-marrom', 3), estoque: { P: 5, M: 6, G: 4, GG: 2 } },
+        { nome: 'Marrom', hex: '#4A3024', fotos: img('legging-sculpt-marrom', 4), estoque: { P: 5, M: 6, G: 4, GG: 2 } },
+        { nome: 'Preto',  hex: '#0F0F0F', fotos: img('legging-sculpt-preto', 2),  estoque: { P: 4, M: 6, G: 4, GG: 2 } },
       ],
       descricao: 'Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. Sustentação para o treino, elegância para o resto do dia.',
       detalhes: ['Cintura alta', 'Tecido com brilho suave', 'Alta compressão', 'Não fica transparente'],
@@ -109,6 +139,20 @@
       composicao: '80% poliamida, 20% elastano',
     },
     {
+      id: 'top-essential',
+      nome: 'Top Essential',
+      categoria: 'blusas',
+      preco: 139.9,
+      novo: true,
+      cores: [
+        { nome: 'Preto',  hex: '#0F0F0F', fotos: img('top-essential-preto', 2),  estoque: { P: 4, M: 5, G: 3, GG: 1 } },
+        { nome: 'Marrom', hex: '#4A3024', fotos: img('top-essential-marrom', 2), estoque: { P: 3, M: 4, G: 3, GG: 1 } },
+      ],
+      descricao: 'Top de alças largas com decote nadador e faixa firme sob o busto. Combina com a Legging Sculpt para um conjunto completo.',
+      detalhes: ['Decote nadador', 'Bojo removível', 'Sustentação média a alta', 'Faixa inferior firme'],
+      composicao: '80% poliamida, 20% elastano',
+    },
+    {
       id: 'shorts-flow',
       nome: 'Shorts Flow',
       categoria: 'shorts',
@@ -141,7 +185,7 @@
       preco: 159.9,
       novo: true,
       cores: [
-        { nome: 'Rosa', hex: '#F2C9CF', fotos: img('camiseta-oversized-rosa', 3), estoque: { P: 4, M: 6, G: 4, GG: 2 } },
+        { nome: 'Rosa', hex: '#F2C9CF', fotos: img('camiseta-oversized-rosa', 4), estoque: { P: 4, M: 6, G: 4, GG: 2 } },
       ],
       descricao: 'Camiseta ampla de algodão com logo CAVELLE discreto no peito. Para vestir por cima do look de treino ou com jeans.',
       detalhes: ['Modelagem oversized', 'Ombro caído', 'Logo bordado em tom sobre tom', 'Toque de algodão'],

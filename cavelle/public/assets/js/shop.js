@@ -25,6 +25,27 @@
   $('[data-sub]').innerHTML = sub;
   document.title = `${titulo} | CAVELLE`;
 
+  // Foto editorial de cada seção
+  const FOTOS = {
+    todos: ['editorial/ed-duo-preto-marrom-45.jpg', '50% 30%'],
+    new: ['editorial/duo-azul-cinza-45.jpg', '50% 35%'],
+    sale: ['editorial/ed-sentada-45.jpg', '60% 50%'],
+    macacoes: ['editorial/duo-marrom-rosa-45.jpg', '50% 35%'],
+    leggings: ['editorial/duo-leggings-45.jpg', '50% 50%'],
+    shorts: ['produtos/shorts-flow-taupe-2.jpg', '50% 40%'],
+    blusas: ['editorial/camiseta-shake-45.jpg', '50% 30%'],
+    acessorios: ['produtos/bolsa-puffer-off-white-1.jpg', '50% 50%'],
+  };
+  const foto = !q && FOTOS[filtro];
+  if (foto) {
+    const img = $('[data-foto-img]');
+    img.src = `assets/img/${foto[0]}`;
+    img.style.objectPosition = foto[1];
+    $('[data-foto-cabeca]').hidden = false;
+  } else {
+    $('[data-cabeca]').classList.remove('cabeca-pagina--foto');
+  }
+
   // Chips de filtro
   const chips = [['todos', 'Todos'], ['new', 'New In'], ...CFG.categorias.map((c) => [c.id, c.nome]), ['sale', 'Sale']];
   $('[data-chips]').innerHTML = chips.map(([id, nome]) =>

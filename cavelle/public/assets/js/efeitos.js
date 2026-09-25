@@ -39,8 +39,6 @@
   document.querySelectorAll('.cabeca-pagina .titulo-display, .titulo-secao, .lifestyle__texto .titulo-display, .sobre-bloco__texto .titulo-display, .sobre-hero__texto .titulo-display, .citacao blockquote, .confirmacao .titulo-display')
     .forEach((el) => el.setAttribute('data-revela', ''));
   document.querySelectorAll('.lifestyle__foto, .sobre-bloco__foto').forEach((el) => { if (!el.dataset.parallax) el.dataset.parallax = '36'; });
-  const hero = document.querySelector('.sobre-hero');
-  if (hero) hero.dataset.parallax = '60';
 
   // Divide em letras, mantendo cada palavra inteira na mesma linha
   function dividirLetras(el) {
