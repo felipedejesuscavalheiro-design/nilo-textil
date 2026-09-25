@@ -1140,3 +1140,15 @@ body.trava { overflow: hidden; }
 @media (max-width: 900px) {
   .cookies { left: 12px; right: 12px; bottom: 12px; max-width: none; padding: 14px 16px; }
 }
+
+/* ── Logo oficial (imagem) ── */
+.logo { display: inline-flex; align-items: center; margin-right: 0; }
+.logo img { display: block; height: clamp(24px, 2.3vw, 30px); width: auto; transition: height .35s var(--ease); }
+.cabecalho.rolou .logo img { height: 24px; }
+.logo--menu img { height: 20px; }
+.logo--rodape img { height: 46px; }
+.vip__marca img { display: block; height: clamp(58px, 6vw, 84px); width: auto; }
+@media (max-width: 900px) {
+  .logo img, .cabecalho.rolou .logo img { height: 21px; }
+  .vip__marca img { margin: 0 auto; }
+}

@@ -7,6 +7,9 @@ const path = require('path');
 process.env.DATA_DIR = fs.mkdtempSync(path.join(os.tmpdir(), 'cavelle-'));
 process.env.ADMIN_TOKEN = 'segredo-teste';
 const app = require('../server.js');
+const CFG = require('../public/assets/js/config.js');
+const PRODUTOS = require('../public/assets/js/produtos.js');
+const REGRAS = require('../public/assets/js/regras.js')(CFG, PRODUTOS);
 
 const cliente = {
   nome: 'Maria Teste', email: 'maria@teste.com', telefone: '(11) 98888-7777', cpf: '529.982.247-25',
@@ -25,9 +28,9 @@ test('cria pedido recalculando o total no servidor', async () => {
   assert.strictEqual(r.status, 201);
   const p = await r.json();
   assert.match(p.numero, /^CV\d+$/);
-  assert.strictEqual(p.subtotal, 279.9);
-  assert.strictEqual(p.descontoPix, 13.99); // 279,90 − 265,91
-  assert.strictEqual(p.total, Math.round((265.91 + p.frete.valor) * 100) / 100);
+  const preco = PRODUTOS.find((x) => x.id === 'legging-sculpt').preco;
+  assert.strictEqual(p.subtotal, preco);
+  assert.strictEqual(p.total, Math.round((REGRAS.precoPix(preco) + p.frete.valor) * 100) / 100);
 });
 
 test('recusa CPF inválido e sacola vazia', async () => {

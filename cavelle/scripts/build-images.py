@@ -186,3 +186,24 @@ ig_novas = [
 ]
 for k, (src, cx, cy, w) in enumerate(ig_novas, 7):
     save(crop(src, cx, cy, w, 1), f"instagram/ig-{k}.jpg", 600)
+
+# ============================================================
+# LOGO OFICIAL (baixado da loja na Nuvemshop, versão branca)
+# Gera versões preta e branca, com e sem a assinatura "SCULPTING FIT".
+# ============================================================
+def logo(cor, recorte, nome):
+    im = Image.open(SRC / "logo-oficial.png").convert("RGBA").crop(recorte)
+    alfa = im.getchannel("A")
+    solido = Image.new("RGBA", im.size, cor + (255,))
+    solido.putalpha(alfa)
+    caminho = OUT / "marca" / nome
+    caminho.parent.mkdir(parents=True, exist_ok=True)
+    solido.save(caminho, optimize=True)
+    print(f"marca/{nome:34s} {im.width}x{im.height}")
+
+COMPLETO = (49, 67, 526, 174)   # CAVELLE + SCULPTING FIT
+MARCA = (49, 67, 526, 141)      # só CAVELLE
+logo((15, 15, 15), COMPLETO, "logo-preto.png")
+logo((255, 252, 252), COMPLETO, "logo-branco.png")
+logo((15, 15, 15), MARCA, "logo-marca-preto.png")
+logo((255, 252, 252), MARCA, "logo-marca-branco.png")

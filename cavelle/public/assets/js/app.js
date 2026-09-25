@@ -94,7 +94,7 @@
             <button class="icone-btn so-mobile" data-abrir="menu" aria-label="Abrir menu">${I.menu}</button>
             <button class="icone-btn" data-abrir="busca" aria-label="Buscar">${I.busca}</button>
           </div>
-          <a class="logo" href="index.html" aria-label="CAVELLE — página inicial">CAVELLE</a>
+          <a class="logo" href="index.html" aria-label="CAVELLE — página inicial"><img src="assets/img/marca/logo-marca-preto.png" alt="CAVELLE" width="477" height="74"></a>
           <div class="barra__dir">
             <a class="icone-btn" href="conta.html" aria-label="Minha conta">${I.conta}</a>
             <button class="icone-btn" data-abrir="sacola" aria-label="Abrir sacola">${I.sacola}<span class="contador" data-contador></span></button>
@@ -132,7 +132,7 @@
         <div class="veu" data-fechar></div>
         <aside class="gaveta-menu__painel" role="dialog" aria-label="Menu">
           <div class="gaveta-menu__topo">
-            <span class="logo" style="font-size:20px">CAVELLE</span>
+            <span class="logo logo--menu"><img src="assets/img/marca/logo-marca-preto.png" alt="CAVELLE" width="477" height="74"></span>
             <button class="icone-btn" data-fechar aria-label="Fechar menu">${I.fechar}</button>
           </div>
           <ul class="gaveta-menu__nav">
@@ -186,7 +186,7 @@
       <div class="container">
         <div class="rodape__grade">
           <div class="rodape__marca">
-            <a class="logo" href="index.html">CAVELLE</a>
+            <a class="logo logo--rodape" href="index.html"><img src="assets/img/marca/logo-preto.png" alt="CAVELLE Sculpting Fit" width="477" height="107" loading="lazy"></a>
             <p>${CFG.slogan}</p>
             <div class="redes">
               <a href="${CFG.instagram}" target="_blank" rel="noopener" aria-label="Instagram">${I.instagram}</a>

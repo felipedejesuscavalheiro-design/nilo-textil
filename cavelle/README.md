@@ -38,7 +38,10 @@ Site completo da **CAVELLE** (moda fitness e lifestyle), feito a partir do brief
 | Fotos | substitua em `fotos-originais/` e rode `npm run imagens` |
 | Google Analytics 4 e Pixel da Meta | `googleAnalytics` e `pixelMeta` em `config.js`. Só carregam depois do "Aceitar" no aviso de cookies |
 
-> ⚠️ **Os produtos, preços, estoques, composição e valores de frete são EXEMPLOS**, montados a partir das fotos enviadas. Troque pelos dados reais antes de publicar.
+> ⚠️ **Os produtos do site são as peças das fotos dos ensaios**, que ainda não estão cadastradas na Nuvemshop. Nomes, preços, estoque, composição e valores de frete são **exemplos**, com preços na faixa real da loja. O catálogo que está no ar hoje está em `nuvemshop/CATALOGO-ATUAL.md`.
+
+### Logo
+O logo oficial (CAVELLE · SCULPTING FIT) foi baixado da loja publicada e está em `fotos-originais/logo-oficial.png`. As versões preta e branca, com e sem assinatura, são geradas em `public/assets/img/marca/`.
 
 ### Fonte Kingred Modern
 A fonte é comercial e não veio junto com os arquivos. Coloque `KingredModern.woff2` em `public/assets/fonts/` e descomente a linha indicada no topo do `style.css`.
@@ -69,6 +72,7 @@ O checkout calcula tudo e registra o pedido. A cobrança acontece pelo WhatsApp:
 A loja em produção está na Nuvemshop. A pasta **`nuvemshop/`** tem:
 - `GUIA-NUVEMSHOP.md`: passo a passo para aplicar este design e resolver os bloqueios da auditoria (frete, peso, conta bancária, páginas legais etc.)
 - `TEXTOS.md`: todos os textos prontos para colar (páginas, SEO, produtos, banners)
+- `CATALOGO-ATUAL.md`: os 12 produtos que estão no ar hoje, com preço, estoque e o que está esgotado
 - `banners/com-texto/`: os 4 banners do carrossel com texto, em 1920×800 (desktop) e 1080×1440 (celular).
 - `tema/`: kit de seções da home (benefícios, categorias, lifestyle, Instagram e Grupo VIP) para colar no código do tema atual, testado na loja publicada Para gerar de novo: `node scripts/exportar-banners.js`
 

@@ -22,11 +22,13 @@ test('frete grátis a partir de R$499 e cobrado abaixo disso', () => {
 });
 
 test('resumo do pedido aplica Pix sobre produtos e não sobre o frete', () => {
+  const bolsa = PRODUTOS.find((p) => p.id === 'bolsa-puffer');
   const r = R.resumoPedido([{ id: 'bolsa-puffer', cor: 'Off-white', tam: 'Único', qtd: 1 }], { cep: '20000-000', pagamento: 'pix' });
   assert.deepStrictEqual(r.erros, []);
-  assert.strictEqual(r.subtotal, 259.9);
-  assert.strictEqual(r.descontoPix, 12.99); // 259,90 − 246,91 (preço no Pix)
-  assert.strictEqual(r.total, Math.round((246.91 + r.frete.valor) * 100) / 100);
+  assert.strictEqual(r.subtotal, bolsa.preco);
+  assert.strictEqual(r.descontoPix, Math.round((bolsa.preco - R.precoPix(bolsa.preco)) * 100) / 100);
+  assert.ok(r.frete.valor > 0, 'abaixo de R$499 o frete é cobrado');
+  assert.strictEqual(r.total, Math.round((R.precoPix(bolsa.preco) + r.frete.valor) * 100) / 100);
 });
 
 test('resumo recusa item inexistente e quantidade acima do estoque', () => {

@@ -135,9 +135,13 @@ Mantemos os dados pelo tempo necessário para cumprir as finalidades acima e as 
 
 Você pode solicitar a qualquer momento acesso, correção, portabilidade ou exclusão dos seus dados, além de revogar consentimentos. Basta escrever para usecavelle@gmail.com.
 
-### Armazenamento no navegador
+### Cookies e armazenamento no navegador
 
-Usamos o armazenamento local do seu navegador para lembrar sua sacola, favoritos e CEP. Você pode apagar esses dados limpando os dados de navegação do site.
+**Essenciais:** usamos o armazenamento local do seu navegador para lembrar sua sacola, favoritos, CEP e a sua escolha sobre cookies. Eles são necessários para o site funcionar.
+
+**Medição e anúncios:** com a sua permissão no aviso de cookies, usamos o Google Analytics e o Pixel da Meta para entender como o site é usado e medir nossos anúncios. Se você escolher "Só essenciais", essas ferramentas não são carregadas.
+
+Você pode mudar de ideia a qualquer momento limpando os dados de navegação do site; o aviso aparecerá de novo.
 
 ---
 
@@ -261,7 +265,7 @@ Veja o guia de tamanhos. Dúvidas? Fale com a gente no WhatsApp (11) 91496-6038.
 
 ### Macaquinho Bloom
 
-**Preço:** R$ 229,90 · **Pix:** R$ 218,41 · **Cores:** Rosa, Marrom, Preto
+**Preço:** R$ 119,90 · **Pix:** R$ 113,91 · **Cores:** Rosa, Marrom, Preto
 
 Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. Feminino no treino, elegante com uma camisa aberta por cima.
 
@@ -274,11 +278,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Macaquinho Bloom | CAVELLE
-**SEO, descrição:** Macaquinho Bloom CAVELLE. Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. R$ 218,41 no Pix ou 2x sem juros.
+**SEO, descrição:** Macaquinho Bloom CAVELLE. Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. R$ 113,91 no Pix ou 2x sem juros.
 
 ### Macaquinho Lumi
 
-**Preço:** R$ 219,90 · **Pix:** R$ 208,91 · **Cores:** Cinza, Azul
+**Preço:** R$ 109,90 · **Pix:** R$ 104,41 · **Cores:** Cinza, Azul
 
 Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. Leve para o treino e bonito para o dia a dia.
 
@@ -291,11 +295,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Macaquinho Lumi | CAVELLE
-**SEO, descrição:** Macaquinho Lumi CAVELLE. Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. R$ 208,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Macaquinho Lumi CAVELLE. Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. R$ 104,41 no Pix ou 2x sem juros.
 
 ### Macacão Curve
 
-**Preço:** R$ 299,90 · **Pix:** R$ 284,91 · **Cores:** Marrom, Preto
+**Preço:** R$ 149,90 · **Pix:** R$ 142,41 · **Cores:** Marrom, Preto
 
 Macacão de alças com costas nadador e perna flare. Uma peça única que desenha a silhueta do treino ao café da tarde.
 
@@ -308,11 +312,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Macacão Curve | CAVELLE
-**SEO, descrição:** Macacão Curve CAVELLE. Macacão de alças com costas nadador e perna flare. R$ 284,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Macacão Curve CAVELLE. Macacão de alças com costas nadador e perna flare. R$ 142,41 no Pix ou 2x sem juros.
 
 ### Macaquinho Aura
 
-**Preço:** R$ 229,90 · **Pix:** R$ 218,41 · **Cores:** Rosa
+**Preço:** R$ 119,90 · **Pix:** R$ 113,91 · **Cores:** Rosa
 
 Macaquinho de manga curta com decote nas costas e tira de ajuste. Feminino, confortável e pronto para qualquer momento.
 
@@ -325,11 +329,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Macaquinho Aura | CAVELLE
-**SEO, descrição:** Macaquinho Aura CAVELLE. Macaquinho de manga curta com decote nas costas e tira de ajuste. R$ 218,41 no Pix ou 2x sem juros.
+**SEO, descrição:** Macaquinho Aura CAVELLE. Macaquinho de manga curta com decote nas costas e tira de ajuste. R$ 113,91 no Pix ou 2x sem juros.
 
 ### Macaquinho Essence
 
-**Preço:** R$ 199,90 (promocional; preço original R$ 249,90) · **Pix:** R$ 189,91 · **Cores:** Preto
+**Preço:** R$ 99,90 (promocional; preço original R$ 119,90) · **Pix:** R$ 94,91 · **Cores:** Preto
 
 O preto essencial. Macaquinho de alças com recorte limpo, perfeito com camisa aberta, blazer ou sozinho no treino.
 
@@ -342,11 +346,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Macaquinho Essence | CAVELLE
-**SEO, descrição:** Macaquinho Essence CAVELLE. O preto essencial. R$ 189,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Macaquinho Essence CAVELLE. O preto essencial. R$ 94,91 no Pix ou 2x sem juros.
 
 ### Legging Sculpt
 
-**Preço:** R$ 279,90 · **Pix:** R$ 265,91 · **Cores:** Marrom, Preto
+**Preço:** R$ 99,90 · **Pix:** R$ 94,91 · **Cores:** Marrom, Preto
 
 Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. Sustentação para o treino, elegância para o resto do dia.
 
@@ -359,11 +363,11 @@ Composição: 75% poliamida, 25% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Legging Sculpt | CAVELLE
-**SEO, descrição:** Legging Sculpt CAVELLE. Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. R$ 265,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Legging Sculpt CAVELLE. Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. R$ 94,91 no Pix ou 2x sem juros.
 
 ### Calça Flare Prime
 
-**Preço:** R$ 239,90 · **Pix:** R$ 227,91 · **Cores:** Preto
+**Preço:** R$ 119,90 · **Pix:** R$ 113,91 · **Cores:** Preto
 
 Calça flare de cós alto, ajustada até o joelho e com abertura elegante na barra. Do pilates ao almoço sem trocar de roupa.
 
@@ -376,11 +380,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Calça Flare Prime | CAVELLE
-**SEO, descrição:** Calça Flare Prime CAVELLE. Calça flare de cós alto, ajustada até o joelho e com abertura elegante na barra. R$ 227,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Calça Flare Prime CAVELLE. Calça flare de cós alto, ajustada até o joelho e com abertura elegante na barra. R$ 113,91 no Pix ou 2x sem juros.
 
 ### Cropped Fit
 
-**Preço:** R$ 149,90 (promocional; preço original R$ 179,90) · **Pix:** R$ 142,41 · **Cores:** Preto
+**Preço:** R$ 59,90 (promocional; preço original R$ 69,90) · **Pix:** R$ 56,91 · **Cores:** Preto
 
 Cropped de manga curta com decote arredondado e ajuste ao corpo. Combina com as calças e leggings de cintura alta.
 
@@ -393,11 +397,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Cropped Fit | CAVELLE
-**SEO, descrição:** Cropped Fit CAVELLE. Cropped de manga curta com decote arredondado e ajuste ao corpo. R$ 142,41 no Pix ou 2x sem juros.
+**SEO, descrição:** Cropped Fit CAVELLE. Cropped de manga curta com decote arredondado e ajuste ao corpo. R$ 56,91 no Pix ou 2x sem juros.
 
 ### Top Serena
 
-**Preço:** R$ 129,90 · **Pix:** R$ 123,41 · **Cores:** Taupe, Marrom
+**Preço:** R$ 47,90 · **Pix:** R$ 45,51 · **Cores:** Taupe, Marrom
 
 Top de alças finas com decote delicado e sustentação média. Leve para o treino, bonito para usar com camisa aberta.
 
@@ -410,11 +414,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Top Serena | CAVELLE
-**SEO, descrição:** Top Serena CAVELLE. Top de alças finas com decote delicado e sustentação média. R$ 123,41 no Pix ou 2x sem juros.
+**SEO, descrição:** Top Serena CAVELLE. Top de alças finas com decote delicado e sustentação média. R$ 45,51 no Pix ou 2x sem juros.
 
 ### Top Essential
 
-**Preço:** R$ 139,90 · **Pix:** R$ 132,91 · **Cores:** Preto, Marrom
+**Preço:** R$ 69,90 · **Pix:** R$ 66,41 · **Cores:** Preto, Marrom
 
 Top de alças largas com decote nadador e faixa firme sob o busto. Combina com a Legging Sculpt para um conjunto completo.
 
@@ -427,11 +431,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Top Essential | CAVELLE
-**SEO, descrição:** Top Essential CAVELLE. Top de alças largas com decote nadador e faixa firme sob o busto. R$ 132,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Top Essential CAVELLE. Top de alças largas com decote nadador e faixa firme sob o busto. R$ 66,41 no Pix ou 2x sem juros.
 
 ### Shorts Flow
 
-**Preço:** R$ 169,90 · **Pix:** R$ 161,41 · **Cores:** Taupe
+**Preço:** R$ 69,90 · **Pix:** R$ 66,41 · **Cores:** Taupe
 
 Shorts leve com cós alto bordado CAVELLE e bermuda interna. Movimento livre, sem marcar e sem subir.
 
@@ -444,11 +448,11 @@ Composição: Tecido externo 100% poliéster · forro 85% poliamida, 15% elastan
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Shorts Flow | CAVELLE
-**SEO, descrição:** Shorts Flow CAVELLE. Shorts leve com cós alto bordado CAVELLE e bermuda interna. R$ 161,41 no Pix ou 2x sem juros.
+**SEO, descrição:** Shorts Flow CAVELLE. Shorts leve com cós alto bordado CAVELLE e bermuda interna. R$ 66,41 no Pix ou 2x sem juros.
 
 ### Shorts Breeze
 
-**Preço:** R$ 119,90 (promocional; preço original R$ 149,90) · **Pix:** R$ 113,91 · **Cores:** Cinza
+**Preço:** R$ 59,90 (promocional; preço original R$ 69,90) · **Pix:** R$ 56,91 · **Cores:** Cinza
 
 Shorts de compressão de comprimento médio. O básico que acompanha a camiseta oversized e o treino de todos os dias.
 
@@ -461,11 +465,11 @@ Composição: 80% poliamida, 20% elastano [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Shorts Breeze | CAVELLE
-**SEO, descrição:** Shorts Breeze CAVELLE. Shorts de compressão de comprimento médio. R$ 113,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Shorts Breeze CAVELLE. Shorts de compressão de comprimento médio. R$ 56,91 no Pix ou 2x sem juros.
 
 ### Camiseta Oversized
 
-**Preço:** R$ 159,90 · **Pix:** R$ 151,91 · **Cores:** Rosa
+**Preço:** R$ 89,90 · **Pix:** R$ 85,41 · **Cores:** Rosa
 
 Camiseta ampla de algodão com logo CAVELLE discreto no peito. Para vestir por cima do look de treino ou com jeans.
 
@@ -478,11 +482,11 @@ Composição: 100% algodão [confirmar]
 Cuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.
 
 **SEO, título:** Camiseta Oversized | CAVELLE
-**SEO, descrição:** Camiseta Oversized CAVELLE. Camiseta ampla de algodão com logo CAVELLE discreto no peito. R$ 151,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Camiseta Oversized CAVELLE. Camiseta ampla de algodão com logo CAVELLE discreto no peito. R$ 85,41 no Pix ou 2x sem juros.
 
 ### Bolsa Puffer
 
-**Preço:** R$ 259,90 · **Pix:** R$ 246,91 · **Cores:** Off-white
+**Preço:** R$ 149,90 · **Pix:** R$ 142,41 · **Cores:** Off-white
 
 Bolsa tote acolchoada com logo CAVELLE. Espaçosa para levar o essencial do treino e da rotina, com alças confortáveis no ombro.
 
@@ -495,5 +499,5 @@ Composição: Náilon acolchoado [confirmar]
 Cuidados: Limpe com pano macio levemente umedecido e sabão neutro. Não lave na máquina. Seque à sombra.
 
 **SEO, título:** Bolsa Puffer | CAVELLE
-**SEO, descrição:** Bolsa Puffer CAVELLE. Bolsa tote acolchoada com logo CAVELLE. R$ 246,91 no Pix ou 2x sem juros.
+**SEO, descrição:** Bolsa Puffer CAVELLE. Bolsa tote acolchoada com logo CAVELLE. R$ 142,41 no Pix ou 2x sem juros.
 

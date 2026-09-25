@@ -1,7 +1,9 @@
 /* ============================================================
    CAVELLE — Catálogo de produtos
-   ⚠️ Nomes, preços, estoque e composição são EXEMPLOS montados a
-   partir das fotos enviadas. Substitua pelos dados reais.
+   ⚠️ As peças abaixo são as das fotos dos ensaios, que ainda NÃO estão
+   cadastradas na Nuvemshop. Nomes, preços, estoque e composição são
+   EXEMPLOS, com preços na faixa real da loja (R$ 47,90 a R$ 189,90).
+   Substitua pelos dados reais quando as peças forem cadastradas.
 
    Campos:
    id          identificador único usado na URL (sem acento/espaço)
@@ -20,7 +22,7 @@
       id: 'macaquinho-bloom',
       nome: 'Macaquinho Bloom',
       categoria: 'macacoes',
-      preco: 229.9,
+      preco: 119.9,
       novo: true,
       cores: [
         { nome: 'Rosa',   hex: '#F2A7C3', fotos: img('macaquinho-bloom-rosa', 3),   estoque: { P: 4, M: 5, G: 3, GG: 2 } },
@@ -35,7 +37,7 @@
       id: 'macaquinho-lumi',
       nome: 'Macaquinho Lumi',
       categoria: 'macacoes',
-      preco: 219.9,
+      preco: 109.9,
       novo: true,
       cores: [
         { nome: 'Cinza', hex: '#857B84', fotos: img('macaquinho-lumi-cinza', 3), estoque: { P: 3, M: 5, G: 4, GG: 2 } },
@@ -49,7 +51,7 @@
       id: 'macacao-curve',
       nome: 'Macacão Curve',
       categoria: 'macacoes',
-      preco: 299.9,
+      preco: 149.9,
       novo: true,
       cores: [
         { nome: 'Marrom', hex: '#5A3A28', fotos: img('macacao-curve-marrom', 3), estoque: { P: 4, M: 6, G: 3, GG: 1 } },
@@ -63,7 +65,7 @@
       id: 'macaquinho-aura',
       nome: 'Macaquinho Aura',
       categoria: 'macacoes',
-      preco: 229.9,
+      preco: 119.9,
       novo: true,
       cores: [
         { nome: 'Rosa', hex: '#EE9AC0', fotos: img('macaquinho-aura-rosa', 5), estoque: { P: 3, M: 4, G: 3, GG: 1 } },
@@ -76,8 +78,8 @@
       id: 'macaquinho-essence',
       nome: 'Macaquinho Essence',
       categoria: 'macacoes',
-      preco: 199.9,
-      precoDe: 249.9,
+      preco: 99.9,
+      precoDe: 119.9,
       cores: [
         { nome: 'Preto', hex: '#0F0F0F', fotos: ['assets/img/produtos/macaquinho-essence-preto-4.jpg', ...img('macaquinho-essence-preto', 3), 'assets/img/produtos/macaquinho-essence-preto-5.jpg'], estoque: { P: 2, M: 3, G: 2, GG: 0 } },
       ],
@@ -89,7 +91,7 @@
       id: 'legging-sculpt',
       nome: 'Legging Sculpt',
       categoria: 'leggings',
-      preco: 279.9,
+      preco: 99.9,
       novo: true,
       cores: [
         { nome: 'Marrom', hex: '#4A3024', fotos: img('legging-sculpt-marrom', 4), estoque: { P: 5, M: 6, G: 4, GG: 2 } },
@@ -103,7 +105,7 @@
       id: 'calca-flare-prime',
       nome: 'Calça Flare Prime',
       categoria: 'leggings',
-      preco: 239.9,
+      preco: 119.9,
       novo: true,
       cores: [
         { nome: 'Preto', hex: '#0F0F0F', fotos: img('calca-flare-prime-preto', 3), estoque: { P: 4, M: 5, G: 3, GG: 2 } },
@@ -116,8 +118,8 @@
       id: 'cropped-fit',
       nome: 'Cropped Fit',
       categoria: 'blusas',
-      preco: 149.9,
-      precoDe: 179.9,
+      preco: 59.9,
+      precoDe: 69.9,
       cores: [
         { nome: 'Preto', hex: '#0F0F0F', fotos: img('cropped-fit-preto', 3), estoque: { P: 3, M: 4, G: 2, GG: 1 } },
       ],
@@ -129,7 +131,7 @@
       id: 'top-serena',
       nome: 'Top Serena',
       categoria: 'blusas',
-      preco: 129.9,
+      preco: 47.9,
       cores: [
         { nome: 'Taupe',  hex: '#8A7568', fotos: img('top-serena-taupe', 3),  estoque: { P: 3, M: 4, G: 2, GG: 1 } },
         { nome: 'Marrom', hex: '#4A3024', fotos: img('top-serena-marrom', 2), estoque: { P: 2, M: 3, G: 2, GG: 0 } },
@@ -142,7 +144,7 @@
       id: 'top-essential',
       nome: 'Top Essential',
       categoria: 'blusas',
-      preco: 139.9,
+      preco: 69.9,
       novo: true,
       cores: [
         { nome: 'Preto',  hex: '#0F0F0F', fotos: img('top-essential-preto', 2),  estoque: { P: 4, M: 5, G: 3, GG: 1 } },
@@ -156,7 +158,7 @@
       id: 'shorts-flow',
       nome: 'Shorts Flow',
       categoria: 'shorts',
-      preco: 169.9,
+      preco: 69.9,
       novo: true,
       cores: [
         { nome: 'Taupe', hex: '#8A7568', fotos: img('shorts-flow-taupe', 3), estoque: { P: 4, M: 5, G: 3, GG: 2 } },
@@ -169,8 +171,8 @@
       id: 'shorts-breeze',
       nome: 'Shorts Breeze',
       categoria: 'shorts',
-      preco: 119.9,
-      precoDe: 149.9,
+      preco: 59.9,
+      precoDe: 69.9,
       cores: [
         { nome: 'Cinza', hex: '#77707A', fotos: img('shorts-breeze-cinza', 3), estoque: { P: 3, M: 4, G: 3, GG: 1 } },
       ],
@@ -182,7 +184,7 @@
       id: 'camiseta-oversized',
       nome: 'Camiseta Oversized',
       categoria: 'blusas',
-      preco: 159.9,
+      preco: 89.9,
       novo: true,
       cores: [
         { nome: 'Rosa', hex: '#F2C9CF', fotos: img('camiseta-oversized-rosa', 4), estoque: { P: 4, M: 6, G: 4, GG: 2 } },
@@ -195,7 +197,7 @@
       id: 'bolsa-puffer',
       nome: 'Bolsa Puffer',
       categoria: 'acessorios',
-      preco: 259.9,
+      preco: 149.9,
       novo: true,
       tamanhos: ['Único'],
       cores: [
