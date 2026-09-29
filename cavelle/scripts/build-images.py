@@ -84,23 +84,24 @@ save(crop("banner-4", 0.6, 0.5, 0.55, 4 / 3), "banners/banner-4-m.jpg", 900)
 save(crop("shorts", 0.52, 0.72, 0.62, 1), "categorias/shorts.jpg", 640)
 save(crop("legging", 0.5, 0.6, 0.55, 1), "categorias/leggings.jpg", 640)
 save(crop("macacao", 0.5, 0.3, 0.78, 1), "categorias/macacoes.jpg", 640)  # mostra o rosto
-save(crop("camiseta", 0.48, 0.36, 0.7, 1), "categorias/blusas.jpg", 640)
+save(crop("camiseta", 0.48, 0.3, 0.7, 1), "categorias/blusas.jpg", 640)  # mostra o rosto
 save(crop("bolsa", 0.48, 0.6, 0.9, 1), "categorias/acessorios.jpg", 640)
 
 # ── Produtos (3:4) ───────────────────────────────────────────
 P = 4 / 3
 products = {
-    "macacao-curve-marrom": [crop("banner-2", 0.33, 0.37, 0.52, P), crop("banner-2", 0.34, 0.72, 0.52, P), pad("banner-2", P, (253, 250, 247))],
-    "macacao-curve-preto": [crop("banner-2", 0.6, 0.37, 0.52, P), crop("banner-2", 0.6, 0.72, 0.52, P), pad("banner-2", P, (253, 250, 247))],
+    # As duas modelos se tocam na foto: usar sempre a dupla inteira (sem pedaço de modelo)
+    "macacao-curve-marrom": [crop("banner-2", 0.47, 0.5, 0.95, P), crop("banner-2", 0.47, 0.4, 0.66, P), pad("banner-2", P, (253, 250, 247))],
+    "macacao-curve-preto": [crop("banner-2", 0.47, 0.5, 0.95, P), crop("banner-2", 0.47, 0.4, 0.66, P), pad("banner-2", P, (253, 250, 247))],
     "macaquinho-aura-rosa": [crop("macacao", 0.52, 0.42, 0.78, P), crop("macacao", 0.6, 0.6, 0.6, P), crop("macacao", 0.5, 0.3, 0.5, P)],
-    "macaquinho-essence-preto": [crop("banner-1", 0.62, 0.5, 1, P), crop("banner-1", 0.65, 0.55, 0.28, P), crop("banner-1", 0.42, 0.6, 0.5, P)],
+    "macaquinho-essence-preto": [crop("banner-1", 0.62, 0.5, 1, P), crop("banner-1", 0.65, 0.55, 0.28, P), crop("banner-1", 0.75, 0.45, 0.35, P)],
     "legging-sculpt-marrom": [crop("legging", 0.5, 0.52, 0.92, P), crop("legging", 0.5, 0.66, 0.55, P), crop("legging", 0.48, 0.3, 0.45, P)],
-    "calca-flare-prime-preto": [crop("banner-4", 0.36, 0.5, 0.5, P), pad("banner-4", P), crop("banner-4", 0.62, 0.5, 0.5, P)],
+    "calca-flare-prime-preto": [crop("banner-4", 0.55, 0.5, 0.5, P), crop("banner-4", 0.36, 0.5, 0.5, P), pad("banner-4", P)],
     "cropped-fit-preto": [crop("banner-4", 0.68, 0.34, 0.34, P), crop("banner-4", 0.62, 0.5, 0.5, P), pad("banner-4", P)],
     "top-serena-taupe": [crop("shorts", 0.52, 0.34, 0.7, P), crop("shorts", 0.52, 0.52, 1, P), crop("shorts", 0.5, 0.3, 0.45, P)],
     "top-serena-marrom": [crop("legging", 0.47, 0.3, 0.42, P), crop("legging", 0.5, 0.52, 0.92, P)],
-    "shorts-flow-taupe": [crop("shorts", 0.52, 0.7, 0.7, P), crop("shorts", 0.52, 0.52, 1, P), crop("shorts", 0.55, 0.68, 0.4, P)],
-    "shorts-breeze-cinza": [crop("banner-3", 0.42, 0.78, 0.62, P), crop("camiseta", 0.47, 0.78, 0.5, P), crop("banner-3", 0.5, 0.45, 1, P)],
+    "shorts-flow-taupe": [crop("shorts", 0.52, 0.52, 1, P), crop("shorts", 0.52, 0.7, 0.7, P), crop("shorts", 0.55, 0.68, 0.4, P)],
+    "shorts-breeze-cinza": [crop("banner-3", 0.5, 0.47, 1, P), crop("banner-3", 0.42, 0.78, 0.62, P), crop("camiseta", 0.47, 0.78, 0.5, P)],
     "camiseta-oversized-rosa": [crop("camiseta", 0.5, 0.48, 1, P), crop("camiseta", 0.47, 0.34, 0.5, P), crop("banner-3", 0.5, 0.45, 1, P)],
     "bolsa-puffer-off-white": [crop("bolsa", 0.5, 0.5, 1, P), crop("bolsa", 0.47, 0.62, 0.5, P), crop("bolsa", 0.5, 0.36, 0.72, P)],
 }
@@ -113,7 +114,7 @@ save(crop("macacao", 0.52, 0.45, 0.9, P), "lifestyle/lifestyle-1.jpg", 1000)
 save(crop("legging", 0.5, 0.52, 0.92, P), "lifestyle/lifestyle-2.jpg", 1000)
 
 # ── Zoom Parallax da home (imagem central que ocupa a tela) ──
-save(crop("macacao", 0.5, 0.42, 1, 10 / 16), "lifestyle/zoom-centro.jpg", 1600, 84)
+save(crop("ed-sentada-camisa", 0.5, 0.38, 1, 10 / 16), "lifestyle/zoom-centro.jpg", 1600, 84)
 
 # ── Grade do Instagram (quadradas) ───────────────────────────
 save(crop("banner-1", 0.6, 0.45, 0.62, 1), "instagram/ig-1.jpg", 600)
@@ -140,22 +141,22 @@ P45 = 5 / 4
 # ── Produtos novos e fotos extras ────────────────────────────
 novos = {
     # Macaquinho Bloom — manga curta, decote quadrado
-    "macaquinho-bloom-rosa": [crop("macaquinho-rosa", 0.5, 0.5, 1, P), crop("macaquinho-rosa", 0.47, 0.4, 0.55, P), crop("duo-marrom-rosa", 0.62, 0.4, 0.5, P)],
-    "macaquinho-bloom-marrom": [crop("duo-marrom-rosa-costas", 0.3, 0.4, 0.5, P), crop("duo-marrom-rosa", 0.37, 0.42, 0.5, P), crop("ed-duo-preto-marrom", 0.41, 0.62, 0.52, P)],
-    "macaquinho-bloom-preto": [crop("ed-duo-preto-marrom", 0.62, 0.33, 0.46, P), crop("ed-duo-preto-marrom", 0.5, 0.5, 1, P)],
+    "macaquinho-bloom-rosa": [crop("macaquinho-rosa", 0.5, 0.5, 1, P), crop("macaquinho-rosa", 0.47, 0.38, 0.6, P), crop("duo-marrom-rosa", 0.5, 0.5, 1, P)],
+    "macaquinho-bloom-marrom": [crop("duo-marrom-rosa-costas-2", 0.26, 0.235, 0.42, P), crop("ed-duo-preto-marrom", 0.5, 0.5, 1, P), crop("duo-marrom-rosa", 0.5, 0.5, 1, P)],
+    "macaquinho-bloom-preto": [crop("ed-duo-preto-marrom", 0.635, 0.2, 0.36, P), crop("ed-duo-preto-marrom", 0.5, 0.5, 1, P)],
     # Macaquinho Lumi — alças finas
-    "macaquinho-lumi-cinza": [crop("macaquinho-cinza", 0.5, 0.48, 1, P), crop("duo-azul-cinza", 0.66, 0.5, 0.55, P), crop("macaquinho-cinza", 0.52, 0.42, 0.6, P)],
-    "macaquinho-lumi-azul": [crop("duo-azul-cinza", 0.27, 0.42, 0.55, P), crop("duo-azul-cinza", 0.5, 0.47, 1, P)],
+    "macaquinho-lumi-cinza": [crop("macaquinho-cinza", 0.5, 0.48, 1, P), crop("duo-azul-cinza", 0.7, 0.385, 0.46, P), crop("macaquinho-cinza", 0.52, 0.42, 0.6, P)],
+    "macaquinho-lumi-azul": [crop("duo-azul-cinza", 0.22, 0.265, 0.42, P), crop("duo-azul-cinza", 0.5, 0.47, 1, P)],
     # Top Essential
-    "top-essential-preto": [crop("duo-leggings", 0.3, 0.33, 0.42, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
+    "top-essential-preto": [crop("duo-leggings", 0.26, 0.33, 0.4, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
     "top-essential-marrom": [crop("duo-leggings", 0.67, 0.33, 0.42, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
     # Fotos extras de produtos existentes
-    "legging-sculpt-preto": [crop("duo-leggings", 0.28, 0.56, 0.55, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
+    "legging-sculpt-preto": [crop("duo-leggings", 0.25, 0.355, 0.44, P), crop("duo-leggings", 0.5, 0.52, 1, P)],
 }
 for slug, imgs in novos.items():
     for i, im in enumerate(imgs, 1):
         save(im, f"produtos/{slug}-{i}.jpg", 900)
-save(crop("duo-leggings", 0.66, 0.56, 0.5, P), "produtos/legging-sculpt-marrom-4.jpg", 900)
+save(crop("duo-leggings", 0.68, 0.56, 0.42, P), "produtos/legging-sculpt-marrom-4.jpg", 900)
 save(crop("duo-marrom-rosa-costas", 0.68, 0.56, 0.55, P), "produtos/macaquinho-aura-rosa-4.jpg", 900)
 save(crop("duo-marrom-rosa-costas-2", 0.58, 0.62, 0.55, P), "produtos/macaquinho-aura-rosa-5.jpg", 900)
 save(crop("camiseta-shake", 0.5, 0.45, 1, P), "produtos/camiseta-oversized-rosa-4.jpg", 900)

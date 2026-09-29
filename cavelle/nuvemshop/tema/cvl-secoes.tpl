@@ -60,7 +60,7 @@
     <h2 class="cvl-titulo">Nos acompanhe no Instagram</h2>
     <a class="cvl-insta__arroba" href="https://www.instagram.com/usecavelle/" target="_blank" rel="noopener">@USECAVELLE</a>
     <div class="cvl-insta__grade">
-      {% for n in ['7', '8', '9', '11', '12', '14'] %}
+      {% for n in ['9', '8', '13', '11', '12', '14'] %}
         <a href="https://www.instagram.com/usecavelle/" target="_blank" rel="noopener" aria-label="Ver no Instagram"><img src="{{ ('images/cvl-ig-' ~ n ~ '.jpg') | static_url }}" alt="" loading="lazy"></a>
       {% endfor %}
     </div>

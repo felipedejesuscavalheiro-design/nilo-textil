@@ -868,7 +868,7 @@ body.trava { overflow: hidden; }
   .compra-fixa div { flex: 1; min-width: 0; font-size: 12px; }
   .compra-fixa b { font-weight: 500; display: block; font-size: 13px; }
   .compra-fixa .btn { min-height: 46px; padding: 0 22px; }
-  body.tem-compra-fixa .whats-fixo { bottom: 84px; }
+  body.tem-compra-fixa .whats-fixo { bottom: 80px; }
 
   .rapida { grid-template-columns: 110px 1fr; gap: 16px; }
   .modal { align-items: flex-end; padding: 0; }
@@ -882,7 +882,8 @@ body.trava { overflow: hidden; }
   .resumo-pedido { position: static; order: -1; }
   .campos .c2, .campos .c3, .campos .c4 { grid-column: span 3; }
   .busca__resultados { grid-template-columns: repeat(3, 1fr); gap: 12px; }
-  .whats-fixo { width: 50px; height: 50px; right: 16px; bottom: 16px; }
+  .whats-fixo { width: 44px; height: 44px; right: 12px; bottom: 14px; }
+  .whats-fixo svg { width: 22px; height: 22px; }
 }
 
 @media (max-width: 420px) {
@@ -999,7 +1000,7 @@ body.trava { overflow: hidden; }
   .js .zoom-parallax { display: block; position: relative; height: 300vh; background: var(--bege-claro); --p: 0; }
   .js .lifestyle--alternativa { display: none; }
 }
-.zoom__palco { position: sticky; top: 0; height: 100vh; overflow: hidden; }
+.zoom__palco { position: sticky; top: calc(var(--altura-faixa) + var(--altura-header)); height: calc(100vh - var(--altura-faixa) - var(--altura-header)); overflow: hidden; }
 .zoom__camada {
   position: absolute; inset: 0; display: flex; align-items: center; justify-content: center;
   transform: scale(calc(1 + var(--p) * (var(--k) - 1)));
@@ -1088,11 +1089,12 @@ body.trava { overflow: hidden; }
 }
 .cabeca-pagina--foto .cabeca-pagina__texto p:not(.trilha) { margin-left: 0; }
 .cabeca-pagina__foto { margin: 0; aspect-ratio: 4 / 5; max-height: 520px; overflow: hidden; background: var(--bege); contain: paint; }
-.cabeca-pagina__foto img { width: 100%; height: 100%; object-fit: cover; mix-blend-mode: multiply; }
+.cabeca-pagina__foto img { width: 100%; height: 100%; object-fit: cover; object-position: var(--pos-d, 50% 30%); mix-blend-mode: multiply; }
 @media (max-width: 900px) {
   .cabeca-pagina--foto { grid-template-columns: 1fr; gap: 22px; text-align: center; }
   .cabeca-pagina--foto .cabeca-pagina__texto p:not(.trilha) { margin-left: auto; }
   .cabeca-pagina__foto { order: -1; aspect-ratio: 16 / 10; margin: 0 calc(var(--gutter) * -1); max-height: none; }
+  .cabeca-pagina__foto img { object-position: var(--pos-m, 50% 10%); }
 }
 
 /* ── Quem Somos: abertura dividida, texto e retrato ── */

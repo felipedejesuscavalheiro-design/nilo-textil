@@ -80,7 +80,7 @@
   $('[data-new-in]').innerHTML = novos.map(card).join('');
 
   // ── Instagram: 6 fotos (como no layout de referência) ──
-  const fotos = [7, 8, 1, 11, 12, 4].map((n) => `assets/img/instagram/ig-${n}.jpg`);
+  const fotos = [9, 8, 1, 11, 12, 13].map((n) => `assets/img/instagram/ig-${n}.jpg`);
   $('[data-insta]').innerHTML = fotos.map((f) => `
     <a href="${CFG.instagram}" target="_blank" rel="noopener" aria-label="Ver no Instagram">
       <img src="${f}" alt="" loading="lazy">${I.instagram}

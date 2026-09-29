@@ -26,21 +26,23 @@
   document.title = `${titulo} | CAVELLE`;
 
   // Foto editorial de cada seção
+  // [imagem, enquadramento no computador, enquadramento no celular (faixa baixa: pela cabeça)]
   const FOTOS = {
-    todos: ['editorial/ed-duo-preto-marrom-45.jpg', '50% 30%'],
-    new: ['editorial/duo-azul-cinza-45.jpg', '50% 35%'],
-    sale: ['editorial/ed-sentada-45.jpg', '60% 50%'],
-    macacoes: ['editorial/duo-marrom-rosa-45.jpg', '50% 35%'],
-    leggings: ['editorial/duo-leggings-45.jpg', '50% 50%'],
-    shorts: ['produtos/shorts-flow-taupe-2.jpg', '50% 40%'],
-    blusas: ['editorial/camiseta-shake-45.jpg', '50% 30%'],
-    acessorios: ['produtos/bolsa-puffer-off-white-1.jpg', '50% 50%'],
+    todos: ['editorial/ed-duo-preto-marrom-45.jpg', '50% 30%', '50% 4%'],
+    new: ['editorial/duo-azul-cinza-45.jpg', '50% 35%', '50% 12%'],
+    sale: ['editorial/ed-sentada-45.jpg', '60% 50%', '60% 18%'],
+    macacoes: ['editorial/duo-marrom-rosa-45.jpg', '50% 35%', '50% 10%'],
+    leggings: ['editorial/duo-leggings-45.jpg', '50% 50%', '50% 12%'],
+    shorts: ['produtos/shorts-flow-taupe-1.jpg', '50% 30%', '50% 6%'],
+    blusas: ['editorial/camiseta-shake-45.jpg', '50% 30%', '50% 6%'],
+    acessorios: ['produtos/bolsa-puffer-off-white-1.jpg', '50% 50%', '50% 55%'],
   };
   const foto = !q && FOTOS[filtro];
   if (foto) {
     const img = $('[data-foto-img]');
     img.src = `assets/img/${foto[0]}`;
-    img.style.objectPosition = foto[1];
+    img.style.setProperty('--pos-d', foto[1]);
+    img.style.setProperty('--pos-m', foto[2]);
     $('[data-foto-cabeca]').hidden = false;
   } else {
     $('[data-cabeca]').classList.remove('cabeca-pagina--foto');
