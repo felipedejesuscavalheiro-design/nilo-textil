@@ -935,11 +935,6 @@ body.trava { overflow: hidden; }
   .slide--espelho .slide__caixa { margin-left: auto; }
 }
 
-/* Instagram como galeria contínua */
-.insta--rolando { display: block; overflow: hidden; }
-.insta--rolando .marquee__trilho { gap: 6px; animation-duration: 70s; }
-.insta--rolando:hover .marquee__trilho { animation-play-state: paused; }
-.insta--rolando a { width: clamp(180px, 22vw, 320px); flex: none; }
 
 /* Parallax: a foto fica levemente maior para ter margem de movimento */
 [data-parallax] { overflow: hidden; }
@@ -976,12 +971,7 @@ body.trava { overflow: hidden; }
 .link-seta:hover { background-size: 100% 1px; }
 
 @media (prefers-reduced-motion: reduce) {
-  .marquee__trilho { animation: none; }
 }
-@media (max-width: 900px) {
-  .insta--rolando a { width: 42vw; }
-}
-
 /* ============================================================
    COMPONENTES INSPIRADOS NO 21st.dev (implementação própria)
    ============================================================ */

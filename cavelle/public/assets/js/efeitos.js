@@ -2,7 +2,6 @@
    CAVELLE — Efeitos editoriais
    · Títulos que surgem palavra por palavra
    · Parallax suave nas fotos grandes
-   · Galeria contínua do Instagram (marquee)
    Tudo desliga com "reduzir movimento" do sistema. Sem JavaScript,
    o conteúdo aparece normalmente (os estados ocultos dependem de html.js).
    ============================================================ */
@@ -87,15 +86,6 @@
     }), { rootMargin: '0px 0px -10% 0px' });
     titulos.forEach((t) => io.observe(t));
   }
-
-  // ── Marquee: duplica o conteúdo para o loop ficar contínuo ──
-  document.querySelectorAll('[data-marquee]').forEach((m) => {
-    const trilho = m.firstElementChild;
-    if (!trilho || trilho.dataset.duplicado) return;
-    trilho.dataset.duplicado = '1';
-    trilho.innerHTML += trilho.innerHTML;
-    Array.from(trilho.children).slice(trilho.children.length / 2).forEach((c) => c.setAttribute('aria-hidden', 'true'));
-  });
 
   // ── Text Roll: letras do menu rolam no hover ────────────
   document.querySelectorAll('.menu__link').forEach((link) => {
