@@ -58,7 +58,7 @@
             <p class="escolha__rotulo" style="margin-bottom:10px"><span><b>Cupom de desconto</b></span></p>
             <div class="cupom"><input class="campo" name="cupom" placeholder="Digite seu cupom" aria-label="Cupom de desconto" autocomplete="off"><button type="button" class="btn btn--linha" data-aplicar>Aplicar</button></div>
             <p class="aviso-estoque" data-cupom-msg></p>
-            <p class="nota-descontos">Os descontos não são cumulativos. Se você usar um cupom, ele não se soma aos ${pctPix}% do Pix: vale sempre o maior desconto.</p>
+            <p class="nota-descontos">Os descontos não são cumulativos: o cupom não se soma ao desconto de ${pctPix}% no Pix.</p>
           </div>
           <p class="texto-suave" style="font-size:12px;margin-top:14px">Após finalizar, nossa equipe confirma seu pedido pelo WhatsApp e envia a chave Pix ou o link de pagamento seguro do cartão.</p>
         </section>

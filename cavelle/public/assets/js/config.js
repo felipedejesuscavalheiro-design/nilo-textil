@@ -23,10 +23,9 @@
     descontoPix: 0.05,       // 5%
     parcelasSemJuros: 2,
 
-    // Cupons de desconto (código: percentual). Os descontos não são
-    // cumulativos: entre cupom e Pix, vale só o maior.
-    // ⚠️ BEMVINDA 10% é EXEMPLO — confirme código e percentual.
-    cupons: { BEMVINDA: 0.10 },
+    // Cupons de desconto (código: percentual), ex.: { CODIGO: 0.10 } = 10% off.
+    // Os descontos não são cumulativos (o cupom não se soma ao Pix).
+    cupons: {},
 
     // Dados da empresa exibidos no rodapé (obrigatórios para e-commerce —
     // Decreto 7.962/2013). Preencha antes de publicar.

@@ -157,7 +157,7 @@ Fazemos o possível para que fotos, cores e descrições sejam fiéis às peças
 
 ### Pagamento
 
-Aceitamos Pix, com 5% de desconto, e cartão de crédito em até 2x sem juros. Os descontos não são cumulativos: entre cupom, desconto do Pix e outras promoções, vale apenas o maior. O pedido é confirmado após a aprovação do pagamento. Veja as formas de pagamento.
+Aceitamos Pix, com 5% de desconto, e cartão de crédito em até 2x sem juros. O pedido é confirmado após a aprovação do pagamento. Veja as formas de pagamento.
 
 ### Entrega
 
@@ -193,7 +193,7 @@ Parcele em até **2x sem juros** nas principais bandeiras: Visa, Mastercard, Elo
 
 Tem um cupom? Digite o código na etapa de **Pagamento** do checkout e clique em Aplicar.
 
-**Os descontos não são cumulativos.** O cupom não se soma ao desconto de 5% do Pix nem a outras promoções: o site aplica sempre o maior desconto disponível para o seu pedido.
+**Os descontos não são cumulativos:** o cupom não se soma ao desconto de 5% no Pix.
 
 ### Segurança
 
