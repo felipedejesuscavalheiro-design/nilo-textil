@@ -66,7 +66,7 @@
     const arq = location.pathname.split('/').pop() || 'index.html';
     const c = param('c');
     if (arq === 'index.html' || arq === '') return 'inicio';
-    if (arq === 'shop.html') return c === 'new' ? 'new' : c === 'sale' ? 'sale' : c === 'acessorios' ? 'acessorios' : 'shop';
+    if (arq === 'shop.html') return c === 'new' ? 'new' : c === 'sale' ? 'sale' : 'shop';
     if (arq === 'quem-somos.html') return 'sobre';
     if (arq === 'suporte.html') return 'suporte';
     return '';
@@ -82,10 +82,13 @@
     el.className = 'cabecalho';
     el.innerHTML = `
       <div class="faixa" role="region" aria-label="Condições da loja">
-        <div class="faixa__lista">
-          <span class="faixa__item ativo">Frete grátis acima de R$${CFG.freteGratisAcima}</span><i class="faixa__sep"></i>
-          <span class="faixa__item">${pctPix}% off no Pix</span><i class="faixa__sep"></i>
-          <span class="faixa__item">Parcele em até ${CFG.parcelasSemJuros}x sem juros</span>
+        <p class="sr">Frete grátis acima de R$${CFG.freteGratisAcima} · ${pctPix}% off no Pix · Parcele em até ${CFG.parcelasSemJuros}x sem juros</p>
+        <div class="faixa__rolagem" aria-hidden="true">
+          <div class="faixa__trilho">${Array.from({ length: 8 }, () => `
+            <span class="faixa__item">Frete grátis acima de R$${CFG.freteGratisAcima}</span><i class="faixa__sep"></i>
+            <span class="faixa__item">${pctPix}% off no Pix</span><i class="faixa__sep"></i>
+            <span class="faixa__item">Parcele em até ${CFG.parcelasSemJuros}x sem juros</span><i class="faixa__sep"></i>`).join('')}
+          </div>
         </div>
       </div>
       <div class="barra">
@@ -119,7 +122,6 @@
               </div>
             </div>
           </div>
-          <div class="menu__item"><a class="menu__link${ativo('acessorios')}" href="shop.html?c=acessorios">Acessórios</a></div>
           <div class="menu__item"><a class="menu__link${ativo('sale')}" href="shop.html?c=sale">Sale</a></div>
           <div class="menu__item"><a class="menu__link${ativo('sobre')}" href="quem-somos.html">Quem Somos</a></div>
           <div class="menu__item"><a class="menu__link${ativo('suporte')}" href="${linkWhats('Olá! Vim pelo site da CAVELLE e preciso de ajuda.')}" target="_blank" rel="noopener">Suporte</a></div>
@@ -141,7 +143,6 @@
             <li><details><summary>Shop <span class="mais">+</span></summary>
               <div class="gaveta-menu__sub">${CFG.categorias.map((c) => `<a href="shop.html?c=${c.id}">${c.nome}</a>`).join('')}<a href="shop.html"><b style="font-weight:500">Todos os produtos</b></a></div>
             </details></li>
-            <li><a href="shop.html?c=acessorios">Acessórios</a></li>
             <li><a href="shop.html?c=sale">Sale</a></li>
             <li><a href="quem-somos.html">Quem Somos</a></li>
             <li><a href="${linkWhats('Olá! Vim pelo site da CAVELLE e preciso de ajuda.')}" target="_blank" rel="noopener">Suporte</a></li>
@@ -153,15 +154,6 @@
           </div>
         </aside>
       </div>`);
-
-    // Faixa: no celular mostra uma frase por vez
-    const itens = $$('.faixa__item', el);
-    let f = 0;
-    setInterval(() => {
-      itens[f].classList.remove('ativo');
-      f = (f + 1) % itens.length;
-      itens[f].classList.add('ativo');
-    }, 3800);
 
     // Sombra ao rolar
     const aoRolar = () => el.classList.toggle('rolou', window.scrollY > 10);
@@ -197,7 +189,6 @@
             <li><a href="index.html">Início</a></li>
             <li><a href="shop.html?c=new">New In</a></li>
             <li><a href="shop.html">Shop</a></li>
-            <li><a href="shop.html?c=acessorios">Acessórios</a></li>
             <li><a href="shop.html?c=sale">Sale</a></li>
             <li><a href="quem-somos.html">Quem Somos</a></li>`)}
           ${col('Atendimento', `

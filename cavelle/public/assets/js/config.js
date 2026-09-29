@@ -23,9 +23,10 @@
     descontoPix: 0.05,       // 5%
     parcelasSemJuros: 2,
 
-    // Cupons de desconto (código: percentual). Deixe vazio para esconder
-    // o campo de cupom no checkout. Ex.: { BEMVINDA: 0.10 } = 10% off.
-    cupons: {},
+    // Cupons de desconto (código: percentual). Os descontos não são
+    // cumulativos: entre cupom e Pix, vale só o maior.
+    // ⚠️ BEMVINDA 10% é EXEMPLO — confirme código e percentual.
+    cupons: { BEMVINDA: 0.10 },
 
     // Dados da empresa exibidos no rodapé (obrigatórios para e-commerce —
     // Decreto 7.962/2013). Preencha antes de publicar.
@@ -56,8 +57,8 @@
 
     // ── Categorias (a ordem define os menus) ──────────────
     categorias: [
-      { id: 'shorts',     nome: 'Shorts',     home: true },
       { id: 'leggings',   nome: 'Leggings',   home: true },
+      { id: 'shorts',     nome: 'Shorts',     home: true },
       { id: 'macacoes',   nome: 'Macacões',   home: true },
       { id: 'blusas',     nome: 'Blusas',     home: true },
       { id: 'acessorios', nome: 'Acessórios', home: false },

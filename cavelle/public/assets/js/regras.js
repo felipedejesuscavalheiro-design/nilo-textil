@@ -52,13 +52,18 @@
     });
     if (!linhas.length) erros.push('Sacola vazia');
 
+    // Descontos NÃO são cumulativos: entre o cupom e o desconto do Pix,
+    // vale apenas o maior.
     const cupons = CFG.cupons || {};
     const codigo = String(opcoes.cupom || '').trim().toUpperCase();
     const pctCupom = codigo && cupons[codigo] ? cupons[codigo] : 0;
     if (codigo && !pctCupom) erros.push('Cupom inválido');
-    const descCupom = Math.round(sub * pctCupom);
+    const valorCupom = Math.round(sub * pctCupom);
+    const valorPix = opcoes.pagamento === 'pix' ? sub - Math.round((sub * (100 - pctPix)) / 100) : 0;
+    const usaCupom = valorCupom > 0 && valorCupom >= valorPix;
+    const descCupom = usaCupom ? valorCupom : 0;
+    const descPix = usaCupom ? 0 : valorPix;
     const base = sub - descCupom;
-    const descPix = opcoes.pagamento === 'pix' ? base - Math.round((base * (100 - pctPix)) / 100) : 0;
 
     let frete = null;
     if (opcoes.cep) {
@@ -72,7 +77,7 @@
       linhas,
       pecas: linhas.reduce((t, l) => t + l.qtd, 0),
       subtotal: reais(sub),
-      cupom: pctCupom ? { codigo, percentual: pctCupom, desconto: reais(descCupom) } : null,
+      cupom: pctCupom ? { codigo, percentual: pctCupom, desconto: reais(descCupom), aplicado: usaCupom } : null,
       descontoPix: reais(descPix),
       frete,
       total: reais(base - descPix + valorFrete),

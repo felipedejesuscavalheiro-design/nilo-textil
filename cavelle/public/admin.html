@@ -109,7 +109,7 @@
               <h4>Itens</h4>
               ${p.linhas.map((l) => `<p>${l.qtd}x ${esc(l.nome)} — ${esc(l.cor)} / ${esc(l.tam)} · ${moeda(l.total)}</p>`).join('')}
               <h4>Valores</h4>
-              <p>Subtotal ${moeda(p.subtotal)}${p.cupom ? ` · Cupom ${esc(p.cupom.codigo)} −${moeda(p.cupom.desconto)}` : ''}${p.descontoPix ? ` · Pix −${moeda(p.descontoPix)}` : ''} · Frete ${moeda(p.frete.valor)}</p>
+              <p>Subtotal ${moeda(p.subtotal)}${p.cupom && p.cupom.aplicado ? ` · Cupom ${esc(p.cupom.codigo)} −${moeda(p.cupom.desconto)}` : ''}${p.descontoPix ? ` · Pix −${moeda(p.descontoPix)}` : ''} · Frete ${moeda(p.frete.valor)}</p>
             </div>
             <div>
               <h4>Cliente</h4>

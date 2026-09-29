@@ -48,3 +48,31 @@ test('catálogo: todo produto tem cor, fotos e estoque para cada tamanho', () =>
     }
   }
 });
+
+test('descontos não são cumulativos: cupom e Pix, vale só o maior', () => {
+  const itens = [{ id: 'macaquinho-bloom', cor: 'Rosa', tam: 'M', qtd: 1 }];
+  const preco = PRODUTOS.find((p) => p.id === 'macaquinho-bloom').preco;
+  const codigo = Object.keys(CFG.cupons)[0];
+  const pct = CFG.cupons[codigo];
+  // Cupom maior que o Pix: vale o cupom, sem os 5% do Pix
+  const r = R.resumoPedido(itens, { pagamento: 'pix', cupom: codigo });
+  if (pct > CFG.descontoPix) {
+    assert.strictEqual(r.cupom.aplicado, true);
+    assert.strictEqual(r.descontoPix, 0);
+    assert.strictEqual(r.total, Math.round((preco - r.cupom.desconto) * 100) / 100);
+  }
+  // No cartão, só o cupom
+  const c = R.resumoPedido(itens, { pagamento: 'cartao', cupom: codigo });
+  assert.strictEqual(c.cupom.aplicado, true);
+  assert.strictEqual(c.descontoPix, 0);
+  // Nunca os dois ao mesmo tempo
+  assert.ok(!(r.cupom.aplicado && r.descontoPix > 0));
+});
+
+test('cupom menor que o Pix: mantém o Pix e não aplica o cupom', () => {
+  const CFG2 = { ...CFG, cupons: { TESTE3: 0.03 } };
+  const R2 = require('../public/assets/js/regras.js')(CFG2, PRODUTOS);
+  const r = R2.resumoPedido([{ id: 'macaquinho-bloom', cor: 'Rosa', tam: 'M', qtd: 1 }], { pagamento: 'pix', cupom: 'TESTE3' });
+  assert.strictEqual(r.cupom.aplicado, false);
+  assert.ok(r.descontoPix > 0);
+});

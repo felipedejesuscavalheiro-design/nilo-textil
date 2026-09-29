@@ -55,6 +55,9 @@ Pese uma peça embalada de cada tipo para confirmar.
 - **Nuvem Pago:** mantenha o Pix com 5% e o cartão em 2x sem juros, que já estão certos. **Cadastre a conta bancária** para conseguir sacar as vendas.
 - **Boleto:** o briefing não fala de boleto. Desative, ou inclua na página "Formas de Pagamento".
 
+### 1.3.1 Cupons: descontos não cumulativos
+O site novo não soma cupom com o desconto do Pix: vale sempre o maior. Na Nuvemshop, ao criar o cupom (**Marketing → Cupons**), procure a opção de **não combinar com outras promoções ou descontos por forma de pagamento**, se o seu plano tiver. Depois, **faça um pedido de teste** com cupom e Pix para confirmar que os dois descontos não se somam. Deixe a regra escrita também na página "Formas de Pagamento" (o texto está em `TEXTOS.md`).
+
 ### 1.4 Promessas antigas nos banners
 O briefing substitui as faixas antigas. **Apague** a faixa "Frete grátis acima de R$299 · Cupom BEMVINDA 10%". Hoje ela promete o que o checkout não cumpre, e pelo CDC a oferta anunciada obriga a loja.
 A nova faixa superior é: `FRETE GRÁTIS ACIMA DE R$499 | 5% OFF NO PIX | PARCELE EM ATÉ 2X SEM JUROS`.

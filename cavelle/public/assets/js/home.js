@@ -7,20 +7,21 @@
   const hero = $('.hero');
   const slides = $$('.slide', hero);
   const pontos = $('.hero__pontos', hero);
-  const atualEl = $('[data-hero-atual]', hero);
   let atual = 0;
-  const TEMPO = 6500;
-  hero.style.setProperty('--tempo', `${TEMPO}ms`);
+  let decorrido = 0;
+  const TEMPO = 6500; // ms por banner
 
-  pontos.innerHTML = slides.map((_, i) => `<button class="hero__ponto${i ? '' : ' ativo'}" role="tab" aria-label="Banner ${i + 1}" aria-selected="${!i}"></button>`).join('');
+  pontos.innerHTML = slides.map((_, i) => `<button class="hero__ponto${i ? '' : ' ativo'}" role="tab" aria-label="Banner ${i + 1}" aria-selected="${!i}"><i></i></button>`).join('');
   const botoes = $$('.hero__ponto', pontos);
 
   function ir(n) {
     const prox = (n + slides.length) % slides.length;
+    decorrido = 0;
     if (prox === atual) return;
     slides[atual].classList.remove('ativo');
     botoes[atual].classList.remove('ativo');
     botoes[atual].setAttribute('aria-selected', 'false');
+    botoes[atual].style.setProperty('--prog', 0);
     atual = prox;
     const s = slides[atual];
     const img = $('img', s);
@@ -29,19 +30,34 @@
     botoes[atual].classList.add('ativo');
     botoes[atual].setAttribute('aria-selected', 'true');
     hero.dataset.tom = s.dataset.tom;
-    atualEl.textContent = String(atual + 1).padStart(2, '0');
   }
-  // O avanço automático segue a barra de tempo do ponto ativo (CSS):
-  // quando ela termina, passa para o próximo. Pausar a barra pausa o carrossel.
-  pontos.addEventListener('animationend', (e) => { if (e.target.classList.contains('ativo')) ir(atual + 1); });
-  const parar = () => hero.classList.add('pausado');
-  const iniciar = () => hero.classList.remove('pausado');
+
+  // Avanço automático com relógio próprio (funciona em qualquer navegador).
+  // Pausa com o mouse em cima (computador), com o dedo na tela e com a aba escondida.
+  let pausas = 0;
+  let ultimo = performance.now();
+  const calmo = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const passo = (t) => {
+    const dt = t - ultimo;
+    ultimo = t;
+    if (!pausas && !document.hidden && !calmo) {
+      decorrido += dt;
+      botoes[atual].style.setProperty('--prog', Math.min(1, decorrido / TEMPO));
+      if (decorrido >= TEMPO) ir(atual + 1);
+    }
+    requestAnimationFrame(passo);
+  };
+  requestAnimationFrame(passo);
+  const parar = () => { pausas = 1; };
+  const iniciar = () => { pausas = 0; };
 
   botoes.forEach((b, i) => b.addEventListener('click', () => ir(i)));
   $('[data-hero="ant"]').addEventListener('click', () => ir(atual - 1));
   $('[data-hero="prox"]').addEventListener('click', () => ir(atual + 1));
-  hero.addEventListener('focusin', parar);
-  hero.addEventListener('focusout', iniciar);
+  if (window.matchMedia('(hover: hover)').matches) {
+    hero.addEventListener('mouseenter', parar);
+    hero.addEventListener('mouseleave', iniciar);
+  }
 
   // Deslizar com o dedo
   let x0 = null;
@@ -55,7 +71,6 @@
     x0 = null;
     iniciar();
   });
-  document.addEventListener('visibilitychange', () => (document.hidden ? parar() : iniciar()));
 
   // Pré-carrega os outros banners depois que a página abriu
   window.addEventListener('load', () => setTimeout(() => $$('.slide img', hero).forEach((i) => { i.loading = 'eager'; }), 1200));

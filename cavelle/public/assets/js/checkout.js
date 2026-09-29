@@ -14,7 +14,6 @@
     return;
   }
 
-  const temCupom = Object.keys(CFG.cupons || {}).length > 0;
   const salvo = guardado.ler('cavelle_cliente', {});
 
   raiz.innerHTML = `
@@ -49,11 +48,17 @@
           <h2><i>3</i> Pagamento</h2>
           <div class="opcoes">
             <label><input type="radio" name="pagamento" value="pix" checked>
-              <span class="op-txt">Pix <small>${pctPix}% de desconto · aprovação imediata</small></span>
+              <span class="op-txt">Pix <small data-pix-sub>${pctPix}% de desconto · aprovação imediata</small></span>
               <span class="op-valor" data-valor-pix></span></label>
             <label><input type="radio" name="pagamento" value="cartao">
               <span class="op-txt">Cartão de crédito <small>Em até ${CFG.parcelasSemJuros}x sem juros</small></span>
               <span class="op-valor" data-valor-cartao></span></label>
+          </div>
+          <div class="cupom-bloco">
+            <p class="escolha__rotulo" style="margin-bottom:10px"><span><b>Cupom de desconto</b></span></p>
+            <div class="cupom"><input class="campo" name="cupom" placeholder="Digite seu cupom" aria-label="Cupom de desconto" autocomplete="off"><button type="button" class="btn btn--linha" data-aplicar>Aplicar</button></div>
+            <p class="aviso-estoque" data-cupom-msg></p>
+            <p class="nota-descontos">Os descontos não são cumulativos. Se você usar um cupom, ele não se soma aos ${pctPix}% do Pix: vale sempre o maior desconto.</p>
           </div>
           <p class="texto-suave" style="font-size:12px;margin-top:14px">Após finalizar, nossa equipe confirma seu pedido pelo WhatsApp e envia a chave Pix ou o link de pagamento seguro do cartão.</p>
         </section>
@@ -62,7 +67,6 @@
       <aside class="resumo-pedido">
         <h2>Resumo do pedido</h2>
         <div data-itens></div>
-        ${temCupom ? `<div class="cupom"><input class="campo" name="cupom" placeholder="Cupom de desconto" aria-label="Cupom"><button type="button" class="btn btn--linha" data-aplicar>Aplicar</button></div><p class="aviso-estoque" data-cupom-msg></p>` : ''}
         <div class="resumo-linhas" data-totais></div>
         <button class="btn btn--bloco" type="submit" style="margin-top:20px;min-height:54px" data-finalizar>Finalizar pedido ${I.seta}</button>
         <p class="aviso-estoque aviso-erro" data-erro style="text-align:center"></p>
@@ -154,12 +158,15 @@
     const rPix = resumoPedido(itens, { ...opcoes(), pagamento: 'pix' });
     const rCartao = resumoPedido(itens, { ...opcoes(), pagamento: 'cartao' });
     $('[data-valor-pix]').textContent = moeda(rPix.total);
+    $('[data-pix-sub]').textContent = rPix.cupom && rPix.cupom.aplicado
+      ? `Cupom aplicado no lugar dos ${pctPix}% · aprovação imediata`
+      : `${pctPix}% de desconto · aprovação imediata`;
     $('[data-valor-cartao]').textContent = `${CFG.parcelasSemJuros}x ${moeda(parcela(rCartao.total))}`;
 
     const falta = CFG.freteGratisAcima - r.subtotal;
     $('[data-totais]').innerHTML = `
       <div class="resumo-linha"><span>Subtotal (${r.pecas} ${r.pecas === 1 ? 'peça' : 'peças'})</span><span>${moeda(r.subtotal)}</span></div>
-      ${r.cupom ? `<div class="resumo-linha"><span>Cupom ${esc(r.cupom.codigo)}</span><span>− ${moeda(r.cupom.desconto)}</span></div>` : ''}
+      ${r.cupom && r.cupom.aplicado ? `<div class="resumo-linha"><span>Cupom ${esc(r.cupom.codigo)} (${Math.round(r.cupom.percentual * 100)}%)</span><span>− ${moeda(r.cupom.desconto)}</span></div>` : ''}
       ${r.descontoPix ? `<div class="resumo-linha"><span>Desconto Pix (${pctPix}%)</span><span>− ${moeda(r.descontoPix)}</span></div>` : ''}
       <div class="resumo-linha"><span>Frete</span><span>${r.frete ? (r.frete.valor ? moeda(r.frete.valor) : 'Grátis') : 'Informe o CEP'}</span></div>
       ${falta > 0 ? `<p class="texto-suave" style="font-size:11.5px;margin:4px 0">Faltam ${moeda(falta)} para frete grátis.</p>` : ''}
@@ -171,16 +178,31 @@
     if (e.target.name === 'frete') estado.frete = e.target.value;
     atualizar();
   });
-  if (temCupom) {
-    $('[data-aplicar]').addEventListener('click', () => {
-      estado.cupom = f.cupom.value.trim();
-      const r = resumoPedido(itens, opcoes());
-      const msg = $('[data-cupom-msg]');
-      if (r.erros.includes('Cupom inválido')) { msg.textContent = 'Cupom inválido ou expirado.'; msg.classList.add('aviso-erro'); estado.cupom = ''; }
-      else { msg.textContent = `Cupom aplicado: ${Math.round(r.cupom.percentual * 100)}% off.`; msg.classList.remove('aviso-erro'); }
-      atualizar();
-    });
+  function mensagemCupom() {
+    const msg = $('[data-cupom-msg]');
+    if (!estado.cupom) { msg.textContent = ''; return; }
+    const r = resumoPedido(itens, opcoes());
+    if (!r.cupom) { msg.textContent = 'Cupom inválido ou expirado.'; msg.classList.add('aviso-erro'); return; }
+    msg.classList.remove('aviso-erro');
+    const pct = Math.round(r.cupom.percentual * 100);
+    msg.textContent = r.cupom.aplicado
+      ? `Cupom ${r.cupom.codigo} aplicado: ${pct}% off.`
+      : `Cupom ${r.cupom.codigo} válido (${pct}%), mas o desconto do Pix é maior e foi mantido.`;
   }
+  $('[data-aplicar]').addEventListener('click', () => {
+    estado.cupom = f.cupom.value.trim();
+    const r = resumoPedido(itens, opcoes());
+    if (!r.cupom) {
+      $('[data-cupom-msg]').textContent = 'Cupom inválido ou expirado.';
+      $('[data-cupom-msg]').classList.add('aviso-erro');
+      estado.cupom = '';
+    } else {
+      mensagemCupom();
+    }
+    atualizar();
+  });
+  f.cupom.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); $('[data-aplicar]').click(); } });
+  f.addEventListener('change', (e) => { if (e.target.name === 'pagamento') mensagemCupom(); });
   const inicial = atualizar();
   window.CV.evento('begin_checkout', { value: inicial.subtotal });
   if (soNum(f.cep.value).length === 8 && !f.rua.value) buscarCep();
@@ -239,7 +261,7 @@
       linhas,
       '',
       `Subtotal: ${moeda(p.subtotal)}`,
-      p.cupom ? `Cupom ${p.cupom.codigo}: −${moeda(p.cupom.desconto)}` : null,
+      p.cupom && p.cupom.aplicado ? `Cupom ${p.cupom.codigo}: −${moeda(p.cupom.desconto)}` : null,
       p.descontoPix ? `Desconto Pix: −${moeda(p.descontoPix)}` : null,
       `Frete (${p.frete.nome}): ${p.frete.valor ? moeda(p.frete.valor) : 'Grátis'}`,
       `*Total: ${moeda(p.total)}* — ${pag === 'pix' ? 'Pix' : `Cartão em ${CFG.parcelasSemJuros}x de ${moeda(parcela(p.total))}`}`,

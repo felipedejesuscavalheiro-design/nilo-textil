@@ -83,7 +83,7 @@ save(crop("banner-4", 0.6, 0.5, 0.55, 4 / 3), "banners/banner-4-m.jpg", 900)
 # ── Categorias (quadradas, exibidas em círculo) ─────────────
 save(crop("shorts", 0.52, 0.72, 0.62, 1), "categorias/shorts.jpg", 640)
 save(crop("legging", 0.5, 0.6, 0.55, 1), "categorias/leggings.jpg", 640)
-save(crop("macacao", 0.53, 0.47, 0.7, 1), "categorias/macacoes.jpg", 640)
+save(crop("macacao", 0.5, 0.3, 0.78, 1), "categorias/macacoes.jpg", 640)  # mostra o rosto
 save(crop("camiseta", 0.48, 0.36, 0.7, 1), "categorias/blusas.jpg", 640)
 save(crop("bolsa", 0.48, 0.6, 0.9, 1), "categorias/acessorios.jpg", 640)
 
@@ -207,3 +207,6 @@ logo((15, 15, 15), COMPLETO, "logo-preto.png")
 logo((255, 252, 252), COMPLETO, "logo-branco.png")
 logo((15, 15, 15), MARCA, "logo-marca-preto.png")
 logo((255, 252, 252), MARCA, "logo-marca-branco.png")
+
+# Quem Somos: foto do macaquinho rosa (4:5)
+save(crop("macacao", 0.5, 0.45, 1, P45), "editorial/macacao-rosa-45.jpg", 1000)
