@@ -21,7 +21,7 @@ Na pasta `site-cavelle-ftp/`:
 | `site-referencia/assets/img/` | Banners, fotos editoriais, categorias, Instagram, logos. A subpasta `produtos/` é só do protótipo: **não enviar**. |
 | `site-referencia/assets/fonts/` | Fontes (Cormorant Garamond e Poppins, licença livre). |
 | `site-referencia/*.html` | Páginas: home, shop, produto, quem-somos, suporte, envio, trocas, pagamento, termos, privacidade. |
-| `kit-tema/` | Kit já adaptado ao tema (seções `cvl-*` em Twig, CSS e imagens) com `LEIA-ME.md`. **Comece por ele.** |
+| `kit-tema/` | Kit já adaptado ao tema (seções `cvl-*` em Twig, CSS e imagens) com `LEIA-ME.md`. Serve de **exemplo de sintaxe** do tema; quando ele e o site de referência forem diferentes, **vale o site de referência**. |
 | `TEXTOS.md` | Todos os textos oficiais (banners, Quem Somos, etc.). |
 | `banners/` | Banners exportados em 1920×800 (desktop) e 1080×1440 (celular). |
 
@@ -38,16 +38,23 @@ Não existe outra fonte de verdade: use **só** esses textos, cores, links e ima
 7. **Na dúvida, pare e pergunte.** Nunca "adivinhe" uma configuração do painel.
 8. Não aceite termos, não contrate nada, não instale apps e não troque de tema sem eu confirmar.
 
-## 3. O que NÃO vai para a Nuvemshop (a própria plataforma já faz)
+## 3. Objetivo: ficar IGUAL ao site de referência
 
-O site de referência tem partes que só existiam para o protótipo. **Não tente copiar:**
+A meta é que a cliente **não perceba diferença** entre o site de referência e a loja. Para isso:
 
-- `checkout.html`, `checkout.js`, `regras.js`, `produtos.js` → carrinho, checkout, cupons, cálculo de frete e pagamentos são **nativos** da Nuvemshop.
-- `admin.html`, `conta.html`, `server.js`, pasta `api/` → pedidos, painel e "minha conta" são nativos.
-- Os 14 produtos de exemplo do protótipo → a loja usa os **produtos reais** já cadastrados.
-- Aviso de cookies / GA4 / Pixel → só se o tema não tiver; os códigos de medição ficam no painel (Preferências de marketing), não no tema.
+1. **Copie, não redesenhe.** Use o **mesmo HTML** (mesma estrutura e **mesmos nomes de classe**) do site de referência e o **`style.css` inteiro**. Troque apenas os dados fixos pelas variáveis do tema (nome, preço, foto e link do produto, URLs das categorias, carrinho). Não "melhore", não simplifique, não troque cores, fontes, tamanhos ou espaçamentos.
+2. **Os elementos nativos também ficam iguais.** Onde a Nuvemshop exige o componente dela (sacola, busca, filtros, calculadora de frete, seletor de variantes, botão comprar), **mantenha o funcionamento nativo e vista com o visual do site**: aplique as classes/CSS do site de referência ao HTML do tema, até ficar igual à gaveta da sacola, ao modal de compra rápida e aos filtros do protótipo.
+3. **Os recursos extras também vão:** favoritos (coração no card, salvos no navegador), compra rápida com os tamanhos no hover do card, Text Roll do menu, revelação dos títulos, zoom da home, parallax. Adapte o JS do protótipo para ler os dados dos produtos do HTML gerado pelo tema (ex.: `data-*` no card).
+4. **Comparação lado a lado, página por página.** Abra o site de referência (`site-referencia/*.html`) e a loja, na mesma largura (1440 px e 390 px), e compare com prints. Qualquer diferença visível é **defeito a corrigir**, exceto a lista abaixo.
 
-O que vai: **visual, estrutura das páginas, textos, imagens, fontes e efeitos.**
+### O que é da plataforma e não dá para deixar 100% igual
+- **Checkout** (dados, entrega, pagamento): é a página segura da Nuvemshop. O tema não controla; só logo e cores pelo painel. Não tente reproduzir `checkout.html`.
+- **Minha conta, pedidos, rastreio e e-mails:** nativos da Nuvemshop (`conta.html`, `admin.html` e `server.js` não vão).
+- **Cupons, frete, Pix e parcelas:** a regra é a do painel. O site só **mostra** os valores (preço, 2x, Pix), e `regras.js` e `produtos.js` não vão.
+- **Produtos:** entram os **reais** já cadastrados, não os 14 de exemplo do protótipo.
+- **GA4 / Pixel:** os códigos entram pelo painel (Preferências de marketing), não pelo tema.
+
+Tudo o que a cliente vê antes do checkout (faixa, cabeçalho, menu, home, categorias, busca, Sale, produto, sacola, páginas institucionais, rodapé, 404) deve ficar **igual**.
 
 ## 4. Mapa: site de referência → tema da Nuvemshop
 
@@ -96,10 +103,10 @@ Antes de editar, me mande um plano curto: quais arquivos serão criados, quais s
 2. Envie as imagens de `site-referencia/assets/img/` (menos `produtos/`) e de `kit-tema/imagens/` para `static/images/`, renomeando com prefixo `cvl-` e mantendo a subpasta no nome (ex.: `editorial/quem-somos-45.jpg` → `cvl-editorial-quem-somos-45.jpg`). Guarde a tabela "nome antigo → nome novo" para trocar os caminhos no CSS.
 3. Crie `static/css/cvl-site.css` a partir de `style.css`:
    - troque `url(../img/...)` e `url(../fonts/...)` pelos novos nomes;
-   - remova regras que só servem ao protótipo (checkout, admin, conta, gaveta do carrinho próprio);
+   - **não remova nem reescreva** regras; só deixe de fora as do checkout, admin e conta (que não vão);
    - mantenha as **cores em variáveis**: `#0F0F0F` (preto), `#F6E7D5` (bege), `#FFFCFC` (off-white);
    - títulos: `"Kingred Modern"` com reserva `"Cormorant Garamond"`; texto: `"Poppins"`.
-4. Crie `static/js/cvl-site.js` com **só** a parte visual: carrossel (relógio de 6,5 s, pontos com progresso, setas, deslizar no celular, pausa com o mouse), revelação dos títulos, Text Roll do menu, zoom da home e parallax. Tudo respeita `prefers-reduced-motion`. **Sem** carrinho, favoritos ou busca própria (usa os nativos).
+4. Crie `static/js/cvl-site.js` com a parte visual e de interação do protótipo: carrossel (relógio de 6,5 s, pontos com progresso, setas, deslizar no celular, pausa com o mouse), revelação dos títulos, Text Roll do menu, zoom da home, parallax, favoritos e compra rápida no card. Tudo respeita `prefers-reduced-motion`. A sacola, a busca e o "comprar" usam as funções **nativas** do tema, vestidas com o visual do site.
 5. Carregue os dois no `layout.tpl` **depois** do CSS/JS do tema. Recarregue a loja e confirme que nada mudou de lugar nem quebrou.
 
 ### Etapa 5: Layout global (todas as páginas)
@@ -149,7 +156,9 @@ Galeria com zoom ao passar o mouse; cor e tamanho no estilo do site; **a foto mu
 4. **404** no visual do site.
 
 ### Etapa 10: Testes (antes de dizer que terminou)
-Teste no computador (1440 px) e no celular (390 px, pelo modo responsivo do navegador ou por um celular de verdade):
+Teste no computador (1440 px) e no celular (390 px, pelo modo responsivo do navegador ou por um celular de verdade). **Para cada página, tire um print da loja e outro do site de referência na mesma largura e compare.** Corrija toda diferença que não esteja na lista "O que é da plataforma".
+
+- [ ] Home, categoria, produto, sacola aberta, Quem Somos e rodapé **iguais** ao site de referência (prints lado a lado).
 
 - [ ] Faixa superior rola; cabeçalho fica fixo; logo nítido.
 - [ ] Menu na ordem certa; mega menu Shop na ordem certa; Acessórios só dentro de Shop.
@@ -166,7 +175,7 @@ Teste no computador (1440 px) e no celular (390 px, pelo modo responsivo do nave
 ### Etapa 11: Relatório final (me entregue)
 1. Tabela de **arquivos criados** e **arquivos alterados** (com o que mudou em cada um).
 2. Onde está o **backup** e **como desfazer**: reenviar por FTP os arquivos originais do backup por cima dos alterados e apagar só os `cvl-*` criados.
-3. Prints da home, de uma categoria, de um produto e do Quem Somos (desktop e celular).
+3. Prints **lado a lado (referência × loja)** da home, de uma categoria, de um produto, da sacola e do Quem Somos, no desktop e no celular.
 4. **Pendências que dependem de mim**, por exemplo:
    - menu do painel;
    - desconto de 5% no Pix;
