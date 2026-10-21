@@ -101,7 +101,7 @@ O tema ativo é o **Simple**, e o banner atual usa uns 8 KB de CSS personalizado
 ### Ordem da home
 1. Faixa superior (texto acima)
 2. Header fixo com logo centralizado
-3. **Carrossel com 4 banners**, na ordem de `banners/com-texto/` (01 Conceito, 02 Nova coleção, 03 Rotina, 04 Instagram)
+3. **Carrossel com 4 banners**, na ordem de `banners/com-texto/` (01 Conceito, 02 New In, 03 Rotina, 04 Instagram)
 4. Benefícios: 2x sem juros · 5% off no Pix · Frete grátis acima de R$499
 5. Categorias com 4 fotos redondas: `public/assets/img/categorias/` (shorts, leggings, macacoes, blusas)
 6. New In (produtos em destaque)
@@ -118,7 +118,7 @@ Link do botão de cada banner:
 | Banner | Botão | Link |
 |---|---|---|
 | 01 | Conheça a CAVELLE → | página Quem Somos |
-| 02 | Conheça a coleção → | categoria New In |
+| 02 | Conheça as novidades → | categoria New In |
 | 03 | Shop CAVELLE → | todos os produtos |
 | 04 | Siga no Instagram → | https://www.instagram.com/usecavelle/ |
 

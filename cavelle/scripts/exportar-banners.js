@@ -25,7 +25,7 @@ const SAIDA = path.join(__dirname, '..', 'nuvemshop', 'banners', 'com-texto');
     { nome: 'celular', largura: 360, altura: 800, escala: 3 },
   ];
   for (const f of formatos) {
-    const pg = await nav.newPage({ viewport: { width: f.largura, height: f.altura + 200 }, deviceScaleFactor: f.escala });
+    const pg = await nav.newPage({ viewport: { width: f.largura, height: f.altura + 200 }, deviceScaleFactor: f.escala, reducedMotion: 'reduce' });
     await pg.goto(url, { waitUntil: 'networkidle' });
     await pg.addStyleTag({
       content: `.cabecalho,.whats-fixo,.hero__seta,.hero__controles{display:none!important}
@@ -37,7 +37,7 @@ const SAIDA = path.join(__dirname, '..', 'nuvemshop', 'banners', 'com-texto');
         document.querySelectorAll('.slide').forEach((s, k) => s.classList.toggle('ativo', k === n));
         document.querySelectorAll('.slide img').forEach((im) => { im.loading = 'eager'; });
       }, i);
-      await pg.waitForTimeout(600);
+      await pg.waitForTimeout(2200);
       const alvo = await pg.$('.slide.ativo');
       const arq = path.join(SAIDA, `banner-${i + 1}-${f.nome}.jpg`);
       await alvo.screenshot({ path: arq, type: 'jpeg', quality: 88 });

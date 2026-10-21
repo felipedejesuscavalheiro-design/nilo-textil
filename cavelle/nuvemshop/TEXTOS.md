@@ -22,7 +22,7 @@ FRETE GRÁTIS ACIMA DE R$499 | 5% OFF NO PIX | PARCELE EM ATÉ 2X SEM JUROS
 | # | Título | Subtítulo | Botão |
 |---|---|---|---|
 | 01 | MOVIMENTO PARA TODOS OS MOMENTOS. | Do treino ao dia a dia. Sempre com você. | CONHEÇA A CAVELLE → |
-| 02 | NOVA COLEÇÃO | Performance e estilo em todos os momentos. | CONHEÇA A COLEÇÃO → |
+| 02 | NEW IN | Performance e estilo em todos os momentos. | CONHEÇA AS NOVIDADES → |
 | 03 | PEÇAS QUE ACOMPANHAM SUA ROTINA. | Conforto, qualidade e estilo em cada detalhe. | SHOP CAVELLE → |
 | 04 | ACOMPANHE A CAVELLE. | Novidades, inspirações e momentos para acompanhar você. @USECAVELLE | SIGA NO INSTAGRAM → |
 
