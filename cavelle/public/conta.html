@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Minha conta | CAVELLE</title>
+  <meta name="description" content="Acompanhe seus pedidos e veja seus favoritos CAVELLE.">
+  <meta name="robots" content="noindex">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="CAVELLE">
+  <meta property="og:title" content="Minha conta | CAVELLE">
+  <meta property="og:description" content="Acompanhe seus pedidos e veja seus favoritos CAVELLE.">
+  <meta property="og:image" content="assets/img/og-cavelle.jpg">
+  <meta name="theme-color" content="#FFFCFC">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/fonts/cormorant-garamond-latin-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/poppins-latin-300-normal.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="assets/css/style.css">
+</head>
+<body data-pagina="institucional">
+  <header id="cabecalho"></header>
+
+  <main class="container">
+    <section class="cabeca-pagina">
+      <p class="trilha"><a href="index.html">Início</a> / Minha conta</p>
+      <h1 class="titulo-display">Minha conta</h1>
+      <p>Acompanhe seus pedidos e encontre suas peças favoritas.</p>
+    </section>
+    <div class="conta-grade">
+      <section>
+        <h2>Acompanhar pedido</h2>
+        <form data-rastrear class="campos">
+          <label class="c3">Número do pedido<input class="campo" name="numero" placeholder="CV1001" required></label>
+          <label class="c3">E-mail da compra<input class="campo" name="email" type="email" required></label>
+          <div style="grid-column:span 6"><button class="btn" type="submit">Acompanhar <svg class="icone icone--p seta" viewBox="0 0 24 24"><path d="M4 12h15M14 7l5 5-5 5"/></svg></button></div>
+        </form>
+        <div data-rastreio-res></div>
+        <h2 style="margin-top:44px">Pedidos feitos neste aparelho</h2>
+        <div data-meus-pedidos></div>
+      </section>
+      <section>
+        <h2>Favoritos</h2>
+        <div class="grade-produtos" style="grid-template-columns:repeat(2,1fr)" data-favoritos></div>
+      </section>
+    </div>
+  </main>
+
+  <footer id="rodape"></footer>
+
+  <script src="assets/js/config.js"></script>
+  <script src="assets/js/produtos.js"></script>
+  <script src="assets/js/regras.js"></script>
+  <script src="assets/js/app.js"></script>
+  <script src="assets/js/paginas.js"></script>
+  <script src="assets/js/efeitos.js"></script>
+</body>
+</html>

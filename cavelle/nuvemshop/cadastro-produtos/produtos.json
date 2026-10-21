@@ -1,0 +1,531 @@
+[
+  {
+    "produto": "Macaquinho Bloom",
+    "categoria": "Macacões",
+    "preco": 119.9,
+    "precoPromocional": null,
+    "precoCheio": 119.9,
+    "descricao": "Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. Feminino no treino, elegante com uma camisa aberta por cima.\n\n• Decote quadrado\n• Manga curta\n• Recortes que modelam\n• Compressão média\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Macaquinho Bloom | CAVELLE",
+    "seoDescricao": "Macaquinho Bloom CAVELLE. Macaquinho de manga curta com decote quadrado e recortes que desenham a cintura. R$ 113,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.3,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 5,
+    "cores": [
+      {
+        "cor": "Rosa",
+        "fotos": [
+          "fotos/macaquinho-bloom/rosa-1.jpg",
+          "fotos/macaquinho-bloom/rosa-2.jpg",
+          "fotos/macaquinho-bloom/rosa-3.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 5,
+          "G": 3,
+          "GG": 2
+        }
+      },
+      {
+        "cor": "Marrom",
+        "fotos": [
+          "fotos/macaquinho-bloom/marrom-1.jpg",
+          "fotos/macaquinho-bloom/marrom-2.jpg",
+          "fotos/macaquinho-bloom/marrom-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 5,
+          "G": 3,
+          "GG": 1
+        }
+      },
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/macaquinho-bloom/preto-1.jpg",
+          "fotos/macaquinho-bloom/preto-2.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 3,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Macaquinho Lumi",
+    "categoria": "Macacões",
+    "preco": 109.9,
+    "precoPromocional": null,
+    "precoCheio": 109.9,
+    "descricao": "Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. Leve para o treino e bonito para o dia a dia.\n\n• Alças finas\n• Decote reto\n• Tecido macio e firme\n• Não marca\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Macaquinho Lumi | CAVELLE",
+    "seoDescricao": "Macaquinho Lumi CAVELLE. Macaquinho de alças finas com decote reto e caimento que acompanha o corpo. R$ 104,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.3,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 5,
+    "cores": [
+      {
+        "cor": "Cinza",
+        "fotos": [
+          "fotos/macaquinho-lumi/cinza-1.jpg",
+          "fotos/macaquinho-lumi/cinza-2.jpg",
+          "fotos/macaquinho-lumi/cinza-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 5,
+          "G": 4,
+          "GG": 2
+        }
+      },
+      {
+        "cor": "Azul",
+        "fotos": [
+          "fotos/macaquinho-lumi/azul-1.jpg",
+          "fotos/macaquinho-lumi/azul-2.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 3,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Macacão Curve",
+    "categoria": "Macacões",
+    "preco": 149.9,
+    "precoPromocional": null,
+    "precoCheio": 149.9,
+    "descricao": "Macacão de alças com costas nadador e perna flare. Uma peça única que desenha a silhueta do treino ao café da tarde.\n\n• Modelagem flare, alongada\n• Costas nadador\n• Compressão média\n• Toque macio e acetinado\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Macacão Curve | CAVELLE",
+    "seoDescricao": "Macacão Curve CAVELLE. Macacão de alças com costas nadador e perna flare. R$ 142,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.3,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 5,
+    "cores": [
+      {
+        "cor": "Marrom",
+        "fotos": [
+          "fotos/macacao-curve/marrom-1.jpg",
+          "fotos/macacao-curve/marrom-2.jpg",
+          "fotos/macacao-curve/marrom-3.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 6,
+          "G": 3,
+          "GG": 1
+        }
+      },
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/macacao-curve/preto-1.jpg",
+          "fotos/macacao-curve/preto-2.jpg",
+          "fotos/macacao-curve/preto-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 5,
+          "G": 4,
+          "GG": 2
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Macaquinho Aura",
+    "categoria": "Macacões",
+    "preco": 119.9,
+    "precoPromocional": null,
+    "precoCheio": 119.9,
+    "descricao": "Macaquinho de manga curta com decote nas costas e tira de ajuste. Feminino, confortável e pronto para qualquer momento.\n\n• Costas abertas com tira\n• Manga curta\n• Cós alto que modela\n• Não marca\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Macaquinho Aura | CAVELLE",
+    "seoDescricao": "Macaquinho Aura CAVELLE. Macaquinho de manga curta com decote nas costas e tira de ajuste. R$ 113,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.3,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 5,
+    "cores": [
+      {
+        "cor": "Rosa",
+        "fotos": [
+          "fotos/macaquinho-aura/rosa-1.jpg",
+          "fotos/macaquinho-aura/rosa-2.jpg",
+          "fotos/macaquinho-aura/rosa-3.jpg",
+          "fotos/macaquinho-aura/rosa-4.jpg",
+          "fotos/macaquinho-aura/rosa-5.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 3,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Macaquinho Essence",
+    "categoria": "Macacões",
+    "preco": 99.9,
+    "precoPromocional": 99.9,
+    "precoCheio": 119.9,
+    "descricao": "O preto essencial. Macaquinho de alças com recorte limpo, perfeito com camisa aberta, blazer ou sozinho no treino.\n\n• Alças finas\n• Decote reto\n• Compressão leve\n• Versátil do treino ao dia a dia\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Macaquinho Essence | CAVELLE",
+    "seoDescricao": "Macaquinho Essence CAVELLE. O preto essencial. R$ 94,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.3,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 5,
+    "cores": [
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/macaquinho-essence/preto-1.jpg",
+          "fotos/macaquinho-essence/preto-2.jpg",
+          "fotos/macaquinho-essence/preto-3.jpg",
+          "fotos/macaquinho-essence/preto-4.jpg",
+          "fotos/macaquinho-essence/preto-5.jpg"
+        ],
+        "estoque": {
+          "P": 2,
+          "M": 3,
+          "G": 2,
+          "GG": 0
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Legging Sculpt",
+    "categoria": "Leggings",
+    "preco": 99.9,
+    "precoPromocional": null,
+    "precoCheio": 99.9,
+    "descricao": "Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. Sustentação para o treino, elegância para o resto do dia.\n\n• Cintura alta\n• Tecido com brilho suave\n• Alta compressão\n• Não fica transparente\n\nComposição: 75% poliamida, 25% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Legging Sculpt | CAVELLE",
+    "seoDescricao": "Legging Sculpt CAVELLE. Legging de cintura alta com brilho acetinado e costura que valoriza as curvas. R$ 94,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.25,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 4,
+    "cores": [
+      {
+        "cor": "Marrom",
+        "fotos": [
+          "fotos/legging-sculpt/marrom-1.jpg",
+          "fotos/legging-sculpt/marrom-2.jpg",
+          "fotos/legging-sculpt/marrom-3.jpg",
+          "fotos/legging-sculpt/marrom-4.jpg"
+        ],
+        "estoque": {
+          "P": 5,
+          "M": 6,
+          "G": 4,
+          "GG": 2
+        }
+      },
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/legging-sculpt/preto-1.jpg",
+          "fotos/legging-sculpt/preto-2.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 6,
+          "G": 4,
+          "GG": 2
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Calça Flare Prime",
+    "categoria": "Leggings",
+    "preco": 119.9,
+    "precoPromocional": null,
+    "precoCheio": 119.9,
+    "descricao": "Calça flare de cós alto, ajustada até o joelho e com abertura elegante na barra. Do pilates ao almoço sem trocar de roupa.\n\n• Cós alto e largo\n• Perna flare\n• Compressão média\n• Toque macio\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Calça Flare Prime | CAVELLE",
+    "seoDescricao": "Calça Flare Prime CAVELLE. Calça flare de cós alto, ajustada até o joelho e com abertura elegante na barra. R$ 113,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.25,
+    "comprimentoCm": 25,
+    "larguraCm": 20,
+    "alturaCm": 4,
+    "cores": [
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/calca-flare-prime/preto-1.jpg",
+          "fotos/calca-flare-prime/preto-2.jpg",
+          "fotos/calca-flare-prime/preto-3.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 5,
+          "G": 3,
+          "GG": 2
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Cropped Fit",
+    "categoria": "Blusas",
+    "preco": 59.9,
+    "precoPromocional": 59.9,
+    "precoCheio": 69.9,
+    "descricao": "Cropped de manga curta com decote arredondado e ajuste ao corpo. Combina com as calças e leggings de cintura alta.\n\n• Manga curta\n• Comprimento cropped\n• Com bojo removível\n• Ajuste ao corpo\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Cropped Fit | CAVELLE",
+    "seoDescricao": "Cropped Fit CAVELLE. Cropped de manga curta com decote arredondado e ajuste ao corpo. R$ 56,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/cropped-fit/preto-1.jpg",
+          "fotos/cropped-fit/preto-2.jpg",
+          "fotos/cropped-fit/preto-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 2,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Top Serena",
+    "categoria": "Blusas",
+    "preco": 47.9,
+    "precoPromocional": null,
+    "precoCheio": 47.9,
+    "descricao": "Top de alças finas com decote delicado e sustentação média. Leve para o treino, bonito para usar com camisa aberta.\n\n• Alças finas\n• Bojo removível\n• Sustentação média\n• Faixa inferior firme\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Top Serena | CAVELLE",
+    "seoDescricao": "Top Serena CAVELLE. Top de alças finas com decote delicado e sustentação média. R$ 45,51 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Taupe",
+        "fotos": [
+          "fotos/top-serena/taupe-1.jpg",
+          "fotos/top-serena/taupe-2.jpg",
+          "fotos/top-serena/taupe-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 2,
+          "GG": 1
+        }
+      },
+      {
+        "cor": "Marrom",
+        "fotos": [
+          "fotos/top-serena/marrom-1.jpg",
+          "fotos/top-serena/marrom-2.jpg"
+        ],
+        "estoque": {
+          "P": 2,
+          "M": 3,
+          "G": 2,
+          "GG": 0
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Top Essential",
+    "categoria": "Blusas",
+    "preco": 69.9,
+    "precoPromocional": null,
+    "precoCheio": 69.9,
+    "descricao": "Top de alças largas com decote nadador e faixa firme sob o busto. Combina com a Legging Sculpt para um conjunto completo.\n\n• Decote nadador\n• Bojo removível\n• Sustentação média a alta\n• Faixa inferior firme\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Top Essential | CAVELLE",
+    "seoDescricao": "Top Essential CAVELLE. Top de alças largas com decote nadador e faixa firme sob o busto. R$ 66,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Preto",
+        "fotos": [
+          "fotos/top-essential/preto-1.jpg",
+          "fotos/top-essential/preto-2.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 5,
+          "G": 3,
+          "GG": 1
+        }
+      },
+      {
+        "cor": "Marrom",
+        "fotos": [
+          "fotos/top-essential/marrom-1.jpg",
+          "fotos/top-essential/marrom-2.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 3,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Shorts Flow",
+    "categoria": "Shorts",
+    "preco": 69.9,
+    "precoPromocional": null,
+    "precoCheio": 69.9,
+    "descricao": "Shorts leve com cós alto bordado CAVELLE e bermuda interna. Movimento livre, sem marcar e sem subir.\n\n• Cós alto com logo\n• Bermuda interna\n• Tecido leve e fluido\n• Bolsos laterais\n\nComposição: Tecido externo 100% poliéster · forro 85% poliamida, 15% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Shorts Flow | CAVELLE",
+    "seoDescricao": "Shorts Flow CAVELLE. Shorts leve com cós alto bordado CAVELLE e bermuda interna. R$ 66,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Taupe",
+        "fotos": [
+          "fotos/shorts-flow/taupe-1.jpg",
+          "fotos/shorts-flow/taupe-2.jpg",
+          "fotos/shorts-flow/taupe-3.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 5,
+          "G": 3,
+          "GG": 2
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Shorts Breeze",
+    "categoria": "Shorts",
+    "preco": 59.9,
+    "precoPromocional": 59.9,
+    "precoCheio": 69.9,
+    "descricao": "Shorts de compressão de comprimento médio. O básico que acompanha a camiseta oversized e o treino de todos os dias.\n\n• Cintura alta\n• Comprimento médio\n• Não fica transparente\n• Não enrola na perna\n\nComposição: 80% poliamida, 20% elastano\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Shorts Breeze | CAVELLE",
+    "seoDescricao": "Shorts Breeze CAVELLE. Shorts de compressão de comprimento médio. R$ 56,91 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Cinza",
+        "fotos": [
+          "fotos/shorts-breeze/cinza-1.jpg",
+          "fotos/shorts-breeze/cinza-2.jpg",
+          "fotos/shorts-breeze/cinza-3.jpg"
+        ],
+        "estoque": {
+          "P": 3,
+          "M": 4,
+          "G": 3,
+          "GG": 1
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Camiseta Oversized",
+    "categoria": "Blusas",
+    "preco": 89.9,
+    "precoPromocional": null,
+    "precoCheio": 89.9,
+    "descricao": "Camiseta ampla de algodão com logo CAVELLE discreto no peito. Para vestir por cima do look de treino ou com jeans.\n\n• Modelagem oversized\n• Ombro caído\n• Logo bordado em tom sobre tom\n• Toque de algodão\n\nComposição: 100% algodão\nCuidados: Lave à mão ou na máquina em ciclo delicado, com água fria e sabão neutro. Lave do avesso e separe por cor. Não use alvejante nem amaciante. Não passe a ferro. Seque à sombra.",
+    "seoTitulo": "Camiseta Oversized | CAVELLE",
+    "seoDescricao": "Camiseta Oversized CAVELLE. Camiseta ampla de algodão com logo CAVELLE discreto no peito. R$ 85,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.15,
+    "comprimentoCm": 20,
+    "larguraCm": 15,
+    "alturaCm": 3,
+    "cores": [
+      {
+        "cor": "Rosa",
+        "fotos": [
+          "fotos/camiseta-oversized/rosa-1.jpg",
+          "fotos/camiseta-oversized/rosa-2.jpg",
+          "fotos/camiseta-oversized/rosa-3.jpg",
+          "fotos/camiseta-oversized/rosa-4.jpg"
+        ],
+        "estoque": {
+          "P": 4,
+          "M": 6,
+          "G": 4,
+          "GG": 2
+        }
+      }
+    ]
+  },
+  {
+    "produto": "Bolsa Puffer",
+    "categoria": "Acessórios",
+    "preco": 149.9,
+    "precoPromocional": null,
+    "precoCheio": 149.9,
+    "descricao": "Bolsa tote acolchoada com logo CAVELLE. Espaçosa para levar o essencial do treino e da rotina, com alças confortáveis no ombro.\n\n• Acolchoada e leve\n• Alças de ombro\n• Fechamento em zíper\n• Cabe tênis, garrafa e necessaire\n\nComposição: Náilon acolchoado\nCuidados: Limpe com pano macio levemente umedecido e sabão neutro. Não lave na máquina. Seque à sombra.",
+    "seoTitulo": "Bolsa Puffer | CAVELLE",
+    "seoDescricao": "Bolsa Puffer CAVELLE. Bolsa tote acolchoada com logo CAVELLE. R$ 142,41 no Pix ou 2x sem juros.",
+    "marca": "CAVELLE",
+    "pesoKg": 0.5,
+    "comprimentoCm": 35,
+    "larguraCm": 25,
+    "alturaCm": 10,
+    "cores": [
+      {
+        "cor": "Off-white",
+        "fotos": [
+          "fotos/bolsa-puffer/off-white-1.jpg",
+          "fotos/bolsa-puffer/off-white-2.jpg",
+          "fotos/bolsa-puffer/off-white-3.jpg"
+        ],
+        "estoque": {
+          "Único": 6
+        }
+      }
+    ]
+  }
+]
